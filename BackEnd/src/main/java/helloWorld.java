@@ -1,3 +1,5 @@
+import controller.BusinessController;
+import controller.paths.Web;
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
 
@@ -7,7 +9,9 @@ public class helloWorld {
             config.addStaticFiles("/public");
             config.registerPlugin(new RouteOverviewPlugin("/routes"));
         }).start(getHerokuAssignedPort());
-        app.get("/", ctx -> ctx.result("Hello World"));
+        app.routes(() -> {
+            app.get(Web.business, BusinessController.getBusiness);
+        });
     }
     public static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
