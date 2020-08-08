@@ -6,7 +6,13 @@ import model.Business;
 
 public class BusinessController {
     public static Handler getBusiness = ctx ->{
-        Business bus = businessDAO.getBusinessByBusiness_id(1);
-        ctx.json(bus);
+        int id = Integer.parseInt(ctx.queryParam("id"));
+        Business bus = businessDAO.getBusinessByBusiness_id(id);
+        if (bus != null) {
+            ctx.json(bus);
+        }
+        else{
+            ctx.json("resource not found");
+        }
     };
 }
