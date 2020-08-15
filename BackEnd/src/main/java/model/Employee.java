@@ -2,15 +2,17 @@ package model;
 
 public class Employee {
     private int employee_ID, business_ID;
-    private String fName, lName, email, phone_number;
+    private String fName, lName, email, phone_number, password;
 
-    public Employee(int employee_ID, int business_ID, String fName, String lName, String email, String phone_number) {
-        this employee_ID = employee_ID;
+    public Employee(int employee_ID, int business_ID, String fName, String lName,
+                    String email, String phone_number, String password) {
+        this.employee_ID = employee_ID;
         this.business_ID = business_ID;
         this.fName = fName;
         this.lName = lName;
         this.email = email;
         this.phone_number = phone_number;
+        this.password = password;
     }
 
     public int getEmployee_ID() {
@@ -37,6 +39,10 @@ public class Employee {
         return phone_number;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setEmployee_ID(int employee_ID) {
         this.employee_ID = employee_ID;
     }
@@ -60,4 +66,9 @@ public class Employee {
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
+
