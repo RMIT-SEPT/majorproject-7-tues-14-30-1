@@ -1,7 +1,10 @@
 import controller.BusinessController;
+import controller.CustomerController;
+import controller.EmployeeController;
 import controller.paths.Web;
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
+import model.Customer;
 
 public class helloWorld {
     public static void main(String[] args) {
@@ -11,9 +14,8 @@ public class helloWorld {
         }).start(getHerokuAssignedPort());
         app.routes(() -> {
             app.get(Web.business, BusinessController.getBusiness);
-            app.get(Web.customer, BusinessController.getBusiness);
-            app.get(Web.business, BusinessController.getBusiness);
-            app.get(Web.business, BusinessController.getBusiness);
+            app.get(Web.customer, CustomerController.getCustomer);
+            app.get(Web.employee, EmployeeController.getEmployee);
         });
     }
     public static int getHerokuAssignedPort() {

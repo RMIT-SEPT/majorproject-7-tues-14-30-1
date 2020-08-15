@@ -26,13 +26,13 @@ public class EmployeeDAO {
             ResultSet result = statement.executeQuery(sql);
 
             // If you have multiple results, you do a while
-            result.next();
-            // 2) Add it to the list we have prepared
-            employee.add(new Employee (result.getInt("employee_ID"), result.getInt("business_ID"),
-                    result.getString("fName"), result.getString("lName"),
-                    result.getString("email"), result.getString("phone_number"),
-                    result.getString("password")));
-
+            if(result.next()) {
+                // 2) Add it to the list we have prepared
+                employee.add(new Employee (result.getInt("employee_id"), result.getInt("business_id"),
+                        result.getString("first_name"), result.getString("last_name"),
+                        result.getString("email"), result.getString("phone"),
+                        result.getString("password")));
+            }
             // Close it
             DatabaseUtils.closeConnection(connection);
         }

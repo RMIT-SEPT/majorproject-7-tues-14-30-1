@@ -25,9 +25,11 @@ public class BusinessDAO {
             ResultSet result = statement.executeQuery(sql);
 
             // If you have multiple results, you do a while
-            result.next();
-            // 2) Add it to the list we have prepared
-            business.add(new Business (result.getInt("business_id"), result.getString("name"), result.getString("phone_number"), result.getString("email")));
+            if(result.next()) {
+                // 2) Add it to the list we have prepared
+                business.add(new Business (result.getInt("business_id"), result.getString("name"),
+                        result.getString("phone_number"), result.getString("email")));
+            }
 
             // Close it
             DatabaseUtils.closeConnection(connection);

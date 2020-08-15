@@ -26,11 +26,12 @@ public class CustomerDAO {
             ResultSet result = statement.executeQuery(sql);
 
             // If you have multiple results, you do a while
-            result.next();
-            // 2) Add it to the list we have prepared
-            customer.add(new Customer (result.getInt("customer_ID"), result.getString("fName"),
-                    result.getString("lName"), result.getString("phone_number"),
-                    result.getString("email"), result.getString("password")));
+            if(result.next()) {
+                // 2) Add it to the list we have prepared
+                customer.add(new Customer (result.getInt("customer_id"), result.getString("first_name"),
+                        result.getString("last_name"), result.getString("phone"),
+                        result.getString("email"), result.getString("password")));
+            }
 
             // Close it
             DatabaseUtils.closeConnection(connection);

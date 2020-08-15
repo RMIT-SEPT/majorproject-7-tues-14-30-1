@@ -39,10 +39,6 @@ public class Employee {
         return phone_number;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setEmployee_ID(int employee_ID) {
         this.employee_ID = employee_ID;
     }
