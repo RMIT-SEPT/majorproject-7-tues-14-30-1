@@ -13,7 +13,7 @@ public class Session {
         SUNDAY
     }
 
-    private Session(int employee_ID) {
+    public Session(int employee_ID) {
         this.employee_ID = employee_ID;
         this.timeOfDay = new int[24];
     }

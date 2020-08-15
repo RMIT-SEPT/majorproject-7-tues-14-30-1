@@ -11,6 +11,9 @@ public class helloWorld {
         }).start(getHerokuAssignedPort());
         app.routes(() -> {
             app.get(Web.business, BusinessController.getBusiness);
+            app.get(Web.customer, BusinessController.getBusiness);
+            app.get(Web.business, BusinessController.getBusiness);
+            app.get(Web.business, BusinessController.getBusiness);
         });
     }
     public static int getHerokuAssignedPort() {

@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class businessDAO {
+public class BusinessDAO {
     public static final String SALT = "$2a$10$h.dl5J86rGH7I8bD9bZeZe";
 
     public static Business getBusinessByBusiness_id(int business_id) {
