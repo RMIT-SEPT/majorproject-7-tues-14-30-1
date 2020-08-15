@@ -1,5 +1,6 @@
 package dao;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import dao.util.DatabaseUtils;
 import model.Business;
 import java.sql.Connection;
@@ -40,6 +41,56 @@ public class businessDAO {
         }
         // If we are here, something bad happened
         return null;
+    }
+
+    public static void updateBusiness(Business business) {
+        int business_id;
+        business_id = business.getBusiness_id();
+        String update_sql;
+        update_sql = "UPDATE `agme`.`business` SET `name` = '" + business.getName() + "', `phone_number` = '" + business.getPhone_number() + "', `email` = '" + business.getEmail() + "'  WHERE `business_id` = '" + business_id + "';";
+
+        try {
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            statement.execute(update_sql);
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeBusiness(int id){
+        String update_sql;
+        update_sql= "DELETE FROM `agme`.`business` WHERE `business_id` = '" + id + "';";
+
+        try {
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            statement.execute(update_sql);
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void createBusiness(Business business){
+        String update_sql;
+        update_sql = "INSERT INTO `agme`.`business` (`name`,`phone_number`,`email`) VALUES('" + business.getName() + "' ,'" + business.getPhone_number() + "','" + business.getEmail() + "');";
+
+        try {
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            statement.execute(update_sql);
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

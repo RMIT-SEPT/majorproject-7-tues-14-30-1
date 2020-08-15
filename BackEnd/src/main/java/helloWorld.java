@@ -2,6 +2,7 @@ import controller.BusinessController;
 import controller.paths.Web;
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
+import model.Business;
 
 public class helloWorld {
     public static void main(String[] args) {
@@ -11,6 +12,9 @@ public class helloWorld {
         }).start(getHerokuAssignedPort());
         app.routes(() -> {
             app.get(Web.business, BusinessController.getBusiness);
+            app.post(Web.business, BusinessController.updateBusiness);
+            app.delete(Web.business, BusinessController.removeBusiness);
+            app.put(Web.business, BusinessController.createBusiness);
         });
     }
     public static int getHerokuAssignedPort() {

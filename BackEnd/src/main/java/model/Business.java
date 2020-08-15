@@ -10,6 +10,11 @@ public class Business {
         this.email = email;
         this.business_id = business_id;
     }
+    public Business(String name, String phone_number, String email) {
+        this.name = name;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
 
     public int getBusiness_id(){
         return business_id;
@@ -20,11 +25,16 @@ public class Business {
     public String getPhone_number(){
         return phone_number;
     }
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
-
-    public String toString(){
-        return "hello";
+    public void setEmail(String newEmail){
+        this.email=newEmail;
+    }
+    public void setName(String newName){
+        this.name=newName;
+    }
+    public void setPhone_number(String newPhone_number){
+        this.phone_number=newPhone_number;
     }
 }
