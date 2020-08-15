@@ -1,6 +1,6 @@
 package controller;
 
-import dao.businessDAO;
+import dao.BusinessDAO;
 import io.javalin.http.Handler;
 import model.Business;
 

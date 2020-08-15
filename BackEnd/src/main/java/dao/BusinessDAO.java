@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class businessDAO {
+public class BusinessDAO {
     public static final String SALT = "$2a$10$h.dl5J86rGH7I8bD9bZeZe";
 
     public static Business getBusinessByBusiness_id(int business_id) {
@@ -26,9 +26,11 @@ public class businessDAO {
             ResultSet result = statement.executeQuery(sql);
 
             // If you have multiple results, you do a while
-            result.next();
-            // 2) Add it to the list we have prepared
-            business.add(new Business (result.getInt("business_id"), result.getString("name"), result.getString("phone_number"), result.getString("email")));
+            if(result.next()) {
+                // 2) Add it to the list we have prepared
+                business.add(new Business (result.getInt("business_id"), result.getString("name"),
+                        result.getString("phone_number"), result.getString("email")));
+            }
 
             // Close it
             DatabaseUtils.closeConnection(connection);

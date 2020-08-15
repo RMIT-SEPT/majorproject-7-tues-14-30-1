@@ -1,8 +1,11 @@
 import controller.BusinessController;
+import controller.CustomerController;
+import controller.EmployeeController;
 import controller.paths.Web;
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
 import model.Business;
+import model.Customer;
 
 public class helloWorld {
     public static void main(String[] args) {
@@ -15,6 +18,8 @@ public class helloWorld {
             app.post(Web.business, BusinessController.updateBusiness);
             app.delete(Web.business, BusinessController.removeBusiness);
             app.put(Web.business, BusinessController.createBusiness);
+            app.get(Web.customer, CustomerController.getCustomer);
+            app.get(Web.employee, EmployeeController.getEmployee);
         });
     }
     public static int getHerokuAssignedPort() {
