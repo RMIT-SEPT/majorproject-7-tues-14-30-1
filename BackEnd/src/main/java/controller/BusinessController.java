@@ -11,7 +11,7 @@ public class BusinessController {
             ctx.json("{'status':'failed', 'reason': 'No id provided'}");
         }
         int id = Integer.parseInt(str_id);
-        Business bus = businessDAO.getBusinessByBusiness_id(id);
+        Business bus = BusinessDAO.getBusinessByBusiness_id(id);
         if (bus != null) {
             ctx.json(bus);
         }
@@ -28,7 +28,7 @@ public class BusinessController {
             ctx.json("{'status':'failed', 'reason': 'No id provided'}");
         }
         int id = Integer.parseInt(str_id);
-        Business business = businessDAO.getBusinessByBusiness_id(id);
+        Business business = BusinessDAO.getBusinessByBusiness_id(id);
         String email = ctx.formParam("email");
         if (email!=null){
             business.setEmail(email);
@@ -41,7 +41,7 @@ public class BusinessController {
         if (name!=null){
             business.setName(name);
         }
-        businessDAO.updateBusiness(business);
+        BusinessDAO.updateBusiness(business);
         ctx.json("{'status':'success'}");
     };
 
@@ -52,7 +52,7 @@ public class BusinessController {
             ctx.json("{'status':'failed', 'reason': 'No id provided'}");
         }
         int id = Integer.parseInt(str_id);
-        businessDAO.removeBusiness(id);
+        BusinessDAO.removeBusiness(id);
         ctx.json("{'status':'success'}");
     };
 
@@ -69,7 +69,7 @@ public class BusinessController {
         if (name==null){
             ctx.json("{'status':'failed', 'reason': 'No `name` provided'}");
         }
-        businessDAO.createBusiness(new Business(name, phone_number, email));
+        BusinessDAO.createBusiness(new Business(name, phone_number, email));
         ctx.json("{'status':'success'}");
     };
 
