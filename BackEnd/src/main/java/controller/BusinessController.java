@@ -12,7 +12,7 @@ public class BusinessController {
             ctx.json(bus);
         }
         else{
-            ctx.json("resource not found");
+            ctx.json(new Business(0, "no business exists", "04 xxxx xxxx", "none@none.com"));
         }
     };
 }
