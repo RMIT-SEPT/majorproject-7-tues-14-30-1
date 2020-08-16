@@ -66,5 +66,11 @@ public class Employee {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setCost(double v) {
+    }
+
+    public void addSessions(Session ses1) {
+    }
 }
 

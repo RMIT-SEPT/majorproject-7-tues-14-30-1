@@ -37,4 +37,15 @@ public class Business {
     public void setPhone_number(String newPhone_number){
         this.phone_number=newPhone_number;
     }
+
+    public double getCheapestCost() {
+        return 0.00;
+    }
+
+    public void addEmployee(Employee employee) {
+    }
+
+    public String nextSession() {
+        return "";
+    }
 }
