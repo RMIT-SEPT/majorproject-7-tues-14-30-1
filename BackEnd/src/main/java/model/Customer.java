@@ -57,4 +57,8 @@ public class Customer {
     public void setPassword(String password) {
         this.password = password;
     }
-}
+
+    public static boolean removeBooking(int booking_id){
+        return false;
+    }
+    }
