@@ -16,9 +16,5 @@
 
 ## Code documentation
 
-The simplest way to view documentation is through our Notion workspace, linked above.
+The best way to view documentation is through our Notion workspace, linked above.
 The Product Backlog, Meeting Notes, and Docs pages on the sidebar of our Notion workspace contain all documentation.
-
-Copies of this documentation can also be found in the `docs` folder accessible from the root directory of this repo.
-
-[Quick Start](/docs/README.md) in `docs` folder
