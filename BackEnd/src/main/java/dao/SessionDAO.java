@@ -14,8 +14,7 @@ public class SessionDAO {
 
     public static Session getSessionByEmployee_ID(int employee_ID) {
         // Fish out the results
-        List<Session> session = new ArrayList<>();
-
+        Session session = new Session();
         try {
             // Here you prepare your sql statement
             String sql = "SELECT * FROM agme.session WHERE employee_ID = " + employee_ID + ";";
@@ -24,25 +23,21 @@ public class SessionDAO {
             Connection connection = DatabaseUtils.connectToDatabase();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
+            if (result.next()) {
+                session.setEmployee_ID(result.getInt("employee_ID"));
 
-            // If you have multiple results, you do a while
-            while(result.next()) {
-                // 2) Add it to the list we have prepared
-                session.add(new Session (result.getInt("employee_ID"))
-                );
+                // If you have multiple results, you do a while
+                while (result.next()) {
+                    session.setWorking(result.getInt("day"), result.getInt("hour"), result.getInt("working")==1);
+                }
             }
-
             // Close it
             DatabaseUtils.closeConnection(connection);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        if(!session.isEmpty()) {
-            return session.get(0);
-        }
-        // If we are here, something bad happened
-        return null;
+        return session;
     }
 
 }

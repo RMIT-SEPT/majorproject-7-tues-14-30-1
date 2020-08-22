@@ -2,20 +2,15 @@ package model;
 
 public class Session {
     private int employee_ID;
-    private int timeOfDay[];
-    private enum daysOfWeek {
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY,
-        SUNDAY
+    private boolean timeOfDay[][];
+
+    public Session(){
+        this.timeOfDay = new boolean[7][24];
     }
 
     public Session(int employee_ID) {
         this.employee_ID = employee_ID;
-        this.timeOfDay = new int[24];
+        this.timeOfDay = new boolean[7][24];
     }
 
     public int getEmployee_ID() {
@@ -26,11 +21,10 @@ public class Session {
         this.employee_ID = employee_ID;
     }
 
-    public int[] getTimeOfDay() {
-        return timeOfDay;
+    public void setWorking(int day, int hour, boolean working){
+        timeOfDay[day][hour]= working;
     }
-
-    public void setTimeOfDay(int[] timeOfDay) {
-        this.timeOfDay = timeOfDay;
+    public boolean[][] getWorking(){
+        return timeOfDay;
     }
 }
