@@ -95,4 +95,27 @@ public class BusinessDAO {
         }
     }
 
+    public static ArrayList<Business> searchBusiness(String searchTerm) {
+        String select_business;
+        ArrayList<Business> arrayList;
+        arrayList = new ArrayList<Business>();
+        select_business = "SELECT * FROM `agme` . `business` WHERE `name` LIKE '%" + searchTerm + "%'";
+
+        try {
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(select_business);
+            while(result.next()) {
+                arrayList.add(new Business (result.getInt("business_id"), result.getString("name"),
+                        result.getString("phone_number"), result.getString("email")));
+            }
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return arrayList;
+    }
 }
