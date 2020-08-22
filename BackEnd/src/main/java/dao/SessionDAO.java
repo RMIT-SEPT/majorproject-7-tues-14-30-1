@@ -25,12 +25,41 @@ public class SessionDAO {
             ResultSet result = statement.executeQuery(sql);
             if (result.next()) {
                 session.setEmployee_ID(result.getInt("employee_ID"));
-
+                session.setCreated(true);
                 // If you have multiple results, you do a while
                 while (result.next()) {
                     session.setWorking(result.getInt("day"), result.getInt("hour"), result.getInt("working")==1);
                 }
             }
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return session;
+    }
+
+    public static Session initialise(int employee_id){
+        Session session = new Session();
+        session.setEmployee_ID(employee_id);
+        session.setCreated(true);
+        try {
+            // Here you prepare your sql statement
+            String sql = "INSERT INTO `agme`.`session` (`employee_id`,`day`,`hour`,`working`)VALUES";
+
+            for (int day=0; day<7;day++){
+                for (int hour=0; hour<24; hour++){
+                    sql += "(" + employee_id + " , " + day + "," + hour + ",0),";
+                }
+            }
+            sql = sql.replaceAll(",$", "");
+            sql+=";";
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+
             // Close it
             DatabaseUtils.closeConnection(connection);
         }

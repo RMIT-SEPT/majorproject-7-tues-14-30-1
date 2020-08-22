@@ -1,8 +1,11 @@
 package model;
 
+import dao.SessionDAO;
+
 public class Employee {
     private int employee_ID, business_ID;
     private String fName, lName, email, phone_number, password;
+    private Session session;
 
     public Employee(int employee_ID, int business_ID, String fName, String lName,
                     String email, String phone_number, String password) {
@@ -71,6 +74,26 @@ public class Employee {
     }
 
     public void addSessions(Session ses1) {
+    }
+
+    public void initialiseSession(){
+        this.session = SessionDAO.initialise(this.employee_ID);
+    }
+
+    public void findSessions(){
+        this.session = SessionDAO.getSessionByEmployee_ID(this.employee_ID);
+        if (!this.session.getCreated()){
+            System.out.println("Session was found to be uncreated");
+            this.initialiseSession();
+        }
+    }
+
+    public Session getSession(){
+        if (this.session==null) {
+            System.out.println("Session was null once");
+            this.findSessions();
+        }
+        return this.session;
     }
 }
 

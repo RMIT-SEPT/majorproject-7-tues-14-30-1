@@ -1,8 +1,11 @@
 package model;
 
+import dao.SessionDAO;
+
 public class Session {
     private int employee_ID;
     private boolean timeOfDay[][];
+    private boolean created = false;
 
     public Session(){
         this.timeOfDay = new boolean[7][24];
@@ -26,5 +29,11 @@ public class Session {
     }
     public boolean[][] getWorking(){
         return timeOfDay;
+    }
+    public void setCreated(boolean created){
+        this.created=created;
+    }
+    public boolean getCreated(){
+        return created;
     }
 }
