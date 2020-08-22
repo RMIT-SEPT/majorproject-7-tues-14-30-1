@@ -23,6 +23,7 @@ public class helloWorld {
             app.get(Web.customer, CustomerController.getCustomer);
             app.get(Web.employee, EmployeeController.getEmployee);
             app.get(Web.searchBusiness, BusinessController.searchBusiness);
+            app.get(Web.employeeNextFreeSession, EmployeeController.nextFreeSession);
         });
     }
     public static int getHerokuAssignedPort() {
