@@ -1,3 +1,4 @@
+import controller.BookingController;
 import controller.BusinessController;
 import controller.CustomerController;
 import controller.EmployeeController;
@@ -18,6 +19,7 @@ public class helloWorld {
             app.post(Web.business, BusinessController.updateBusiness);
             app.delete(Web.business, BusinessController.removeBusiness);
             app.put(Web.business, BusinessController.createBusiness);
+            app.get(Web.booking, BookingController.getBooking);
             app.get(Web.customer, CustomerController.getCustomer);
             app.get(Web.employee, EmployeeController.getEmployee);
         });
