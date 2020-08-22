@@ -6,7 +6,12 @@ import model.Employee;
 
 public class EmployeeController {
     public static Handler getEmployee = ctx ->{
-        int id = Integer.parseInt(ctx.queryParam("id"));
+        String str_id = ctx.queryParam("id");
+        if (str_id==null){
+            ctx.json("{'status':'failed', 'reason': 'No id provided'}");
+            return;
+        }
+        int id = Integer.parseInt(str_id);
         Employee bus = EmployeeDAO.getEmployeeByEmployee_ID(id);
         if (bus != null) {
             ctx.json(bus);
