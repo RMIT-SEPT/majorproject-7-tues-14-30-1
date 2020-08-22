@@ -20,6 +20,7 @@ public class helloWorld {
             app.delete(Web.business, BusinessController.removeBusiness);
             app.put(Web.business, BusinessController.createBusiness);
             app.get(Web.booking, BookingController.getBooking);
+            app.put(Web.booking, BookingController.createBooking);
             app.get(Web.customer, CustomerController.getCustomer);
             app.get(Web.employee, EmployeeController.getEmployee);
             app.get(Web.searchBusiness, BusinessController.searchBusiness);
