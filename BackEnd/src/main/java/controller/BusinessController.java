@@ -1,8 +1,11 @@
 package controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.BusinessDAO;
 import io.javalin.http.Handler;
 import model.Business;
+
+import java.util.ArrayList;
 
 public class BusinessController {
     public static Handler getBusiness = ctx ->{
@@ -71,6 +74,16 @@ public class BusinessController {
         }
         BusinessDAO.createBusiness(new Business(name, phone_number, email));
         ctx.json("{'status':'success'}");
+    };
+
+    public static Handler searchBusiness = ctx ->{
+        String searchString = ctx.queryParam("q");
+        if(searchString == null) {
+            ctx.json("{'status':'failed', 'reason': 'Please enter at least one character'}");
+            return;
+        }
+
+        ctx.json(BusinessDAO.searchBusiness(searchString));
     };
 
 }
