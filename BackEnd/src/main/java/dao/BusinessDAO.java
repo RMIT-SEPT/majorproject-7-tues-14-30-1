@@ -3,6 +3,8 @@ package dao;
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import dao.util.DatabaseUtils;
 import model.Business;
+import model.Employee;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -95,11 +97,22 @@ public class BusinessDAO {
         }
     }
 
-    public static ArrayList<Business> searchBusiness(String searchTerm) {
+    public static ArrayList<Business> searchBusiness(String searchTerm, String sort, String order) {
         String select_business;
         ArrayList<Business> arrayList;
         arrayList = new ArrayList<Business>();
-        select_business = "SELECT * FROM `agme` . `business` WHERE `name` LIKE '%" + searchTerm + "%'";
+        String DESC = "desc";
+
+        if(sort != null) {
+            if(order.equals(DESC)) {
+                select_business = "SELECT * FROM `agme` . `business` WHERE `name` LIKE '%" + searchTerm + "%' ORDER BY " + sort + " DESC";
+            } else {
+                select_business = "SELECT * FROM `agme` . `business` WHERE `name` LIKE '%" + searchTerm + "%' ORDER BY " + sort + " ASC";
+            }
+
+        } else {
+            select_business = "SELECT * FROM `agme` . `business` WHERE `name` LIKE '%" + searchTerm + "%'";
+        }
 
         try {
             // Execute the query
@@ -117,5 +130,31 @@ public class BusinessDAO {
         }
 
         return arrayList;
+    }
+
+    public static ArrayList<Employee> getEmployees(String business_id) {
+        String employees;
+        ArrayList<Employee> employeeList;
+        employeeList = new ArrayList<Employee>();
+        employees = "SELECT * FROM `agme` . `employee` WHERE `business_id` = '" + business_id + "';";
+
+        try {
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(employees);
+            while(result.next()) {
+                employeeList.add(new Employee (result.getInt("employee_id"), result.getInt("business_id"),
+                        result.getString("first_name"), result.getString("last_name"),
+                        result.getString("email"), result.getString("phone"),
+                        result.getString("password")));
+            }
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return employeeList;
     }
 }
