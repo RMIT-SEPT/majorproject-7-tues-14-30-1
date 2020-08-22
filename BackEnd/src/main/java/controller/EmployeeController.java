@@ -34,18 +34,11 @@ public class EmployeeController {
         Employee emp = EmployeeDAO.getEmployeeByEmployee_ID(id);
         Calendar calendar = Calendar.getInstance();
         int day= calendar.get(Calendar.DAY_OF_WEEK)-1;
-        int startDay = day;
         int hour=calendar.get(Calendar.HOUR_OF_DAY)+1;
-        int startHour = hour-1;
-        while (!(day==startDay && hour==startHour)){
-            hour = (hour+1)%24;
-            if (hour==0) {
-                day = (day + 1) % 7;
-            }
-            if (emp.getSession().getWorking()[day][hour]){
-                ctx.json("{'day':'" + day + "', 'hour':'" + hour + "'}");
-                return;
-            }
+        int[] nextFree = new int[2];
+        nextFree=emp.getNextSession(day,hour);
+        if (nextFree[0]!=25){
+            ctx.json("{'day':'" + nextFree[0] + "', 'hour':'" + nextFree[1] + "'}");
         }
         ctx.json("{'status':'failed', 'reason': 'worker has no free shifts'}");
     };

@@ -95,5 +95,24 @@ public class Employee {
         }
         return this.session;
     }
+
+    public int[] getNextSession(int day,int hour){
+        int[] output = new int[2];
+        int startDay = day;
+        int startHour = hour-1;
+        while (!(day==startDay && hour==startHour)){
+            hour = (hour+1)%24;
+            if (hour==0) {
+                day = (day + 1) % 7;
+            }
+            if (this.session.getWorking()[day][hour]){
+                output[0] = hour;
+                output[1] = day;
+                return output;
+            }
+        }
+        output[0]=25;
+        return output;
+    }
 }
 
