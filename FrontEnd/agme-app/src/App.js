@@ -1,15 +1,20 @@
 import React from 'react';
-import Dashboard from './components/Dashboard'
-import Header from './components/layout/header/Header'
 import Footer from './components/layout/footer/Footer'
+import TopNav from './components/layout/topNav/TopNav';
 import './App.css';
 
 function App() {
   return (
     <div>
-      <Header/ >
-      <Dashboard />
-      <Footer/ >
+      <TopNav />
+
+      <div>
+      
+        Content goes here.
+      
+      </div>
+
+      <Footer />
     </div>
   );
 }
