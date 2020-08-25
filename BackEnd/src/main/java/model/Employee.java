@@ -4,7 +4,7 @@ import dao.SessionDAO;
 
 public class Employee {
     private int employee_ID, business_ID;
-    private String fName, lName, email, phone_number, password;
+    private String first_name, last_name, email, phone_number, password;
     private Session session;
 
     public Employee(int employee_ID, int business_ID, String first_name, String last_name,
