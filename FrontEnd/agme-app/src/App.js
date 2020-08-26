@@ -1,13 +1,13 @@
 import React from 'react';
 import Footer from './components/layout/footer/Footer'
-import TopNav from './components/layout/topNav/TopNav';
+import Header from './components/layout/header/Header';
 import Search from './components/search/Search';
 import './App.css';
 
 function App() {
   return (
     <div>
-      <TopNav />
+      <Header />
 
       <div>
       
