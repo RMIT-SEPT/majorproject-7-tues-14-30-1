@@ -19,7 +19,7 @@ class Footer extends Component {
                                 <h4> Development Team </h4>
                             
                                 <ul className='list-unstyled'>
-                                    <li>Erik Olivejoe</li>
+                                    <li>Erik Olivesjoe</li>
                                     <li>Matt Meskell</li>
                                     <li>Prerak Soni</li>
                                     <li>Ryan Wilson</li>
