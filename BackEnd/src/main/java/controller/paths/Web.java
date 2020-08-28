@@ -14,11 +14,12 @@ public class Web {
     public static final String customerLogin = "/api/customer/login";
 
     //Booking related
-
+    public static final String getBookingByCustomer = "/api/booking/getByCustomer";
+    public static final String getBookingByEmployee = "/api/booking/getByEmployee";
+    
     //Session related
 
     //employee related
     public static final String employeeNextFreeSession = "/api/employee/nextFreeSession";
-
 
 }

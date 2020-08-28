@@ -102,7 +102,8 @@ public class BusinessController {
             ctx.json(new Status("Please enter a business ID"));
             return;
         }
-        ArrayList<Employee> employees = BusinessDAO.getEmployees(business_id);
+        int id = Integer.parseInt(business_id);
+        ArrayList<Employee> employees = BusinessDAO.getEmployees(id);
         ctx.json(new Status(employees));
     };
 

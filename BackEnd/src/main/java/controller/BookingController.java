@@ -6,9 +6,12 @@ import dao.BusinessDAO;
 import io.javalin.http.Handler;
 import model.Booking;
 import model.Business;
+import model.Customer;
+import model.Employee;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class BookingController {
     public static Handler getBooking = ctx ->{
@@ -32,33 +35,56 @@ public class BookingController {
 
         String customer_idAsString = ctx.formParam("customer_id");
         if (customer_idAsString == null) {
-            ctx.json("{'status':'failed', 'reason': 'No `customer_id` provided'}");
+            ctx.json(new Status("No customer id provided"));
             return;
         }
         int customer_id = Integer.parseInt(customer_idAsString);
 
         String business_idAsString = ctx.formParam("business_id");
         if (business_idAsString == null) {
-            ctx.json("{'status':'failed', 'reason': 'No `business_id` provided'}");
+            ctx.json(new Status("No business id provided"));
             return;
         }
         int business_id = Integer.parseInt(business_idAsString);
 
         String employee_idAsString = ctx.formParam("employee_id");
         if (employee_idAsString == null) {
-            ctx.json("{'status':'failed', 'reason': 'No `employee_id` provided'}");
+            ctx.json(new Status("No employee id provided"));
             return;
         }
         int employee_id = Integer.parseInt(employee_idAsString);
 
         String dateTimeAsString = ctx.formParam("dateTime");
         if (dateTimeAsString == null) {
-            ctx.json("{'status':'failed', 'reason': 'No `dateTime` provided'}");
+            ctx.json(new Status("No 'dateTime' provided"));
             return;
         }
         Date dateTime = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(dateTimeAsString);
 
         BookingDAO.createBooking(new Booking(customer_id, employee_id, business_id, dateTime));
-        ctx.json("{'status':'success'}");
+        ctx.json(new Status());
+    };
+
+    public static Handler getBookingsByCustomer_id = ctx -> {
+        String customer_id = ctx.queryParam("id");
+        if (customer_id == null) {
+            ctx.json(new Status("Please enter a customer ID"));
+            return;
+        }
+
+        int id = Integer.parseInt(customer_id);
+        ArrayList<Booking> bookings = BookingDAO.getBookingsByCustomer_id(id);
+        ctx.json(new Status(bookings));
+    };
+
+    public static Handler getBookingsByEmployee_id = ctx -> {
+        String employee_id = ctx.queryParam("id");
+        if (employee_id == null) {
+            ctx.json(new Status("Please enter an employee ID"));
+            return;
+        }
+        int id = Integer.parseInt(employee_id);
+        ArrayList<Booking> bookings = BookingDAO.getBookingsByEmployee_id(id);
+        ctx.json(new Status(bookings));
     };
 }
