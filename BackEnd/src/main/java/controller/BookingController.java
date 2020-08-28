@@ -1,5 +1,6 @@
 package controller;
 
+import controller.util.Status;
 import dao.BookingDAO;
 import dao.BusinessDAO;
 import io.javalin.http.Handler;
@@ -13,7 +14,7 @@ public class BookingController {
     public static Handler getBooking = ctx ->{
         String str_id = ctx.queryParam("id");
         if (str_id==null){
-            ctx.json("{'status':'failed', 'reason': 'No id provided'}");
+            ctx.json(new Status("No ID Provided"));
             return;
         }
         System.out.println(str_id);

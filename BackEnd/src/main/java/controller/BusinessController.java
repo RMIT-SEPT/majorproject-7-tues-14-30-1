@@ -1,9 +1,11 @@
 package controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import controller.util.Status;
 import dao.BusinessDAO;
 import io.javalin.http.Handler;
 import model.Business;
+import model.Employee;
 
 import java.util.ArrayList;
 
@@ -78,7 +80,7 @@ public class BusinessController {
             return;
         }
         BusinessDAO.createBusiness(new Business(name, phone_number, email));
-        ctx.json("{'status':'success'}");
+        ctx.json(new Status());
     };
 
     public static Handler searchBusiness = ctx -> {
@@ -87,21 +89,21 @@ public class BusinessController {
         String orderString = ctx.queryParam("order");
 
         if (searchString == null) {
-            ctx.json("{'status':'failed', 'reason': 'Please enter at least one character'}");
+            ctx.json(new Status("Please enter at least one character"));
             return;
         }
-
-        ctx.json(BusinessDAO.searchBusiness(searchString, sortString, orderString));
+        ArrayList businesses = BusinessDAO.searchBusiness(searchString, sortString, orderString);
+        ctx.json(new Status(businesses));
     };
 
     public static Handler getEmployees = ctx -> {
         String business_id = ctx.queryParam("q");
         if (business_id == null) {
-            ctx.json("{'status':'failed', 'reason': 'No employees employed by this business'}");
+            ctx.json(new Status("Please enter a business ID"));
             return;
         }
-        System.out.println(business_id);
-        ctx.json(BusinessDAO.getEmployees(business_id));
+        ArrayList<Employee> employees = BusinessDAO.getEmployees(business_id);
+        ctx.json(new Status(employees));
     };
 
 }

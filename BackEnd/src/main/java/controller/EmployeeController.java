@@ -1,5 +1,6 @@
 package controller;
 
+import controller.util.Status;
 import dao.EmployeeDAO;
 import io.javalin.http.Handler;
 import model.Employee;
@@ -11,7 +12,7 @@ public class EmployeeController {
     public static Handler getEmployee = ctx -> {
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
-            ctx.json("{'status':'failed', 'reason': 'No id provided'}");
+            ctx.json(new Status("No ID Provided"));
             return;
         }
         int id = Integer.parseInt(str_id);
@@ -26,7 +27,7 @@ public class EmployeeController {
     public static Handler nextFreeSession = ctx -> {
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
-            ctx.json("{'status':'failed', 'reason': 'No id provided'}");
+            ctx.json(new Status("No ID Provided"));
             return;
         }
         int id = Integer.parseInt(str_id);
@@ -40,6 +41,6 @@ public class EmployeeController {
         if (nextFree[0]!=25){
             ctx.json("{'day':'" + nextFree[0] + "', 'hour':'" + nextFree[1] + "'}");
         }
-        ctx.json("{'status':'failed', 'reason': 'worker has no free shifts'}");
+        ctx.json(new Status("Worker has no free shifts"));
     };
 }
