@@ -1,3 +1,4 @@
+target/
 creds.sh
 creds2.sh
 .terraform*
@@ -113,4 +114,5 @@ nb-configuration.xml
 hs_err_pid*
 # Maven
 log/
-target/
+
+target/*

@@ -4,6 +4,15 @@ public class Customer {
     private int customer_ID;
     private String fName, lName, phone_number, email, password;
 
+    public Customer(String fName, String lName, String phone_number,
+                    String email, String password) {
+        this.fName = fName;
+        this.lName = lName;
+        this.phone_number = phone_number;
+        this.email = email;
+        this.password = password;
+    }
+
     public Customer(int customer_ID, String fName, String lName, String phone_number,
                     String email, String password) {
         this.customer_ID = customer_ID;

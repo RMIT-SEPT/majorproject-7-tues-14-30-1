@@ -22,4 +22,61 @@ public class CustomerController {
             ctx.json(new Status("Customer does not exist"));
         }
     };
+
+    public static Handler createCustomer = ctx ->{
+        String errormsg = "You are missing: ";
+        String password = ctx.formParam("password");
+        if (password == null){
+            errormsg+="password ";
+        }
+        String first_name = ctx.formParam("first_name");
+        if (first_name==null){
+            errormsg+="first_name ";
+        }
+        String last_name = ctx.formParam("last_name");
+        if (last_name==null){
+            errormsg+="last_name ";
+        }
+        String phone = ctx.formParam("phone");
+        if (phone==null){
+            errormsg+="phone ";
+        }
+        String email = ctx.formParam("email");
+        if (email==null){
+            errormsg+="email ";
+        }
+        if (errormsg!= "You are missing: "){
+            ctx.json(new Status(errormsg));
+            return;
+        }
+        errormsg = "";
+        //TODO add validation for password length, email @ existince and phone length, email existance
+        Customer cust = CustomerDAO.createCustomer(first_name, last_name, phone, email, password);
+        ctx.json(new Status());
+    };
+
+    public static Handler checkLogin = ctx -> {
+        String errormsg = "You are missing: ";
+        String password = ctx.formParam("password");
+        if (password == null){
+            errormsg+="password ";
+        }
+        String email = ctx.formParam("email");
+        if (email==null){
+            errormsg+="email ";
+        }
+        if (errormsg!= "You are missing: "){
+            ctx.json(new Status(errormsg));
+            return;
+        }
+        boolean success = CustomerDAO.checkLogin(email, password);
+        if (success){
+            ctx.json(new Status());
+            return;
+        }
+        else{
+            ctx.json(new Status("Incorrect username or password"));
+            return;
+        }
+    };
 }

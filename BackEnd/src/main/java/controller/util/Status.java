@@ -6,6 +6,7 @@ public class Status {
     public Object payload;
     public Status(){
         this.status = "success";
+        this.message = "Successfully completed task";
     }
     public Status(String status, String message){
         this.status = status;
