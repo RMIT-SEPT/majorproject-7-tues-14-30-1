@@ -25,7 +25,7 @@ public class DatabaseUtils {
             // Prepare the information to connect (hard-coded)
             String url = "jdbc:mysql://theduggan.online/agme";
             String user = "dummy";
-            String password = "password";
+            String password = "password" ;
 
             // Connect through the Driver
             connection = DriverManager.getConnection(url, user, password);
