@@ -46,4 +46,48 @@ public class CustomerDAO {
         return null;
     }
 
+    public static Customer createCustomer(String first_name, String last_name, String phone, String email, String password) {
+        Customer cust = new Customer(first_name, last_name, phone, email, password);
+        String update_sql;
+        update_sql = "INSERT INTO `agme`.`customer` (`first_name`,`last_name`,`phone`,`email`,`password`) VALUES('" + first_name + "' ,'" + last_name + "','" + phone + "','" + email + "','" + password + "');";
+
+        try {
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            statement.execute(update_sql);
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cust;
+    }
+
+    public static boolean checkLogin(String email, String password) {
+        try {
+            // Here you prepare your sql statement
+            String sql = "SELECT `email`, `password` FROM agme.customer WHERE `email` = '" + email + "';";
+
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            // If there is a result, that means that the email matches.
+            if(result.next()) {
+                // 2) Check if the password matches
+                if (password.equals(result.getString("password"))){
+                    return true;
+                }
+            }
+
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

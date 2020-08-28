@@ -13,7 +13,7 @@ public class BusinessController {
     public static Handler getBusiness = ctx -> {
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
-            ctx.json("{'status':'failed', 'reason': 'No id provided'}");
+            ctx.json(new Status("No `id` provided"));
             return;
         }
         int id = Integer.parseInt(str_id);
@@ -21,7 +21,7 @@ public class BusinessController {
         if (bus != null) {
             ctx.json(bus);
         } else {
-            ctx.json(new Business(0, "no business exists", "04 xxxx xxxx", "none@none.com"));
+            ctx.json(new Status("No business with that ID exists"));
         }
     };
 
@@ -30,7 +30,7 @@ public class BusinessController {
         String str_id = ctx.formParam("id");
         //TODO Authenticate the request (only the admin of the business should be able to make changes to the business
         if (str_id == null) {
-            ctx.json("{'status':'failed', 'reason': 'No id provided'}");
+            ctx.json(new Status("No `id` provided"));
             return;
         }
         int id = Integer.parseInt(str_id);
@@ -48,35 +48,35 @@ public class BusinessController {
             business.setName(name);
         }
         BusinessDAO.updateBusiness(business);
-        ctx.json("{'status':'success'}");
+        ctx.json(new Status());
     };
 
 
     public static Handler removeBusiness = ctx -> {
         String str_id = ctx.formParam("id");
         if (str_id == null) {
-            ctx.json("{'status':'failed', 'reason': 'No id provided'}");
+            ctx.json(new Status("No `id` provided"));
             return;
         }
         int id = Integer.parseInt(str_id);
         BusinessDAO.removeBusiness(id);
-        ctx.json("{'status':'success'}");
+        ctx.json(new Status());
     };
 
     public static Handler createBusiness = ctx -> {
         String email = ctx.formParam("email");
         if (email == null) {
-            ctx.json("{'status':'failed', 'reason': 'No `email` provided'}");
+            ctx.json(new Status("No email provided"));
             return;
         }
         String phone_number = ctx.formParam("phone_number");
         if (phone_number == null) {
-            ctx.json("{'status':'failed', 'reason': 'No `phone_number` provided'}");
+            ctx.json(new Status("No `phone_number` provided"));
             return;
         }
         String name = ctx.formParam("name");
         if (name == null) {
-            ctx.json("{'status':'failed', 'reason': 'No `name` provided'}");
+            ctx.json(new Status("No `name` provided"));
             return;
         }
         BusinessDAO.createBusiness(new Business(name, phone_number, email));

@@ -15,6 +15,7 @@ public class helloWorld {
             config.registerPlugin(new RouteOverviewPlugin("/routes"));
         }).start(getHerokuAssignedPort());
         app.routes(() -> {
+            //Basic resources
             app.get(Web.business, BusinessController.getBusiness);
             app.post(Web.business, BusinessController.updateBusiness);
             app.delete(Web.business, BusinessController.removeBusiness);
@@ -22,7 +23,10 @@ public class helloWorld {
             app.get(Web.booking, BookingController.getBooking);
             app.put(Web.booking, BookingController.createBooking);
             app.get(Web.customer, CustomerController.getCustomer);
+            app.put(Web.customer, CustomerController.createCustomer);
             app.get(Web.employee, EmployeeController.getEmployee);
+            //Specific functions
+            app.get(Web.customerLogin, CustomerController.checkLogin);
             app.get(Web.searchBusiness, BusinessController.searchBusiness);
             app.get(Web.getEmployees, BusinessController.getEmployees);
             app.get(Web.employeeNextFreeSession, EmployeeController.nextFreeSession);
