@@ -1,21 +1,19 @@
 package model;
 
+import dao.SessionDAO;
+
 public class Session {
     private int employee_ID;
-    private int timeOfDay[];
-    private enum daysOfWeek {
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY,
-        SUNDAY
+    private boolean timeOfDay[][];
+    private boolean created = false;
+
+    public Session(){
+        this.timeOfDay = new boolean[7][24];
     }
 
     public Session(int employee_ID) {
         this.employee_ID = employee_ID;
-        this.timeOfDay = new int[24];
+        this.timeOfDay = new boolean[7][24];
     }
 
     public int getEmployee_ID() {
@@ -26,11 +24,16 @@ public class Session {
         this.employee_ID = employee_ID;
     }
 
-    public int[] getTimeOfDay() {
+    public void setWorking(int day, int hour, boolean working){
+        timeOfDay[day][hour]= working;
+    }
+    public boolean[][] getWorking(){
         return timeOfDay;
     }
-
-    public void setTimeOfDay(int[] timeOfDay) {
-        this.timeOfDay = timeOfDay;
+    public void setCreated(boolean created){
+        this.created=created;
+    }
+    public boolean getCreated(){
+        return created;
     }
 }

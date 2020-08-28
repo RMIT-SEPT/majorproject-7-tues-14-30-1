@@ -12,6 +12,14 @@ public class Booking {
         this.business_id = business_id;
         this.dateTime = dateTime;
     }
+
+    public Booking(int customer_id, int employee_id, int business_id, Date dateTime) {
+        this.customer_id = customer_id;
+        this.employee_id = employee_id;
+        this.business_id = business_id;
+        this.dateTime = dateTime;
+    }
+
     public int getBooking_id(){
         return this.booking_id;
     }

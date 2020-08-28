@@ -62,7 +62,6 @@ class BusinessTest {
         Session ses1 = new Session(1);
 
         int a[] = {0,0,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0,0,0 ,0,0,0,0};
-        ses1.setTimeOfDay(a);
         emp1.addSessions(ses1);
         String nextSession = testBusiness.nextSession();
         assert("next session is tomorrow" == nextSession);
