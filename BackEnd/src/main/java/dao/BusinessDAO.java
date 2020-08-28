@@ -132,7 +132,7 @@ public class BusinessDAO {
         return arrayList;
     }
 
-    public static ArrayList<Employee> getEmployees(String business_id) {
+    public static ArrayList<Employee> getEmployees(int business_id) {
         String employees;
         ArrayList<Employee> employeeList;
         employeeList = new ArrayList<Employee>();

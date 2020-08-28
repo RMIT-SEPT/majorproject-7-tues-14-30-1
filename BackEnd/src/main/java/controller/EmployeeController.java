@@ -12,7 +12,7 @@ public class EmployeeController {
     public static Handler getEmployee = ctx -> {
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
-            ctx.json(new Status("No ID Provided"));
+            ctx.json(new Status("No ID provided"));
             return;
         }
         int id = Integer.parseInt(str_id);
@@ -20,8 +20,7 @@ public class EmployeeController {
         if (bus != null) {
             ctx.json(bus);
         } else {
-            ctx.json(new Employee(0, 0, "firstName", "lastName",
-                    "fName.lName@blank.com", "0435 xxx xxx", "********"));
+            ctx.json(new Status("Employee does not exist"));
         }
     };
     public static Handler nextFreeSession = ctx -> {

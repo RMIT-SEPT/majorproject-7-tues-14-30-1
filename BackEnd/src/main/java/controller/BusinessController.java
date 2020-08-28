@@ -76,7 +76,7 @@ public class BusinessController {
         }
         String name = ctx.formParam("name");
         if (name == null) {
-            ctx.json("{'status':'failed', 'reason': 'No `name` provided'}");
+            ctx.json(new Status("Please enter at least one character"));
             return;
         }
         BusinessDAO.createBusiness(new Business(name, phone_number, email));
@@ -102,7 +102,8 @@ public class BusinessController {
             ctx.json(new Status("Please enter a business ID"));
             return;
         }
-        ArrayList<Employee> employees = BusinessDAO.getEmployees(business_id);
+        int id = Integer.parseInt(business_id);
+        ArrayList<Employee> employees = BusinessDAO.getEmployees(id);
         ctx.json(new Status(employees));
     };
 
