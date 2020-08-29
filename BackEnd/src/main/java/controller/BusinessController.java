@@ -97,7 +97,7 @@ public class BusinessController {
     };
 
     public static Handler getEmployees = ctx -> {
-        String business_id = ctx.queryParam("q");
+        String business_id = ctx.queryParam("business_id");
         if (business_id == null) {
             ctx.json(new Status("Please enter a business ID"));
             return;
