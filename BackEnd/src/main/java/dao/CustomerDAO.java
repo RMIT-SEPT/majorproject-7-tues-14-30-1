@@ -1,5 +1,6 @@
 package dao;
 
+import controller.util.Utils;
 import dao.util.DatabaseUtils;
 import model.Customer;
 
@@ -49,7 +50,8 @@ public class CustomerDAO {
     public static Customer createCustomer(String first_name, String last_name, String phone, String email, String password) {
         Customer cust = new Customer(first_name, last_name, phone, email, password);
         String update_sql;
-        update_sql = "INSERT INTO `agme`.`customer` (`first_name`,`last_name`,`phone`,`email`,`password`) VALUES('" + first_name + "' ,'" + last_name + "','" + phone + "','" + email + "','" + password + "');";
+        update_sql = "INSERT INTO `agme`.`customer` (`first_name`,`last_name`,`phone`,`email`,`password`) VALUES('" + first_name + "' ,'" + last_name + "','" +
+                "" + phone + "','" + email + "','" + Utils.generateHashPassword(password) + "');";
 
         try {
             // Execute the query
@@ -77,7 +79,7 @@ public class CustomerDAO {
             // If there is a result, that means that the email matches.
             if(result.next()) {
                 // 2) Check if the password matches
-                if (password.equals(result.getString("password"))){
+                if (Utils.passwordIsValid(password, result.getString("password"))){
                     return true;
                 }
             }
