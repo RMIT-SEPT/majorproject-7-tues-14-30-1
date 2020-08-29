@@ -3,6 +3,7 @@ package controller;
 import controller.util.Status;
 import dao.BookingDAO;
 import dao.BusinessDAO;
+import dao.CustomerDAO;
 import io.javalin.http.Handler;
 import model.Booking;
 import model.Business;
@@ -23,23 +24,36 @@ public class BookingController {
         System.out.println(str_id);
         int id = Integer.parseInt(str_id);
         Booking booking = BookingDAO.getBookingByBooking_id(id);
+        int customer_id = CustomerDAO.checkLogin(ctx);
+        if (customer_id == 0){
+            ctx.json(new Status("Incorrect `email` or `password`"));
+            return;
+        }
+        else if (booking.getCustomer_id() != customer_id){
+            ctx.json(new Status("You do not have permission to view this booking"));
+            return;
+        }
         if (booking != null) {
-            ctx.json(booking);
+            ctx.json(new Status(booking));
         }
         else{
-            ctx.json(new Booking(0,0,0,0, new Date(0)));
+            ctx.json(new Status("No booking with that id exists"));
         }
     };
 
-    public static Handler createBooking = ctx -> {
+    public static Handler createBooking = ctx ->{
 
-        String customer_idAsString = ctx.formParam("customer_id");
+        /*String customer_idAsString = ctx.formParam("customer_id");
         if (customer_idAsString == null) {
             ctx.json(new Status("No customer id provided"));
             return;
         }
-        int customer_id = Integer.parseInt(customer_idAsString);
-
+        int customer_id = Integer.parseInt(customer_idAsString);*/
+        int customer_id = CustomerDAO.checkLogin(ctx);
+        if (customer_id == 0){
+            ctx.json(new Status("Incorrect `email` or `password`"));
+            return;
+        }
         String business_idAsString = ctx.formParam("business_id");
         if (business_idAsString == null) {
             ctx.json(new Status("No business id provided"));
@@ -66,14 +80,12 @@ public class BookingController {
     };
 
     public static Handler getBookingsByCustomer_id = ctx -> {
-        String customer_id = ctx.queryParam("id");
-        if (customer_id == null) {
-            ctx.json(new Status("Please enter a customer ID"));
+        int customer_id = CustomerDAO.checkLogin(ctx);
+        if (customer_id == 0) {
+            ctx.json(new Status("Please provide an accurate `email` and `password`"));
             return;
         }
-
-        int id = Integer.parseInt(customer_id);
-        ArrayList<Booking> bookings = BookingDAO.getBookingsByCustomer_id(id);
+        ArrayList<Booking> bookings = BookingDAO.getBookingsByCustomer_id(customer_id);
         ctx.json(new Status(bookings));
     };
 

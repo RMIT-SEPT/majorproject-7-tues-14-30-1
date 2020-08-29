@@ -10,6 +10,7 @@ public class Web {
     //Business related
     public static final String searchBusiness = "/api/business/searchBusiness";
     public static final String getEmployees = "/api/business/getEmployees";
+
     //Customer related
     public static final String customerLogin = "/api/customer/login";
 
