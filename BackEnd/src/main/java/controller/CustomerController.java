@@ -5,6 +5,7 @@ import controller.util.Status;
 import dao.CustomerDAO;
 import io.javalin.http.Handler;
 import model.Customer;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class CustomerController {
     public static Handler getCustomer = ctx ->{
@@ -72,11 +73,10 @@ public class CustomerController {
         boolean success = CustomerDAO.checkLogin(email, password);
         if (success){
             ctx.json(new Status());
-            return;
         }
         else{
             ctx.json(new Status("Incorrect username or password"));
-            return;
         }
+        return;
     };
 }
