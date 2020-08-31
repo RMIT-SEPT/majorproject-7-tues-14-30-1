@@ -16,10 +16,10 @@ class Footer extends Component {
                         
                             <div className='col-md-3 col-sm-6'>     
                             
-                                <h4> Development Team </h4>
+                                <h4> Dev Team </h4>
                             
                                 <ul className='list-unstyled'>
-                                    <li>Erik Olivejoe</li>
+                                    <li>Erik Olivesjoe</li>
                                     <li>Matt Meskell</li>
                                     <li>Prerak Soni</li>
                                     <li>Ryan Wilson</li>

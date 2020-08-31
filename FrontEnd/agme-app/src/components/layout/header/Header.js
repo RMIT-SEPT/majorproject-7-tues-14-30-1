@@ -1,11 +1,31 @@
 import React, { Component } from 'react'
+import { Navbar, Nav, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Header.css';
 
 class Header extends Component {
     render() {
         return (
-            <div>
-                This is the header.
+            
+            <Navbar bg="dark" variant="dark">
+
+            <Nav>
+            <div className="box">
+                <Button href="/dashboard" variant="info">Dashboard</Button>
             </div>
+            
+            <div className="box">
+                <Button href="/search" variant="info">Search</Button>
+            </div>
+
+            <div className="box">
+                <Button href="/login" variant="info">Log In</Button>
+            </div>
+
+            </Nav>
+            
+            </Navbar>
+            
         )
     }
 }
