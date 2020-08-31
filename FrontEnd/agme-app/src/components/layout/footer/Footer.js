@@ -16,7 +16,7 @@ class Footer extends Component {
                         
                             <div className='col-md-3 col-sm-6'>     
                             
-                                <h4> Development Team </h4>
+                                <h4> Dev Team </h4>
                             
                                 <ul className='list-unstyled'>
                                     <li>Erik Olivesjoe</li>

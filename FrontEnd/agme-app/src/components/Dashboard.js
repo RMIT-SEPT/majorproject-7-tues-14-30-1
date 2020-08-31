@@ -1,11 +1,25 @@
 import React, { Component } from 'react'
+import SearchButton from './search/SearchButton'
 
 class Dashboard extends Component {
     render() {
         return (
-            <div>
-                <h1>This is the Dashboard.</h1>
+
+            
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <h3 className="display-4 text-center">AGME: Appointments Made Easy</h3>
+                        <br />
+                        <SearchButton />
+                        <br />
+                        <hr />
+                    </div>
+                </div>
             </div>
+        
+
+
         )
     }
 }
