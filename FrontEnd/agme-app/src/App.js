@@ -5,6 +5,7 @@ import Search from './components/search/Search';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
 import Dashboard from './components/Dashboard';
+import CustomerProfile from './components/customerProfile/CustomerProfile';
 
 function App() {
   return (
@@ -15,9 +16,11 @@ function App() {
       <Header />
 
       <div>
-      
+      <Route exact path="/" component={Dashboard} />
+
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/search" component={Search} />
+      <Route exact path="/customerProfile" component={CustomerProfile} />
       
       </div>
 
