@@ -19,7 +19,7 @@ public class BusinessController {
         int id = Integer.parseInt(str_id);
         Business bus = BusinessDAO.getBusinessByBusiness_id(id);
         if (bus != null) {
-            ctx.json(bus);
+            ctx.json(new Status(bus));
         } else {
             ctx.json(new Status("No business with that ID exists"));
         }
