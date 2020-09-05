@@ -14,7 +14,7 @@ class QueryTester extends Component {
     componentDidMount() {
         
 
-        const testQuery = "https://cors-anywhere.herokuapp.com/http://localhost:7000/api/business?id=1";
+        const testQuery = "http://192.168.0.72:7000/api/employee/";
 
     //     axios.get(`https://jsonplaceholder.typicode.com/users`)
     //   .then(res => {
