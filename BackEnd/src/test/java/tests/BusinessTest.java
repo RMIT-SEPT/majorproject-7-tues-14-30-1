@@ -23,11 +23,11 @@ class BusinessTest {
     void easyCheapestCost() {
         //Testing the function that gets the cheapest employee's rate for a given business
         Business testBusiness= new Business(1, "Haircuts", "04 1234 5678", "person@customer.com");
-        Employee emp1 = new Employee(1, testBusiness.getBusiness_id(), "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
+        Employee emp1 = new Employee(1, testBusiness.getBusiness_id(), 2, "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
         emp1.setCost(12.50);
-        Employee emp2 = new Employee(2, testBusiness.getBusiness_id(), "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
+        Employee emp2 = new Employee(2, testBusiness.getBusiness_id(), 2, "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
         emp2.setCost(24.80);
-        Employee emp3 = new Employee(2, testBusiness.getBusiness_id(), "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
+        Employee emp3 = new Employee(2, testBusiness.getBusiness_id(), 2, "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
         emp3.setCost(18.65);
         testBusiness.addEmployee(emp1);testBusiness.addEmployee(emp2);testBusiness.addEmployee(emp3);
         double cheapestCost = testBusiness.getCheapestCost();
@@ -46,9 +46,9 @@ class BusinessTest {
     void CheapestCostTied() {
         //Testing the function that gets the cheapest employee's rate for a given business
         Business testBusiness= new Business(1, "Haircuts", "04 1234 5678", "person@customer.com");
-        Employee emp1 = new Employee(1, testBusiness.getBusiness_id(), "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
+        Employee emp1 = new Employee(1, testBusiness.getBusiness_id(), 2, "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
         emp1.setCost(12.50);
-        Employee emp2 = new Employee(2, testBusiness.getBusiness_id(), "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
+        Employee emp2 = new Employee(2, testBusiness.getBusiness_id(), 2, "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
         emp2.setCost(12.50);
         testBusiness.addEmployee(emp1);testBusiness.addEmployee(emp2);
 
@@ -58,7 +58,7 @@ class BusinessTest {
     @Test
     void nextSessionEasy() {
         Business testBusiness= new Business(1, "Haircuts", "04 1234 5678", "person@customer.com");
-        Employee emp1 = new Employee(1, testBusiness.getBusiness_id(), "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
+        Employee emp1 = new Employee(1, testBusiness.getBusiness_id(), 2, "firstname", "lastname", "firstname@haircuts.com", "0466879385", "test");
         Session ses1 = new Session(1);
 
         int a[] = {0,0,0,0,0,0,0,0,0,0 ,0,0,0,0,0,0,0,0,0,0 ,0,0,0,0};

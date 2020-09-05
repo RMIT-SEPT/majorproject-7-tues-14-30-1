@@ -1,8 +1,12 @@
 package controller;
 
 import controller.util.Status;
+import dao.BusinessDAO;
+import dao.CustomerDAO;
 import dao.EmployeeDAO;
 import io.javalin.http.Handler;
+import model.Business;
+import model.Customer;
 import model.Employee;
 
 import java.util.Calendar;
@@ -23,6 +27,130 @@ public class EmployeeController {
             ctx.json(new Status("Employee does not exist"));
         }
     };
+
+    public static Handler updateEmployee = ctx -> {
+        String errormsg = "You are missing: ";
+        String password = ctx.formParam("password");
+        if (password == null){
+            errormsg+="password ";
+        }
+
+        String first_name = ctx.formParam("first_name");
+        if (first_name==null){
+            errormsg+="first_name ";
+        }
+
+        String last_name = ctx.formParam("last_name");
+        if (last_name==null){
+            errormsg+="last_name ";
+        }
+
+        String phone = ctx.formParam("phone");
+        if (phone==null){
+            errormsg+="phone ";
+        }
+
+        String email = ctx.formParam("email");
+        if (email==null){
+            errormsg+="email ";
+        }
+
+        String business_idAsString = ctx.formParam("business_id");
+        if (business_idAsString == null) {
+            ctx.json(new Status("No business id provided"));
+            return;
+        }
+        int business_id = Integer.parseInt(business_idAsString);
+
+
+        String employee_idAsString = ctx.formParam("employee_id");
+        if (employee_idAsString == null) {
+            ctx.json(new Status("No employee id provided"));
+            return;
+        }
+        int employee_id = Integer.parseInt(employee_idAsString);
+
+        String typeAsString = ctx.formParam("type");
+        if (typeAsString == null) {
+            ctx.json(new Status("No type provided"));
+            return;
+        }
+        int type = Integer.parseInt(typeAsString);
+
+
+        if (errormsg!= "You are missing: "){
+            ctx.json(new Status(errormsg));
+            return;
+        }
+
+        errormsg = "";
+        //TODO add validation for password length, email @ existince and phone length, email existance
+        Employee employee = EmployeeDAO.updateEmployee(employee_id, business_id, type, first_name, last_name, email, phone, password);
+        ctx.json(new Status());
+    };
+
+    public static Handler createEmployee = ctx ->{
+        String errormsg = "You are missing: ";
+        String password = ctx.formParam("password");
+        if (password == null){
+            errormsg+="password ";
+        }
+
+        String first_name = ctx.formParam("first_name");
+        if (first_name==null){
+            errormsg+="first_name ";
+        }
+
+        String last_name = ctx.formParam("last_name");
+        if (last_name==null){
+            errormsg+="last_name ";
+        }
+
+        String phone = ctx.formParam("phone");
+        if (phone==null){
+            errormsg+="phone ";
+        }
+
+        String email = ctx.formParam("email");
+        if (email==null){
+            errormsg+="email ";
+        }
+
+        String business_idAsString = ctx.formParam("business_id");
+        if (business_idAsString == null) {
+            ctx.json(new Status("No business id provided"));
+            return;
+        }
+        int business_id = Integer.parseInt(business_idAsString);
+
+
+        String employee_idAsString = ctx.formParam("employee_id");
+        if (employee_idAsString == null) {
+            ctx.json(new Status("No employee id provided"));
+            return;
+        }
+        int employee_id = Integer.parseInt(employee_idAsString);
+
+        String typeAsString = ctx.formParam("type");
+        if (typeAsString == null) {
+            ctx.json(new Status("No type provided"));
+            return;
+        }
+        int type = Integer.parseInt(typeAsString);
+
+
+        if (errormsg!= "You are missing: "){
+            ctx.json(new Status(errormsg));
+            return;
+        }
+
+        errormsg = "";
+        //TODO add validation for password length, email @ existince and phone length, email existance
+        Employee employee = EmployeeDAO.createEmployee(employee_id, business_id, type, first_name, last_name, email, phone, password);
+        ctx.json(new Status());
+    };
+
+
     public static Handler nextFreeSession = ctx -> {
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
