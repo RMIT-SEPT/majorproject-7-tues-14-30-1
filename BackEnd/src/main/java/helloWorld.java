@@ -18,6 +18,7 @@ public class helloWorld {
             //Basic resources
             app.get(Web.business, BusinessController.getBusiness);
             app.post(Web.business, BusinessController.updateBusiness);
+            app.post(Web.employee, EmployeeController.updateEmployee);
             app.delete(Web.business, BusinessController.removeBusiness);
             app.put(Web.business, BusinessController.createBusiness);
             app.get(Web.booking, BookingController.getBooking);

@@ -121,13 +121,14 @@ public class EmployeeDAO {
         }
         return null;
     }
-    public static Employee createEmployee(int employee_id, int business_id, int type, String first_name,
+
+    public static Employee createEmployee(int business_id, int type, String first_name,
                                           String last_name, String email, String phone, String password) {
-        Employee employee = new Employee(employee_id, business_id, type, first_name, last_name, email, phone, password);
+        Employee employee = new Employee(business_id, type, first_name, last_name, email, phone, password);
         String update_sql;
-        update_sql = "INSERT INTO `agme`.`employee` (`employee_id`,  `first_name`,`last_name`, `business_id`, `email`,`phone`, `type`, `password`) " +
-                "VALUES('" + employee_id + "' ,'" + first_name + "' ,'" + last_name + "', ,'" + business_id + "''" +
-                "" + email + "','" + phone + "', '" + type + "', '" + Utils.generateHashPassword(password) + "');";
+        update_sql = "INSERT INTO `agme`.`employee` ( `first_name`,`last_name`, `business_id`, `email`,`phone`, `type`, `password`) " +
+                "VALUES('" + first_name + "' ,'" + last_name + "' ,'" + business_id + "','" +
+                 email + "','" + phone + "', '" + type + "', '" + Utils.generateHashPassword(password) + "');";
 
         try {
             // Execute the query
@@ -142,7 +143,23 @@ public class EmployeeDAO {
         return employee;
     }
 
-    public static Employee updateEmployee(int employee_id, int business_id, int type, String first_name, String last_name, String email, String phone, String password) {
-        return null;
+    public static Employee updateEmployee(int employee_id, int business_id, int type, String first_name,
+                                          String last_name, String email, String phone, String password) {
+        Employee employee = new Employee(employee_id, business_id, type, first_name, last_name, email, phone, password);
+        String update_sql;
+        update_sql = "UPDATE `agme`.`employee` SET `type` = '" + type + "',  `first_name` = '" + first_name + "',  `last_name` = '" + last_name + "'" +
+                " `email` = '" + email + "', `phone` = '" + phone + "', `password` = '" + Utils.generateHashPassword(password) + "'  WHERE `employee_id` = '" + employee_id + "';";
+
+        try {
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            statement.execute(update_sql);
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return employee;
     }
 }

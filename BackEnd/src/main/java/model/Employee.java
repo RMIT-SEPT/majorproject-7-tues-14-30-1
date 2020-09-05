@@ -19,6 +19,17 @@ public class Employee {
         this.password = password;
     }
 
+    public Employee(int business_ID, int type, String first_name, String last_name,
+                    String email, String phone_number, String password) {
+        this.business_ID = business_ID;
+        this.type = type;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.password = password;
+    }
+
     public int getEmployee_ID() {
         return employee_ID;
     }
