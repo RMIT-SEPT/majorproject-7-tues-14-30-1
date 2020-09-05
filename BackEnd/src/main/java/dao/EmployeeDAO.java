@@ -1,6 +1,8 @@
 package dao;
 
+import controller.util.Utils;
 import dao.util.DatabaseUtils;
+import io.javalin.http.Context;
 import model.Employee;
 
 import java.sql.Connection;
@@ -60,8 +62,8 @@ public class EmployeeDAO {
             // If there is a result, that means that the email matches.
             if(result.next()) {
                 // 2) Check if the password matches
-                if (password.equals(result.getString("password"))){
-                    return true;
+                if (Utils.passwordIsValid(password, result.getString("password"))){
+                    return result.getInt("type");
                 }
             }
 
@@ -72,5 +74,50 @@ public class EmployeeDAO {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static Employee checkLogin(Context ctx) {
+        String email, password;
+        email = ctx.formParam("loginemail");
+        password = ctx.formParam("loginpassword");
+        if (email==null){
+            return null;
+        }
+        if (password==null){
+            return null;
+        }
+        int type = checkLogin(email, password);
+        if (type==0){
+            return null;
+        }
+        return getEmployeeByEmail(email);
+    }
+
+    public static Employee getEmployeeByEmail(String email){
+        try {
+            // Here you prepare your sql statement
+            String sql = "SELECT * FROM agme.employee WHERE `email` = '" + email + "';";
+
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            // If there is a result, that means that the email matches.
+            if(result.next()) {
+                // 2) Check if the password matches
+                return new Employee (result.getInt("employee_id"), result.getInt("business_id"),
+                        result.getString("first_name"), result.getString("last_name"),
+                        result.getString("email"), result.getString("phone"),
+                        result.getString("password"));
+            }
+
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

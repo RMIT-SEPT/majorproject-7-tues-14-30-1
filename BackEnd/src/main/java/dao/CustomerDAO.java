@@ -95,23 +95,23 @@ public class CustomerDAO {
         return false;
     }
 
-    public static int checkLogin(Context ctx) {
+    public static int[] checkLogin(Context ctx) {
         String email, password;
         email = ctx.formParam("email");
         password = ctx.formParam("password");
         if (email==null){
-            return 0;
+            return new int[]{0,0};
         }
         if (password==null){
-            return 0;
+            return new int[]{0,0};
         }
         if (!checkLogin(email, password)){
-            return 0;
+            return new int[]{0,0};
         }
-        return getEmployee_idByEmail(email);
+        return new int[]{1,getCustomer_idByEmail(email)};
     }
 
-    public static int getEmployee_idByEmail(String email){
+    public static int getCustomer_idByEmail(String email){
         try {
             // Here you prepare your sql statement
             String sql = "SELECT `email`, `customer_id` FROM agme.customer WHERE `email` = '" + email + "';";

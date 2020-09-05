@@ -3,6 +3,7 @@ package controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.util.Status;
 import dao.BusinessDAO;
+import dao.EmployeeDAO;
 import io.javalin.http.Handler;
 import model.Business;
 import model.Employee;
@@ -28,12 +29,18 @@ public class BusinessController {
     public static Handler updateBusiness = ctx -> {
         //First get the id of the business that needs to change
         String str_id = ctx.formParam("id");
-        //TODO Authenticate the request (only the admin of the business should be able to make changes to the business
         if (str_id == null) {
             ctx.json(new Status("No `id` provided"));
             return;
         }
         int id = Integer.parseInt(str_id);
+        //Validating that the user requesting the update has permission to actually update the business
+        Employee emp = EmployeeDAO.checkLogin(ctx);
+        if (emp.get<3 || credentials[1]!=id ){ //3 is the admin level
+            ctx.json(new Status("Account does not have permission to update this business"));
+            return;
+        }
+
         Business business = BusinessDAO.getBusinessByBusiness_id(id);
         String email = ctx.formParam("email");
         if (email != null) {
