@@ -16,10 +16,10 @@ class Footer extends Component {
                         
                             <div className='col-md-3 col-sm-6'>     
                             
-                                <h4> Development Team </h4>
+                                <h4> Dev Team </h4>
                             
                                 <ul className='list-unstyled'>
-                                    <li>Erik Olivejoe</li>
+                                    <li>Erik Olivesjoe</li>
                                     <li>Matt Meskell</li>
                                     <li>Prerak Soni</li>
                                     <li>Ryan Wilson</li>
@@ -31,10 +31,9 @@ class Footer extends Component {
                                 <h4> Site Navigation </h4>
                             
                                 <ul className='list-unstyled'>
-                                    <li><a href="/">My Appointments</a></li>
-                                    <li><a href="/">Search Businesses</a></li>
-                                    <li><a href="/">Link 3</a></li>
-                                    <li><a href="/">Link 4</a></li>
+                                    <li><a href="/dashboard">Dashboard</a></li>
+                                    <li><a href="/customerProfile">My Appointments</a></li>
+                                    <li><a href="/search">Search Businesses</a></li>
                                 </ul>
                             </div>
 
@@ -43,9 +42,9 @@ class Footer extends Component {
                                 <h4> Project Links </h4>
                             
                                 <ul className='list-unstyled'>
-                                    <li><a href="/">GitHub</a></li>
-                                    <li><a href="/">Notion</a></li>
-                                    <li><a href="/">MS Teams</a></li>
+                                    <li><a href="https://github.com/RMIT-SEPT/majorproject-7-tues-14-30-1">GitHub</a></li>
+                                    <li><a href="https://www.notion.so/055f39ad9b6d4ae299c504284898af0e?v=741980e0b8ad48ccaa6d15ffc5b4814a">Notion</a></li>
+                                    <li><a href="https://teams.microsoft.com/l/channel/19%3aeccec53a4be34a9e854d23aa197b6d7b%40thread.tacv2/General?groupId=c34e6ea2-9f50-4637-8fef-86c7d42e188f&tenantId=d1323671-cdbe-4417-b4d4-bdb24b51316b">MS Teams</a></li>
                                 </ul>
                             </div>
 
@@ -54,9 +53,8 @@ class Footer extends Component {
                                 <h4> Other </h4>
                             
                                 <ul className='list-unstyled'>
-                                    <li><a href="/">Whales</a></li>
-                                    <li><a href="/">The Moon</a></li>
-                                    <li><a href="/">Egg</a></li>
+                                    <li><a href="https://www.rmit.edu.au/">RMIT</a></li>
+                                    <li><a href="https://youtu.be/fhmeYoJZeOw">Punny</a></li>
                                 </ul>
                             </div>
 
