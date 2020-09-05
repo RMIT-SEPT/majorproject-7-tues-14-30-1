@@ -24,6 +24,7 @@ public class helloWorld {
             app.put(Web.booking, BookingController.createBooking);
             app.get(Web.customer, CustomerController.getCustomer);
             app.put(Web.customer, CustomerController.createCustomer);
+            app.put(Web.employee, EmployeeController.createEmployee);
             app.get(Web.employee, EmployeeController.getEmployee);
             //Specific functions
             app.get(Web.customerLogin, CustomerController.checkLogin);

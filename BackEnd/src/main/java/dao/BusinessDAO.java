@@ -145,9 +145,9 @@ public class BusinessDAO {
             ResultSet result = statement.executeQuery(employees);
             while(result.next()) {
                 employeeList.add(new Employee (result.getInt("employee_id"), result.getInt("business_id"),
-                        result.getString("first_name"), result.getString("last_name"),
-                        result.getString("email"), result.getString("phone"),
-                        result.getString("password")));
+                        result.getInt("type"), result.getString("first_name"),
+                        result.getString("last_name"), result.getString("email"),
+                        result.getString("phone"), result.getString("password")));
             }
             // Close it
             DatabaseUtils.closeConnection(connection);

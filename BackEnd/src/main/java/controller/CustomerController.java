@@ -51,7 +51,11 @@ public class CustomerController {
             return;
         }
         errormsg = "";
-        //TODO add validation for password length, email @ existince and phone length, email existance
+        if (CustomerDAO.emailInUse(email)){
+            ctx.json(new Status("That email is allready in use"));
+            return;
+        }
+        //TODO add validation for password length, email @ existince and phone length
         Customer cust = CustomerDAO.createCustomer(first_name, last_name, phone, email, password);
         ctx.json(new Status());
     };

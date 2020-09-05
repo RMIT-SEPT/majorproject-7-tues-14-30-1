@@ -36,7 +36,11 @@ public class BusinessController {
         int id = Integer.parseInt(str_id);
         //Validating that the user requesting the update has permission to actually update the business
         Employee emp = EmployeeDAO.checkLogin(ctx);
-        if (emp.get<3 || credentials[1]!=id ){ //3 is the admin level
+        if (emp==null){
+            ctx.json(new Status("No account with those details"));
+            return;
+        }
+        if (emp.getType()<3 || emp.getBusiness_ID()!=id ){ //3 is the admin level
             ctx.json(new Status("Account does not have permission to update this business"));
             return;
         }
@@ -66,6 +70,16 @@ public class BusinessController {
             return;
         }
         int id = Integer.parseInt(str_id);
+        //Validating that the user requesting the update has permission to actually update the business
+        Employee emp = EmployeeDAO.checkLogin(ctx);
+        if (emp==null){
+            ctx.json(new Status("No account with those details"));
+            return;
+        }
+        if (emp.getType()<3 || emp.getBusiness_ID()!=id ){ //3 is the admin level
+            ctx.json(new Status("Account does not have permission to update this business"));
+            return;
+        }
         BusinessDAO.removeBusiness(id);
         ctx.json(new Status());
     };
