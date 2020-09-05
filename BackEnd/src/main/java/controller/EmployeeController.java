@@ -123,14 +123,6 @@ public class EmployeeController {
         }
         int business_id = Integer.parseInt(business_idAsString);
 
-
-        String employee_idAsString = ctx.formParam("employee_id");
-        if (employee_idAsString == null) {
-            ctx.json(new Status("No employee id provided"));
-            return;
-        }
-        int employee_id = Integer.parseInt(employee_idAsString);
-
         String typeAsString = ctx.formParam("type");
         if (typeAsString == null) {
             ctx.json(new Status("No type provided"));
@@ -146,7 +138,7 @@ public class EmployeeController {
 
         errormsg = "";
         //TODO add validation for password length, email @ existince and phone length, email existance
-        Employee employee = EmployeeDAO.createEmployee(employee_id, business_id, type, first_name, last_name, email, phone, password);
+        Employee employee = EmployeeDAO.createEmployee(business_id, type, first_name, last_name, email, phone, password);
         ctx.json(new Status());
     };
 
