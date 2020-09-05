@@ -1,6 +1,7 @@
 package controller;
 
 import controller.util.Status;
+import dao.CustomerDAO;
 import dao.EmployeeDAO;
 import io.javalin.http.Handler;
 import model.Employee;
@@ -41,5 +42,30 @@ public class EmployeeController {
             ctx.json("{'day':'" + nextFree[0] + "', 'hour':'" + nextFree[1] + "'}");
         }
         ctx.json(new Status("Worker has no free shifts"));
+    };
+
+    public static Handler checkLogin = ctx ->{
+        String errormsg = "You are missing: ";
+        String password = ctx.formParam("password");
+        if (password == null){
+            errormsg+="password ";
+        }
+        String email = ctx.formParam("email");
+        if (email==null){
+            errormsg+="email ";
+        }
+        if (errormsg!= "You are missing: "){
+            ctx.json(new Status(errormsg));
+            return;
+        }
+        int success = EmployeeDAO.checkLogin(email, password);
+        if (success>0){
+            ctx.json(new Status());
+            return;
+        }
+        else{
+            ctx.json(new Status("Incorrect username or password"));
+            return;
+        }
     };
 }
