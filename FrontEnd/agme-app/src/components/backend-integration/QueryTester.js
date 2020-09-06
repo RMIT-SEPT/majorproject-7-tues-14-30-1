@@ -14,7 +14,7 @@ class QueryTester extends Component {
     componentDidMount() {
         
 
-        const testQuery = "http://192.168.0.72:7000/api/employee/";
+        const testQuery = "http://localhost:7000/api/business?id=1";
 
     //     axios.get(`https://jsonplaceholder.typicode.com/users`)
     //   .then(res => {
@@ -24,6 +24,7 @@ class QueryTester extends Component {
 
         axios.get(testQuery)
         .then((response) => {
+            console.log(response.data)
             const business = response.data;
             this.setState({business})
         })
@@ -31,16 +32,12 @@ class QueryTester extends Component {
 
     render() {
 
-        console.log('This is a log')
-
-        // this.componentDidMount();
-
         return(
 
             // <h1> TEST </h1>
 
             <ul>
-                hi
+                { this.state.business.data }
             </ul>
             
     
