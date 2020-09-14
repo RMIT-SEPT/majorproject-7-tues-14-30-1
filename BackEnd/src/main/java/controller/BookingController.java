@@ -28,10 +28,20 @@ public class BookingController {
         Booking booking = BookingDAO.getBookingByBooking_id(id);
         int[] customer_id = CustomerDAO.checkLogin(ctx);
         if (customer_id[0] == 0){
-            ctx.json(new Status("Incorrect `email` or `password`"));
-            return;
+            Employee emp = EmployeeDAO.checkLogin(ctx);
+            if (emp==null){
+                System.out.println("Emp null & user nulll");
+                ctx.json(new Status("Incorrect `email` or `password`"));
+                return;
+            }
+            if (emp.getEmployee_ID()!=id && !(booking.getBusiness_id()==emp.getBusiness_ID() && emp.getType()==3)){ //3 is the admin level
+                System.out.println("user null and not employee or admin");
+                ctx.json(new Status("Account does not have permission to view this booking"));
+                return;
+            }
         }
         else if (booking.getCustomer_id() != customer_id[1]){
+            System.out.println("customer incorrect");
             ctx.json(new Status("You do not have permission to view this booking"));
             return;
         }
