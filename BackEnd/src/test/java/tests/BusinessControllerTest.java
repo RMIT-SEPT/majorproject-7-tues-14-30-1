@@ -1,16 +1,20 @@
 package tests;
 
-import org.apache.velocity.context.Context;
+import controller.BusinessController;
+import io.javalin.http.Context;
+import org.junit.jupiter.api.Test;
+import org.mockito.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class BusinessControllerTest {
     private Context ctx = mock(Context.class); // "mock-maker-inline" must be enabled
+
     @Test
     public void POST_to_create_users_gives_201_for_valid_username() {
         when(ctx.queryParam("username")).thenReturn("Roland");
-        UserController.create(ctx); // the handler we're testing
+        BusinessController.create(ctx); // the handler we're testing
         verify(ctx).status(201);
     }
 
