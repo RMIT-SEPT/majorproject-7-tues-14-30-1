@@ -14,6 +14,7 @@ import model.Employee;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class BookingController {
     public static Handler getBooking = ctx ->{
@@ -75,11 +76,17 @@ public class BookingController {
             ctx.json(new Status("No 'dateTime' provided"));
             return;
         }
-        Date dateTime = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(dateTimeAsString);
+        java.sql.Timestamp dateTime = java.sql.Timestamp.valueOf(dateTimeAsString);
+        //Truncate dateTime to get rid of minutes,seconds,miliseconds
+        Calendar bookingTime = Calendar.getInstance();
+        bookingTime.setTime(dateTime);
+        bookingTime.set(Calendar.MINUTE, 0);
+        bookingTime.set(Calendar.SECOND, 0);
+        bookingTime.set(Calendar.MILLISECOND, 0);
 
         //Check that the employee is free for the booking
         if(!emp.isFree(dateTime)){
-            ctx.json(new Status("Employee is not free"));
+            ctx.json(new Status("Employee is not available"));
             return;
         }
         BookingDAO.createBooking(new Booking(customer_id[1], employee_id, business_id, dateTime));

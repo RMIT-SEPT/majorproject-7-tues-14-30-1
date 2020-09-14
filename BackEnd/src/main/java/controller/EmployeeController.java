@@ -160,6 +160,7 @@ public class EmployeeController {
         nextFree=emp.getNextSession(day,hour);
         if (nextFree[0]!=25){
             ctx.json("{'day':'" + nextFree[0] + "', 'hour':'" + nextFree[1] + "'}");
+            return;
         }
         ctx.json(new Status("Worker has no free shifts"));
     };
@@ -188,4 +189,6 @@ public class EmployeeController {
             return;
         }
     };
+
+
 }

@@ -1,8 +1,12 @@
 package model;
 
+import dao.BookingDAO;
 import dao.SessionDAO;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Employee {
     private int employee_ID, business_ID, type;
@@ -133,9 +137,24 @@ public class Employee {
         return output;
     }
 
-    public boolean isFree(Date dateTime) {
-
-        return false;
+    public boolean isFree(Timestamp dateTime) {
+        //First we check if the employee is "rostered on"
+        Calendar shift = Calendar.getInstance();
+        shift.setTimeInMillis(dateTime.getTime());
+        int hour, day;
+        hour = (shift.get(Calendar.HOUR_OF_DAY));
+        day = shift.get(Calendar.DAY_OF_WEEK)-1;
+        if (!getSession().getWorking()[day][hour]) {
+            return false;
+        }
+        //Then we check if the employee has an existing booking
+        ArrayList<Booking> bookings = BookingDAO.getBookingsByEmployee_id(employee_ID);
+        for (int i=0; i<bookings.size();i++){
+            if (bookings.get(i).getDateTime().equals(dateTime)){
+                return false;
+            }
+        }
+        return true;
     }
 }
 
