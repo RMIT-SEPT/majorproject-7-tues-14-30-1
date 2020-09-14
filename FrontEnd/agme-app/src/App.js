@@ -3,6 +3,7 @@ import Footer from './components/layout/footer/Footer'
 import Header from './components/layout/header/Header';
 import Search from './components/search/Search';
 import Register from './components/register/Register';
+import Login from './components/login/Login';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
 import Dashboard from './components/Dashboard';
@@ -23,7 +24,8 @@ function App() {
       <Route exact path="/search" component={Search} />
       <Route exact path="/customerProfile" component={CustomerProfile} />
       <Route exact path="/register" component={Register} />
-      
+      <Route exact path="/login" component={Login} />
+
       </div>
 
       <Footer />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./Register.css";
+import "./Login.css";
 
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -21,21 +21,14 @@ const formValid = ({ formErrors, ...rest }) => {
   return valid;
 };
 
-class Register extends Component {
+class Login extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
-      firstName: null,
-      lastName: null,
-      phoneNumber: null,
       email: null,
       password: null,
       formErrors: {
-        firstName: "",
-        lastName: "",
-        phoneNumber: "",
         email: "",
         password: ""
       }
@@ -48,9 +41,6 @@ class Register extends Component {
     if (formValid(this.state)) {
       console.log(`
         --SUBMITTING--
-        First Name: ${this.state.firstName}
-        Last Name: ${this.state.lastName}
-        Phone number: ${this.state.phoneNumber}
         Email: ${this.state.email}
         Password: ${this.state.password}
       `);
@@ -65,18 +55,6 @@ class Register extends Component {
     let formErrors = { ...this.state.formErrors };
 
     switch (name) {
-      case "firstName":
-        formErrors.firstName =
-          value.length < 3 ? "Minimum 3 characaters required" : "";
-        break;
-      case "lastName":
-        formErrors.lastName =
-          value.length < 3 ? "Minimum 3 characaters required" : "";
-        break;
-      case "phoneNumber":
-        formErrors.phoneNumber =
-          value.length < 10 ? "Minimum 10 characaters required" : "";
-        break;
       case "email":
         formErrors.email = emailRegex.test(value)
           ? ""
@@ -99,50 +77,8 @@ class Register extends Component {
     return (
       <div className="wrapper">
         <div className="form-wrapper">
-          <h1>Create Account</h1>
+          <h1>Login</h1>
           <form onSubmit={this.handleSubmit} noValidate>
-            <div className="firstName">
-              <label htmlFor="firstName">First Name</label>
-              <input
-                className={formErrors.firstName.length > 0 ? "error" : null}
-                placeholder="First Name"
-                type="text"
-                name="firstName"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {formErrors.firstName.length > 0 && (
-                <span className="errorMessage">{formErrors.firstName}</span>
-              )}
-            </div>
-            <div className="lastName">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                className={formErrors.lastName.length > 0 ? "error" : null}
-                placeholder="Last Name"
-                type="text"
-                name="lastName"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {formErrors.lastName.length > 0 && (
-                <span className="errorMessage">{formErrors.lastName}</span>
-              )}
-            </div>
-            <div className="phoneNumber">
-              <label htmlFor="phoneNumber">Phone Number</label>
-              <input
-                className={formErrors.phoneNumber.length > 10 ? "error" : null}
-                placeholder="Phone Number"
-                type="text"
-                name="phoneNumber"
-                noValidate
-                onChange={this.handleChange}
-              />
-              {formErrors.phoneNumber.length > 0 && (
-                <span className="errorMessage">{formErrors.phoneNumber}</span>
-              )}
-            </div>
             <div className="email">
               <label htmlFor="email">Email</label>
               <input
@@ -171,9 +107,9 @@ class Register extends Component {
                 <span className="errorMessage">{formErrors.password}</span>
               )}
             </div>
-            <div className="createAccount">
-              <button type="submit">Create Account</button>
-              <small>Already Have an Account?</small>
+            <div className="login">
+              <button type="submit">Login</button>
+              <small>Sign Up?</small>
             </div>
           </form>
         </div>
@@ -181,4 +117,4 @@ class Register extends Component {
     );
   }
   
-} export default Register
+} export default Login
