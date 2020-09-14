@@ -24,6 +24,10 @@ class Header extends Component {
             </div>
             
             <div className="box">
+                <Button href="/register" variant="info">Register</Button>
+            </div>
+
+            <div className="box">
                 <Button href="/login" variant="info">Log In</Button>
             </div>
 
