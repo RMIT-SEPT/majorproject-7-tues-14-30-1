@@ -30,6 +30,7 @@ public class EmployeeController {
     };
 
     public static Handler updateEmployee = ctx -> {
+
         String errormsg = "You are missing: ";
         String password = ctx.formParam("password");
         if (password == null){
@@ -78,6 +79,17 @@ public class EmployeeController {
         }
         int type = Integer.parseInt(typeAsString);
 
+        //Validating that the user requesting the update has permission to actually update the employee
+        Employee emp = EmployeeDAO.checkLogin(ctx);
+        if (emp==null){
+            ctx.json(new Status("No account with those details"));
+            return;
+        }
+        if (emp.getType()<3 || emp.getBusiness_ID() != business_id){ //3 is the admin level
+            ctx.json(new Status("Account does not have permission to update this employee information"));
+            return;
+        }
+
 
         if (errormsg!= "You are missing: "){
             ctx.json(new Status(errormsg));
@@ -86,7 +98,7 @@ public class EmployeeController {
 
         errormsg = "";
         //TODO add validation for password length, email @ existince and phone length, email existance
-        Employee employee = EmployeeDAO.updateEmployee(employee_id, business_id, type, first_name, last_name, email, phone, password);
+        EmployeeDAO.updateEmployee(employee_id, business_id, type, first_name, last_name, email, phone, password);
         ctx.json(new Status());
     };
 
@@ -130,6 +142,17 @@ public class EmployeeController {
             return;
         }
         int type = Integer.parseInt(typeAsString);
+
+        //Validating that the user requesting the update has permission to actually update the employee
+        Employee emp = EmployeeDAO.checkLogin(ctx);
+        if (emp==null){
+            ctx.json(new Status("No account with those details"));
+            return;
+        }
+        if (emp.getType()<3 || emp.getBusiness_ID() != business_id){ //3 is the admin level
+            ctx.json(new Status("Account does not have permission to create an employee"));
+            return;
+        }
 
 
         if (errormsg!= "You are missing: "){
