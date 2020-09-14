@@ -2,21 +2,26 @@ package tests;
 
 import controller.BusinessController;
 import io.javalin.http.Context;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.Mockito;
 
 import static controller.BusinessController.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
 
 class BusinessControllerTest {
-    private Context ctx = mock(Context.class); // "mock-maker-inline" must be enabled
-
+    Context ctx;
+    @BeforeAll
+    public static void setupBusinessController(){
+        Context ctx = Mockito.mock(Context.class);
+        Mockito.when(ctx.formParam(anyString())).thenReturn("1");
+    }
     @Test
-    public void POST_to_create_users_gives_201_for_valid_username() {
-        when(ctx.queryParam("username")).thenReturn("Roland");
-        BusinessController.updateBusiness(ctx); // the handler we're testing
-        verify(ctx).status(201);
+    public void update_business_invalid_authentication() throws Exception {
+        System.out.println(ctx.formParamMap());
+        System.out.println(ctx);
+        BusinessController.updateBusiness.handle(ctx); // the handler we're testing
+        //verify(ctx).json("hello");
     }
 
 }
