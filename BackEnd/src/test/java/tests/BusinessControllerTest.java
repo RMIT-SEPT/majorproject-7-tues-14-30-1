@@ -5,6 +5,7 @@ import io.javalin.http.Context;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import static controller.BusinessController.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,7 +15,7 @@ class BusinessControllerTest {
     @Test
     public void POST_to_create_users_gives_201_for_valid_username() {
         when(ctx.queryParam("username")).thenReturn("Roland");
-        BusinessController.create(ctx); // the handler we're testing
+        BusinessController.updateBusiness(ctx); // the handler we're testing
         verify(ctx).status(201);
     }
 
