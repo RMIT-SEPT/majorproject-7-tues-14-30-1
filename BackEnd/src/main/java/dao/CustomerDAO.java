@@ -95,23 +95,23 @@ public class CustomerDAO {
         return false;
     }
 
-    public static int checkLogin(Context ctx) {
+    public static int[] checkLogin(Context ctx) {
         String email, password;
         email = ctx.formParam("email");
         password = ctx.formParam("password");
         if (email==null){
-            return 0;
+            return new int[]{0,0};
         }
         if (password==null){
-            return 0;
+            return new int[]{0,0};
         }
         if (!checkLogin(email, password)){
-            return 0;
+            return new int[]{0,0};
         }
-        return getEmployee_idByEmail(email);
+        return new int[]{1,getCustomer_idByEmail(email)};
     }
 
-    public static int getEmployee_idByEmail(String email){
+    public static int getCustomer_idByEmail(String email){
         try {
             // Here you prepare your sql statement
             String sql = "SELECT `email`, `customer_id` FROM agme.customer WHERE `email` = '" + email + "';";
@@ -134,5 +134,30 @@ public class CustomerDAO {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static boolean emailInUse(String email) {
+        try {
+            // Here you prepare your sql statement
+            String sql = "SELECT `email` FROM agme.customer WHERE `email` = '" + email + "';";
+
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            // If there is a result, that means that the email matches.
+            if(result.next()) {
+                // 2) Check if the password matches
+                return true;
+            }
+
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

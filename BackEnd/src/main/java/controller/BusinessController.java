@@ -3,6 +3,7 @@ package controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.util.Status;
 import dao.BusinessDAO;
+import dao.EmployeeDAO;
 import io.javalin.http.Handler;
 import model.Business;
 import model.Employee;
@@ -19,7 +20,7 @@ public class BusinessController {
         int id = Integer.parseInt(str_id);
         Business bus = BusinessDAO.getBusinessByBusiness_id(id);
         if (bus != null) {
-            ctx.json(bus);
+            ctx.json(new Status(bus));
         } else {
             ctx.json(new Status("No business with that ID exists"));
         }
@@ -28,12 +29,22 @@ public class BusinessController {
     public static Handler updateBusiness = ctx -> {
         //First get the id of the business that needs to change
         String str_id = ctx.formParam("id");
-        //TODO Authenticate the request (only the admin of the business should be able to make changes to the business
         if (str_id == null) {
             ctx.json(new Status("No `id` provided"));
             return;
         }
         int id = Integer.parseInt(str_id);
+        //Validating that the user requesting the update has permission to actually update the business
+        Employee emp = EmployeeDAO.checkLogin(ctx);
+        if (emp==null){
+            ctx.json(new Status("No account with those details"));
+            return;
+        }
+        if (emp.getType()<3 || emp.getBusiness_ID()!=id ){ //3 is the admin level
+            ctx.json(new Status("Account does not have permission to update this business"));
+            return;
+        }
+
         Business business = BusinessDAO.getBusinessByBusiness_id(id);
         String email = ctx.formParam("email");
         if (email != null) {
@@ -59,6 +70,16 @@ public class BusinessController {
             return;
         }
         int id = Integer.parseInt(str_id);
+        //Validating that the user requesting the update has permission to actually update the business
+        Employee emp = EmployeeDAO.checkLogin(ctx);
+        if (emp==null){
+            ctx.json(new Status("No account with those details"));
+            return;
+        }
+        if (emp.getType()<3 || emp.getBusiness_ID()!=id ){ //3 is the admin level
+            ctx.json(new Status("Account does not have permission to update this business"));
+            return;
+        }
         BusinessDAO.removeBusiness(id);
         ctx.json(new Status());
     };
@@ -97,7 +118,7 @@ public class BusinessController {
     };
 
     public static Handler getEmployees = ctx -> {
-        String business_id = ctx.queryParam("q");
+        String business_id = ctx.queryParam("business_id");
         if (business_id == null) {
             ctx.json(new Status("Please enter a business ID"));
             return;

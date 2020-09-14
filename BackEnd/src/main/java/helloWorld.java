@@ -19,15 +19,18 @@ public class helloWorld {
             //Basic resources
             app.get(Web.business, BusinessController.getBusiness);
             app.post(Web.business, BusinessController.updateBusiness);
+            app.post(Web.employee, EmployeeController.updateEmployee);
             app.delete(Web.business, BusinessController.removeBusiness);
             app.put(Web.business, BusinessController.createBusiness);
             app.get(Web.booking, BookingController.getBooking);
             app.put(Web.booking, BookingController.createBooking);
             app.get(Web.customer, CustomerController.getCustomer);
             app.put(Web.customer, CustomerController.createCustomer);
+            app.put(Web.employee, EmployeeController.createEmployee);
             app.get(Web.employee, EmployeeController.getEmployee);
             //Specific functions
             app.get(Web.customerLogin, CustomerController.checkLogin);
+            app.get(Web.employeeLogin, EmployeeController.checkLogin);
             app.get(Web.searchBusiness, BusinessController.searchBusiness);
             app.get(Web.getEmployees, BusinessController.getEmployees);
             app.get(Web.employeeNextFreeSession, EmployeeController.nextFreeSession);

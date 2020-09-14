@@ -3,14 +3,26 @@ package model;
 import dao.SessionDAO;
 
 public class Employee {
-    private int employee_ID, business_ID;
+    private int employee_ID, business_ID, type;
     private String first_name, last_name, email, phone_number, password;
     private Session session;
 
-    public Employee(int employee_ID, int business_ID, String first_name, String last_name,
+    public Employee(int employee_ID, int business_ID, int type, String first_name, String last_name,
                     String email, String phone_number, String password) {
         this.employee_ID = employee_ID;
         this.business_ID = business_ID;
+        this.type = type;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.password = password;
+    }
+
+    public Employee(int business_ID, int type, String first_name, String last_name,
+                    String email, String phone_number, String password) {
+        this.business_ID = business_ID;
+        this.type = type;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -42,6 +54,8 @@ public class Employee {
         return phone_number;
     }
 
+    public int getType(){return type;}
+
     public void setEmployee_ID(int employee_ID) {
         this.employee_ID = employee_ID;
     }
@@ -69,6 +83,8 @@ public class Employee {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 
     public void setCost(double v) {
     }

@@ -51,7 +51,8 @@ public class BusinessDAO {
         int business_id;
         business_id = business.getBusiness_id();
         String update_sql;
-        update_sql = "UPDATE `agme`.`business` SET `name` = '" + business.getName() + "', `phone_number` = '" + business.getPhone_number() + "', `email` = '" + business.getEmail() + "'  WHERE `business_id` = '" + business_id + "';";
+        update_sql = "UPDATE `agme`.`business` SET `name` = '" + business.getName() + "', `phone_number` = '" + business.getPhone_number() + "', " +
+                "`email` = '" + business.getEmail() + "'  WHERE `business_id` = '" + business_id + "';";
 
         try {
             // Execute the query
@@ -145,9 +146,9 @@ public class BusinessDAO {
             ResultSet result = statement.executeQuery(employees);
             while(result.next()) {
                 employeeList.add(new Employee (result.getInt("employee_id"), result.getInt("business_id"),
-                        result.getString("first_name"), result.getString("last_name"),
-                        result.getString("email"), result.getString("phone"),
-                        result.getString("password")));
+                        result.getInt("type"), result.getString("first_name"),
+                        result.getString("last_name"), result.getString("email"),
+                        result.getString("phone"), result.getString("password")));
             }
             // Close it
             DatabaseUtils.closeConnection(connection);
