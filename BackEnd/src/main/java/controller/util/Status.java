@@ -12,7 +12,7 @@ public class Status {
         this.status = status;
         this.message = message;
     }
-    public Status( String message){
+    public  Status( String message){
         this.status = "failed";
         this.message = message;
     }
