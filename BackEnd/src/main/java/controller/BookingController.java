@@ -4,6 +4,7 @@ import controller.util.Status;
 import dao.BookingDAO;
 import dao.BusinessDAO;
 import dao.CustomerDAO;
+import dao.EmployeeDAO;
 import io.javalin.http.Handler;
 import model.Booking;
 import model.Business;
@@ -67,6 +68,7 @@ public class BookingController {
             return;
         }
         int employee_id = Integer.parseInt(employee_idAsString);
+        Employee emp = EmployeeDAO.getEmployeeByEmployee_ID(employee_id);
 
         String dateTimeAsString = ctx.formParam("dateTime");
         if (dateTimeAsString == null) {
@@ -75,6 +77,11 @@ public class BookingController {
         }
         Date dateTime = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(dateTimeAsString);
 
+        //Check that the employee is free for the booking
+        if(!emp.isFree(dateTime)){
+            ctx.json(new Status("Employee is not free"));
+            return;
+        }
         BookingDAO.createBooking(new Booking(customer_id[1], employee_id, business_id, dateTime));
         ctx.json(new Status());
     };

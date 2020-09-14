@@ -2,6 +2,8 @@ package model;
 
 import dao.SessionDAO;
 
+import java.sql.Date;
+
 public class Employee {
     private int employee_ID, business_ID, type;
     private String first_name, last_name, email, phone_number, password;
@@ -129,6 +131,11 @@ public class Employee {
         }
         output[0]=25;
         return output;
+    }
+
+    public boolean isFree(Date dateTime) {
+
+        return false;
     }
 }
 
