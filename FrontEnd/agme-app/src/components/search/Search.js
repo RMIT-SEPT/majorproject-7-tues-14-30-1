@@ -22,10 +22,9 @@ class Search extends Component {
     }
 
     // Fetch the search results and update the state with the result.
-    fetchSearchResults = (updatedPageNo = '', query ) => {
+    fetchSearchResults = (query ) => {
 
-        const pageNumber = updatedPageNo ? `&page=${updatedPageNo}` : '';        
-        const searchUrl = `https://pixabay.com/api/?key=12413278-79b713c7e196c7a3defb5330e&q=${query}${pageNumber}`;
+        const searchUrl = `http://localhost:7000/api/business/searchBusiness?q=${query}`;
         
         if (this.cancel) {
             // Cancel the previous request before making a new request
@@ -39,22 +38,27 @@ class Search extends Component {
             .get(searchUrl, {
                 cancelToken: this.cancel.token,
             })
+    
             .then((res) => {
-                const resultNotFoundMsg = !res.data.hits.length
-                    ? 'There are no more search results. Please try a new search.'
-                    : '';
+
+                console.log(res.data);
+
+                const resultNotFoundMsg = !res.data.payload.length 
+                    ? 'No results found. Please try a different query.'
+                    : ''
+
                 this.setState({
-                    results: res.data.hits,
-                    totalResults: res.data.total,
-                    message: resultNotFoundMsg,
+                    results: res.data.payload,
                     loading: false,
-                });
+                    message: resultNotFoundMsg,
+                })
+
             })
             .catch((error) => {
                 if (axios.isCancel(error) || error) {
                     this.setState({
                         loading: false,
-                        message: 'Failed to fetch results.Please check network',
+                        message: 'Failed to fetch results. Please check network',
                     });
                 }
             });
@@ -73,7 +77,7 @@ class Search extends Component {
             
             { /* Search Input */ }
 
-            <div class="md-form active-pink active-pink-2 mb-3 mt-0">
+            <div className="md-form active-pink active-pink-2 mb-3 mt-0">
             <input
                     type="text"
                     value={query}
@@ -102,53 +106,47 @@ class Search extends Component {
         const query = event.target.value;
         
         if ( ! query ) {
-            this.setState({ query, results: {}, totalResults: 0, totalPages: 0, currentPageNo: 0, message: '' } );
+            this.setState({ query, results: {}, message: '' } );
         } else {
             this.setState({ query, loading: true, message: '' }, () => {
-                this.fetchSearchResults(1, query);
+                this.fetchSearchResults(query);
             });
         }
     };
 
     renderSearchResults = () => {
+        
         const {results} = this.state;
-        if (Object.keys(results).length && results.length) {
-            return (
+        console.log(results);       
 
+        
+        if (Object.keys(results).length && results.length) {
+
+            
+            const rows = results.map(row => 
+                <tr>
+                    <td>{row.name}</td>
+                    <td>{row.phone_number}</td>
+                    <td>{row.email}</td>
+                    <td>{row.business_id}</td>
+                    <td>{row.cheapest_cost}</td>
+                    
+                </tr>)
+
+            return (
+                
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                    <th>#</th>
-                    <th>Business Name</th>
-                    <th>Phone</th>
-                    <th>Employees</th>
-                    <th>Next Available Appointment</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>ID</th>
+                    <th>Cheapest Cost</th>
                     </tr>
                 </thead>
+                <tbody>{rows}</tbody>
 
-                <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>Best Haircuts Studio</td>
-                    <td>0476 342 563</td>
-                    <td>4</td>
-                    <td>3:00pm Tuesday</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Curl Up & Dye</td>
-                    <td>0433 555 096</td>
-                    <td>2</td>
-                    <td>9:00am, Wednesday</td>
-                    </tr>
-                    <tr>
-                    <td>3</td>
-                    <td>Shaving The Day</td>
-                    <td>0457 398 287</td>
-                    <td>9</td>
-                    <td>9:00am Monday</td>
-                    </tr>
-                </tbody>
             </Table>
 
             );
