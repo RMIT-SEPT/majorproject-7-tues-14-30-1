@@ -18,19 +18,27 @@ class Header extends Component {
                 <Button href="/search" variant="info">Search</Button>
             </div>
 
-            
             <div className="box">
             <Button href="/customerProfile" variant="info">Profile</Button>
             </div>
             
-            <div className="box">
-                <Button href="/register" variant="info">Register</Button>
-            </div>
 
-            <div className="box">
-                <Button href="/login" variant="info">Log In</Button>
-            </div>
-
+                {localStorage.getItem("email") == null ?
+                <div style = {{display:"inherit"}}>    
+                <div className="box">
+                        <Button href="/register" variant="info">Register</Button>
+                    </div>
+            
+                    <div className="box">
+                        <Button href="/login" variant="info">Log In</Button>
+                    </div>
+                </div>
+                    :
+                    <div className="box">
+                        <Button href="/logout" variant="info">Log Out</Button>
+                    </div>
+                }
+            
             <div className="box">
                 <Button href="/queryTester" variant="info">Query Tester</Button>
             </div>
