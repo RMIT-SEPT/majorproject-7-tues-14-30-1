@@ -2,6 +2,33 @@ import React, { Component } from 'react'
 import './Footer.css'
 import styled from 'styled-components'
 
+const FooterContainer = styled.footer`
+
+    text-align: center;
+    justify-content: center;
+    
+
+    .footer-middle {
+        background: var(--mainDark);
+        padding-top: 3rem;
+        color: var(--mainWhite);
+    }
+
+    .footer-bottom {
+        padding-top: 3rem;
+        padding-bottom: 2rem;
+    }
+
+    ul li a {
+        color: var(--mainGrey);
+    }
+
+    ul li a:hover {
+        color: var(--mainLightGrey);
+    }
+
+`;
+
 class Footer extends Component {
     render() {
         return (
@@ -75,33 +102,4 @@ class Footer extends Component {
             </FooterContainer>
         )
     }
-}
-
-export default Footer;
-
-const FooterContainer = styled.footer`
-
-    text-align: center;
-    justify-content: center;
-    
-
-    .footer-middle {
-        background: var(--mainDark);
-        padding-top: 3rem;
-        color: var(--mainWhite);
-    }
-
-    .footer-bottom {
-        padding-top: 3rem;
-        padding-bottom: 2rem;
-    }
-
-    ul li a {
-        color: var(--mainGrey);
-    }
-
-    ul li a:hover {
-        color: var(--mainLightGrey);
-    }
-
-`;
+} export default Footer;
