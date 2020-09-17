@@ -30,7 +30,7 @@ public class helloWorld {
             app.get(Web.employee, EmployeeController.getEmployee);
             //Specific functions
             app.post(Web.customerLogin, CustomerController.checkLogin);
-            app.get(Web.employeeLogin, EmployeeController.checkLogin);
+            app.post(Web.employeeLogin, EmployeeController.checkLogin);
             app.get(Web.searchBusiness, BusinessController.searchBusiness);
             app.get(Web.getEmployees, BusinessController.getEmployees);
             app.get(Web.employeeNextFreeSession, EmployeeController.nextFreeSession);

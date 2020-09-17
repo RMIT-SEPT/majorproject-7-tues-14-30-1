@@ -180,7 +180,7 @@ public class EmployeeController {
         }
         int success = EmployeeDAO.checkLogin(email, password);
         if (success>0){
-            ctx.json(new Status("success",Integer.toString(success)));
+            ctx.json(new Status(success));
             return;
         }
         else{
