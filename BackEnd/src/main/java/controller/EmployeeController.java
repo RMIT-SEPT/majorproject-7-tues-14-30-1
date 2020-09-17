@@ -178,9 +178,9 @@ public class EmployeeController {
             ctx.json(new Status(errormsg));
             return;
         }
-        int success = EmployeeDAO.checkLogin(email, password);
-        if (success>0){
-            ctx.json(new Status(success));
+        Employee emp = EmployeeDAO.checkLogin(email, password);
+        if (emp.getType()>0){
+            ctx.json(new Status(emp));
             return;
         }
         else{
