@@ -22,12 +22,12 @@ public class helloWorld {
             app.post(Web.employee, EmployeeController.updateEmployee);
             app.delete(Web.business, BusinessController.removeBusiness);
             app.put(Web.business, BusinessController.createBusiness);
-            app.get(Web.booking, BookingController.getBooking);
+            app.post(Web.getBooking, BookingController.getBooking);
             app.put(Web.booking, BookingController.createBooking);
             app.get(Web.customer, CustomerController.getCustomer);
             app.put(Web.customer, CustomerController.createCustomer);
             app.put(Web.employee, EmployeeController.createEmployee);
-            app.get(Web.employee, EmployeeController.getEmployee);
+            app.post(Web.getEmployee, EmployeeController.getEmployee);
             //Specific functions
             app.post(Web.customerLogin, CustomerController.checkLogin);
             app.post(Web.employeeLogin, EmployeeController.checkLogin);

@@ -21,7 +21,6 @@ public class BookingController {
             ctx.json(new Status("No ID Provided"));
             return;
         }
-        System.out.println(str_id);
         int id = Integer.parseInt(str_id);
         Booking booking = BookingDAO.getBookingByBooking_id(id);
         int[] customer_id = CustomerDAO.checkLogin(ctx);
