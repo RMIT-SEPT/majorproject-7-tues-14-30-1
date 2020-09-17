@@ -9,21 +9,10 @@ class Header extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {}
-        switch(localStorage.getItem("type")){
-            case "1": 
-                this.state.type = "Customer" 
-                break
-            case "2": 
-                this.state.type = "Employee"
-                break
-            case "3": 
-                this.state.type = "Admin"
-                break;
-            default: 
-                this.state.type = null
-                break;
-      }
+        this.state = {
+            type: localStorage.getItem("type")
+        }
+        console.log(this.state.type)
     }
 
     render() {
