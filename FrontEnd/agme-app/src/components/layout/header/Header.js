@@ -11,7 +11,7 @@ class Header extends Component {
         super(props);
         this.state = {}
         switch(localStorage.getItem("type")){
-            case 1: 
+            case "1": 
                 this.state.type = "Customer" 
                 break
             case "2": 
