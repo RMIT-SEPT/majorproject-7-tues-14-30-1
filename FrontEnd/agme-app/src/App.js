@@ -5,6 +5,7 @@ import Search from './components/search/Search';
 import Register from './components/register/Register';
 import Login from './components/login/Login';
 import Logout from './components/logout/Logout';
+import EmployeeSearch from './components/employee search/EmployeeSearch';
 import EmployeeLogin from './components/employee login/EmployeeLogin';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
@@ -32,6 +33,7 @@ function App() {
       <Route exact path="/login" component={Login} />
       <Route exact path="/logout" component={Logout} />
       <Route exact path="/employeeLogin" component={EmployeeLogin} />
+      <Route exact path="/employeeSearch" component={EmployeeSearch} />
       </div>
 
       <Footer />
