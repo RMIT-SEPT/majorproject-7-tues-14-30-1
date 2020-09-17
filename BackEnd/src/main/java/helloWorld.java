@@ -29,7 +29,7 @@ public class helloWorld {
             app.put(Web.employee, EmployeeController.createEmployee);
             app.get(Web.employee, EmployeeController.getEmployee);
             //Specific functions
-            app.get(Web.customerLogin, CustomerController.checkLogin);
+            app.post(Web.customerLogin, CustomerController.checkLogin);
             app.get(Web.employeeLogin, EmployeeController.checkLogin);
             app.get(Web.searchBusiness, BusinessController.searchBusiness);
             app.get(Web.getEmployees, BusinessController.getEmployees);

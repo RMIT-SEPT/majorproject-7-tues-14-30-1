@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "./Login.css";
+import axios from 'axios';
 
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -21,6 +22,8 @@ const formValid = ({ formErrors, ...rest }) => {
   return valid;
 };
 
+
+
 class Login extends Component {
 
   constructor(props) {
@@ -38,11 +41,39 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
+
     if (formValid(this.state)) {
+
+      const formData = new FormData()
+      const {email, password} = this.state;
+      formData.append("password", password)
+      formData.append("email", email)
+    
+      axios
+        .post(
+          "http://localhost:7000/api/customer/login",
+          formData
+        )
+        .then((res) =>{
+          console.log(res.data);
+          if ((res.data.status) === "success") {
+              localStorage.setItem("email", email)
+              localStorage.setItem("password", password)
+              window.location = "/dashboard";
+          }
+          else{
+            let formErrors = { ...this.state.formErrors }
+            formErrors.password = "Wrong email or password";
+            console.log("Wrong email or password")
+            this.setState({formErrors});
+          }
+
+        });
+
       console.log(`
         --SUBMITTING--
-        Email: ${this.state.email}
-        Password: ${this.state.password}
+        Email: ${email}
+        Password: ${password}
       `);
     } else {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");

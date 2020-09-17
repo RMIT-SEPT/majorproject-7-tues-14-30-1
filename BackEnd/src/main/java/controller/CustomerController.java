@@ -25,7 +25,6 @@ public class CustomerController {
     };
 
     public static Handler createCustomer = ctx ->{
-        System.out.println(ctx.formParamMap());
         String errormsg = "You are missing: ";
         String password = ctx.formParam("password");
         if (password == null){

@@ -60,7 +60,7 @@ class Register extends Component {
       formData.append("password", password)
       formData.append("phone", phoneNumber)
       formData.append("email", email)
-
+      
       axios
         .put(
           "http://localhost:7000/api/customer",
@@ -72,6 +72,7 @@ class Register extends Component {
               console.log("registered")
               localStorage.setItem("email", email)
               localStorage.setItem("password", password)
+              window.location = "/dashboard";
           }
           else{
             let formErrors = { ...this.state.formErrors }
