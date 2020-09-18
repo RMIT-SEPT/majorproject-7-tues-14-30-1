@@ -49,7 +49,7 @@ jobs:
 
 
   build-back-end:
-    working_directory: ~/majorproject-7-tues-14-30-1/backEnd
+    working_directory: ~/majorproject-7-tues-14-30-1/BackEnd
     docker:
       - image: circleci/openjdk:stretch
     steps:
