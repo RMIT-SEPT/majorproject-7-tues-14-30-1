@@ -4,6 +4,7 @@ import controller.util.Status;
 import dao.BookingDAO;
 import dao.BusinessDAO;
 import dao.CustomerDAO;
+import dao.EmployeeDAO;
 import io.javalin.http.Handler;
 import model.Booking;
 import model.Business;
@@ -13,6 +14,7 @@ import model.Employee;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class BookingController {
     public static Handler getBooking = ctx ->{
@@ -25,10 +27,20 @@ public class BookingController {
         Booking booking = BookingDAO.getBookingByBooking_id(id);
         int[] customer_id = CustomerDAO.checkLogin(ctx);
         if (customer_id[0] == 0){
-            ctx.json(new Status("Incorrect `email` or `password`"));
-            return;
+            Employee emp = EmployeeDAO.checkLogin(ctx);
+            if (emp==null){
+                System.out.println("Emp null & user nulll");
+                ctx.json(new Status("Incorrect `email` or `password`"));
+                return;
+            }
+            if (emp.getEmployee_ID()!=id && !(booking.getBusiness_id()==emp.getBusiness_ID() && emp.getType()==3)){ //3 is the admin level
+                System.out.println("user null and not employee or admin");
+                ctx.json(new Status("Account does not have permission to view this booking"));
+                return;
+            }
         }
         else if (booking.getCustomer_id() != customer_id[1]){
+            System.out.println("customer incorrect");
             ctx.json(new Status("You do not have permission to view this booking"));
             return;
         }
@@ -66,14 +78,26 @@ public class BookingController {
             return;
         }
         int employee_id = Integer.parseInt(employee_idAsString);
+        Employee emp = EmployeeDAO.getEmployeeByEmployee_ID(employee_id);
 
         String dateTimeAsString = ctx.formParam("dateTime");
         if (dateTimeAsString == null) {
             ctx.json(new Status("No 'dateTime' provided"));
             return;
         }
-        Date dateTime = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(dateTimeAsString);
+        java.sql.Timestamp dateTime = java.sql.Timestamp.valueOf(dateTimeAsString);
+        //Truncate dateTime to get rid of minutes,seconds,miliseconds
+        Calendar bookingTime = Calendar.getInstance();
+        bookingTime.setTime(dateTime);
+        bookingTime.set(Calendar.MINUTE, 0);
+        bookingTime.set(Calendar.SECOND, 0);
+        bookingTime.set(Calendar.MILLISECOND, 0);
 
+        //Check that the employee is free for the booking
+        if(!emp.isFree(dateTime)){
+            ctx.json(new Status("Employee is not available"));
+            return;
+        }
         BookingDAO.createBooking(new Booking(customer_id[1], employee_id, business_id, dateTime));
         ctx.json(new Status());
     };
