@@ -1,11 +1,11 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Booking {
     private int booking_id, customer_id, employee_id, business_id;
-    private Date dateTime;
-    public Booking(int booking_id, int customer_id, int employee_id, int business_id, Date dateTime){
+    private Timestamp dateTime;
+    public Booking(int booking_id, int customer_id, int employee_id, int business_id, Timestamp dateTime){
         this.booking_id = booking_id;
         this.customer_id = customer_id;
         this.employee_id = employee_id;
@@ -13,7 +13,7 @@ public class Booking {
         this.dateTime = dateTime;
     }
 
-    public Booking(int customer_id, int employee_id, int business_id, Date dateTime) {
+    public Booking(int customer_id, int employee_id, int business_id, Timestamp dateTime) {
         this.customer_id = customer_id;
         this.employee_id = employee_id;
         this.business_id = business_id;
@@ -32,7 +32,7 @@ public class Booking {
     public int getBusiness_id(){
         return this.business_id;
     }
-    public Date getDateTime(){
+    public Timestamp getDateTime(){
         return this.dateTime;
     }
 }

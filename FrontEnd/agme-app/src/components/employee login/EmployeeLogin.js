@@ -55,25 +55,9 @@ class EmployeeLogin extends Component {
           formData
         )
         .then((res) =>{
-          console.log(res.data);
+          console.log(res.data.payload);
           if ((res.data.status) === "success") {
-            console.log(res.data.payload)
-            switch(res.data.payload.type){
-              case 1: 
-                localStorage.setItem("type", "Customer")
-                break
-              case 2: 
-              localStorage.setItem("type", "Employee")
-                break
-              case 3: 
-              localStorage.setItem("type", "Admin")
-                break;
-              default:
-                break;
-            }
-              localStorage.setItem("email", email)
-              localStorage.setItem("password", password)
-              localStorage.setItem("business_ID", res.data.payload.business_ID)
+              localStorage.setItem("account", JSON.stringify(res.data.payload))
               window.location = "/dashboard";
           }
           else{

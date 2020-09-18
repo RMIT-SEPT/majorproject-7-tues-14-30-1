@@ -74,9 +74,9 @@ public class CustomerController {
             ctx.json(new Status(errormsg));
             return;
         }
-        boolean success = CustomerDAO.checkLogin(email, password);
-        if (success){
-            ctx.json(new Status());
+        Customer cus = CustomerDAO.checkLogin(email, password);
+        if (cus!=null){
+            ctx.json(new Status(cus));
         }
         else{
             ctx.json(new Status("Incorrect username or password"));
