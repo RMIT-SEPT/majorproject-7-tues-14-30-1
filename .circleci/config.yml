@@ -5,17 +5,17 @@ orbs:
 
 jobs:
   build:
-    working_directory: ~/CCI-FrontEnd
+    working_directory: ~/majorproject-7-tues-14-30-1/FrontEnd/agme-app
     # Reuse Docker container specification given by the node Orb
     executor: node/default
     steps:
-      - checkout
+      - checkout:
+          path: ~/majorproject-7-tues-14-30-1
+      
       - run:
           command: |
-            cd FrontEnd/agme-app
             ls
-            npm install
-            npm test
+            
 
 workflows:
   version: 2
