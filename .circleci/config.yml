@@ -5,11 +5,12 @@ orbs:
 
 jobs:
   build:
-    working_directory: ~/FrontEnd/agme-app
+    working_directory: ~/CCI-FrontEnd
     # Reuse Docker container specification given by the node Orb
     executor: node/default
     steps:
       - checkout
+      - run: cd FrontEnd/agme-app
       # Install the latest npm - the node Orb takes care of it
       - node/install-npm
       # Install dependencies - the node Orb take care of installation and dependency caching
