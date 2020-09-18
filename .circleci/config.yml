@@ -5,7 +5,6 @@ orbs:
 
 jobs:
   build:
-    app-dir: ~/FrontEnd/agme-app
     working_directory: ~/CCI-FrontEnd
     # Reuse Docker container specification given by the node Orb
     executor: node/default
@@ -25,6 +24,7 @@ jobs:
             - .
 
   test:
+    app-dir: ~/FrontEnd/agme-app
     docker:
       # The primary container is an instance of the first image listed. The job's commands run in this container.
       - image: cimg/node:current
