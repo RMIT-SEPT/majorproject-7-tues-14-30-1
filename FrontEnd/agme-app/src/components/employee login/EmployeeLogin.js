@@ -55,11 +55,10 @@ class EmployeeLogin extends Component {
           formData
         )
         .then((res) =>{
-          console.log(res.data);
+          console.log(res.data.payload);
           if ((res.data.status) === "success") {
-              localStorage.setItem("email", email)
-              localStorage.setItem("password", password)
-              localStorage.setItem("type", res.data.payload)
+
+              localStorage.setItem("account", JSON.stringify(res.data.payload))
               window.location = "/dashboard";
           }
           else{
