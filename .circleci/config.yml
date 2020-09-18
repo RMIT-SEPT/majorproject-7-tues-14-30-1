@@ -24,7 +24,6 @@ jobs:
           paths:
             - .
 
-
   test-front-end:
       docker:
         # The primary container is an instance of the first image listed. The job's commands run in this container.
@@ -39,12 +38,12 @@ jobs:
             name: Front end tests
             command: npm test
 
-
   test-back-end:
     docker:
       - image: circleci/openjdk:stretch
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - run: ./mvnw test
 
 
