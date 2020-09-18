@@ -5,7 +5,8 @@ orbs:
 
 jobs:
   build:
-    working_directory: ~/FrontEnd/agme-app
+    app-dir: ~/FrontEnd/agme-app
+    working_directory: ~/CCI-FrontEnd
     # Reuse Docker container specification given by the node Orb
     executor: node/default
     steps:
