@@ -10,6 +10,7 @@ jobs:
     executor: node/default
     steps:
       - checkout
+      - run: cd FrontEnd/agme-app
       - run: ls
 
 workflows:
