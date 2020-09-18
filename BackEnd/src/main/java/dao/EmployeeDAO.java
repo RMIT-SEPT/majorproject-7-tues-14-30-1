@@ -31,8 +31,8 @@ public class EmployeeDAO {
             // If you have multiple results, you do a while
             if(result.next()) {
                 // 2) Add it to the list we have prepared
-                employee.add(new Employee (result.getInt("employee_id"), result.getInt("business_id"),
-                        result.getInt("first_name"), result.getString("first_name"),
+                employee.add(new Employee(result.getInt("employee_id"), result.getInt("business_id"),
+                        result.getInt("type"),result.getString("first_name"),
                         result.getString("last_name"), result.getString("email"),
                         result.getString("phone"), result.getString("password")));
             }

@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 public class EmployeeController {
     public static Handler getEmployee = ctx -> {
+        System.out.println("Getting employee");
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
             ctx.json(new Status("No ID provided"));
@@ -23,7 +24,7 @@ public class EmployeeController {
         int id = Integer.parseInt(str_id);
         Employee bus = EmployeeDAO.getEmployeeByEmployee_ID(id);
         if (bus != null) {
-            ctx.json(bus);
+            ctx.json(new Status(bus));
         } else {
             ctx.json(new Status("Employee does not exist"));
         }
