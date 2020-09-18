@@ -91,6 +91,10 @@ class Header extends Component {
                 <Button href="/queryTester" variant="info">Query Tester</Button>
             </div>
 
+            <div className="box">
+                <Button href="/business/1" variant="info">Business Profile</Button>
+            </div>
+
             
             </Nav>
             

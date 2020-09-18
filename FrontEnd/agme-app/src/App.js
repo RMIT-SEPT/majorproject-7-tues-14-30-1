@@ -12,6 +12,7 @@ import './App.css';
 import Dashboard from './components/Dashboard';
 import CustomerProfile from './components/customerProfile/CustomerProfile';
 import QueryTester from './components/backend-integration/QueryTester';
+import BusinessProfile from './components/businessProfile/BusinessProfile';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
       <Route exact path="/logout" component={Logout} />
       <Route exact path="/employeeLogin" component={EmployeeLogin} />
       <Route exact path="/employeeSearch" component={EmployeeSearch} />
+      <Route exact path="/business/1" component={BusinessProfile} />
       </div>
 
       <Footer />
