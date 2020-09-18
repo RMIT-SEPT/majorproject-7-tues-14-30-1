@@ -57,7 +57,6 @@ class EmployeeLogin extends Component {
         .then((res) =>{
           console.log(res.data.payload);
           if ((res.data.status) === "success") {
-
               localStorage.setItem("account", JSON.stringify(res.data.payload))
               window.location = "/dashboard";
           }
