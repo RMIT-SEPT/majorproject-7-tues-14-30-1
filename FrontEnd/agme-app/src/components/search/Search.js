@@ -3,6 +3,7 @@ import axios from 'axios';
 import Loader from './loader.gif'
 import './Search.css'
 import { Table } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 
 
 
@@ -125,12 +126,12 @@ class Search extends Component {
             
             const rows = results.map(row => 
                 <tr>
-                    <td>{row.name}</td>
+                    
+                    <td><Link to={'business/' + row.business_id}>{row.name}</Link></td>
                     <td>{row.phone_number}</td>
                     <td>{row.email}</td>
                     <td>{row.business_id}</td>
                     <td>{row.cheapest_cost}</td>
-                    
                 </tr>)
 
             return (
