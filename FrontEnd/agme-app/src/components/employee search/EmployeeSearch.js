@@ -4,8 +4,6 @@ import Loader from './loader.gif'
 import './EmployeeSearch.css'
 import { Table } from 'react-bootstrap'
 
-
-
 class EmployeeSearch extends Component {
 
     constructor( props ) {
@@ -23,11 +21,12 @@ class EmployeeSearch extends Component {
     }
 
     // Fetch the search results and update the state with the result.
-    fetchSearchResults = (query ) => {
+    fetchSearchResults = (query) => {
 
-        let business_ID = localStorage.getItem("business_ID")
+        // let business_ID = localStorage.getItem("business_ID")
+        let business_ID = JSON.parse(localStorage.getItem("account")).business_ID
         let searchUrl = `http://localhost:7000/api/business/getEmployees?business_id=${business_ID}`;
-        if (query == ""){
+        if (query === ""){
             //searchUrl += '""'
         }
         
@@ -41,7 +40,7 @@ class EmployeeSearch extends Component {
         this.cancel = axios.CancelToken.source();
         
         axios
-            .get(searchUrl, {
+            .post(searchUrl, {
                 cancelToken: this.cancel.token,
             })
     
