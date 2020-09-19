@@ -48,6 +48,7 @@ class EmployeeLogin extends Component {
       const {email, password} = this.state;
       formData.append("password", password)
       formData.append("email", email)
+      let formErrors = { ...this.state.formErrors }
     
       axios
         .post(
@@ -61,13 +62,17 @@ class EmployeeLogin extends Component {
               window.location = "/dashboard";
           }
           else{
-            let formErrors = { ...this.state.formErrors }
+            
             formErrors.password = "Wrong email or password";
             console.log("Wrong email or password")
             this.setState({formErrors});
           }
 
-        });
+        }).catch((error) => {          
+          formErrors.password = "Networking issues(is the server on)";
+          console.log("Networking issues(is the server on)")
+          this.setState({formErrors});
+      });
 
       console.log(`
         --SUBMITTING--

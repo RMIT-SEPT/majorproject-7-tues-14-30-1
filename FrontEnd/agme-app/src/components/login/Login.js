@@ -40,8 +40,7 @@ class Login extends Component {
   
   handleSubmit = e => {
     e.preventDefault();
-
-
+    let formErrors = { ...this.state.formErrors }
     if (formValid(this.state)) {
 
       const formData = new FormData()
@@ -64,22 +63,28 @@ class Login extends Component {
               window.location = "/dashboard";
           }
           else{
-            let formErrors = { ...this.state.formErrors }
             formErrors.password = "Wrong email or password";
             console.log("Wrong email or password")
             this.setState({formErrors});
           }
-
+        })
+        .catch((error) => {          
+            formErrors.password = "Networking issues(is the server on)";
+            console.log("Networking issues(is the server on)")
+            this.setState({formErrors});
         });
-
+        
       console.log(`
         --SUBMITTING--
         Email: ${email}
         Password: ${password}
       `);
     } else {
+      formErrors.password = "Form invalid";
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
     }
+    console.log("here");
+    this.setState({formErrors});
   };
 
   handleChange = e => {
