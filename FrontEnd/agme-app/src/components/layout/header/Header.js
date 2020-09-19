@@ -73,9 +73,11 @@ class Header extends Component {
                         </div> 
                         {this.state.type != "customer" && this.state.type!=null &&
                             <div style = {{display:"inherit"}}>
-                              <div className="box">
-                                  <Button href="/employeeSearch" variant="info">Employee Search</Button>
-                              </div>
+                                {this.state.type=="Admin"&&
+                                    <div className="box">
+                                        <Button href="/employeeSearch" variant="info">Employee Search</Button>
+                                    </div>
+                                }
                               <div className="box">
                                   <Button variant="info">{this.state.type}</Button>
                               </div>
