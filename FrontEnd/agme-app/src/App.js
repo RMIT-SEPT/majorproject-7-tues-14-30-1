@@ -12,9 +12,11 @@ import './App.css';
 import Dashboard from './components/Dashboard';
 import CustomerProfile from './components/customerProfile/CustomerProfile';
 import QueryTester from './components/backend-integration/QueryTester';
+import BusinessProfile from './components/businessProfile/BusinessProfile';
 
 
 function App() {
+  
   return (
 
     <Router>
@@ -22,21 +24,28 @@ function App() {
     <div>
       <Header />
 
+
       <div>
-      <Route exact path="/" component={Dashboard} />
+        <Route exact path="/" component={Dashboard} />
 
-      <Route exact path="/dashboard" component={Dashboard} />
-      <Route exact path="/search" component={Search} />
-      <Route exact path="/customerProfile" component={CustomerProfile} />
-      <Route exact path="/queryTester" component={QueryTester} />
-      <Route exact path="/register" component={Register} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/logout" component={Logout} />
-      <Route exact path="/employeeLogin" component={EmployeeLogin} />
-      <Route exact path="/employeeSearch" component={EmployeeSearch} />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/search" component={Search} />
+        <Route exact path="/customerProfile" component={CustomerProfile} />
+        <Route exact path="/queryTester" component={QueryTester} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/logout" component={Logout} />
+        <Route exact path="/employeeLogin" component={EmployeeLogin} />
+        <Route exact path="/employeeSearch" component={EmployeeSearch} />
+        
+        <Route 
+          exact path="/business/:id" 
+          component={BusinessProfile}
+        />
+
       </div>
-
-      <Footer />
+    
+    <Footer />
     </div>
 
     </Router>
