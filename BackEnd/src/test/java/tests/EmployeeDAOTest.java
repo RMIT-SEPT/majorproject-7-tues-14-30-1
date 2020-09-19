@@ -15,7 +15,7 @@ class EmployeeDAOTest {
 
     @Test
     void checkLogin_check_invalid_string() {
-        assertFalse(EmployeeDAO.checkLogin("someone@haircuts.com","wrongPassword")>0);
+        assertNull(EmployeeDAO.checkLogin("someone@haircuts.com","wrongPassword"));
     }
     @Test
     void checkLogin_check_invalid_ctx() {
@@ -26,7 +26,7 @@ class EmployeeDAOTest {
     }
     @Test
     void checkLogin_check_valid_string() {
-        assert(EmployeeDAO.checkLogin("someone@haircuts.com","test")>0);
+        assertNotNull(EmployeeDAO.checkLogin("someone@haircuts.com","test"));
     }
     @Test
     void checkLogin_check_valid_ctx() {

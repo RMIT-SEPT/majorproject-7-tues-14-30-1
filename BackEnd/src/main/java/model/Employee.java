@@ -25,6 +25,7 @@ public class Employee {
         this.password = password;
     }
 
+
     public Employee(int business_ID, int type, String first_name, String last_name,
                     String email, String phone_number, String password) {
         this.business_ID = business_ID;
