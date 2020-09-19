@@ -89,7 +89,7 @@ public class EmployeeDAO {
             return null;
         }
         Employee emp = checkLogin(email, password);
-        if (emp.getType()==0){
+        if (emp == null){
             return null;
         }
         return emp;

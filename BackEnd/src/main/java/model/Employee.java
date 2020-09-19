@@ -37,6 +37,10 @@ public class Employee {
         this.password = password;
     }
 
+    public Employee() {
+
+    }
+
     public int getEmployee_ID() {
         return employee_ID;
     }
