@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal'
 
 class BusinessProfile extends Component {
 
@@ -12,13 +13,14 @@ class BusinessProfile extends Component {
             phone_number: '',
             email: '',
             cheapestCost: '',
-            employees: {}
+            employees: {},
+            showModal: false,
+            selectedEmployee: ''
         };
 
         this.cancel = '';
         console.log(this.state)
     }
-
     
 
     componentDidMount() {
@@ -86,7 +88,7 @@ class BusinessProfile extends Component {
         
         const results = this.state.employees.payload;
         console.log('results:');       
-        console.log(results);   
+        console.log(results);           
 
         if (results) {
             console.log('results query test'); 
@@ -98,10 +100,14 @@ class BusinessProfile extends Component {
                     <td>{row.phone_number}</td>
                     <td>{row.email}</td>
                     <td>{row.cheapest_cost}</td>
-                    <td>Book Appt</td>
+                    <td><Button onClick={ () => 
+                        this.setState({showModal: true, selectedEmployee: row.employee_ID})
+                    }>Book</Button></td>
                 </tr>)
 
             return(
+
+                
                 
                 <Table striped bordered hover>
                 <thead>
@@ -110,18 +116,64 @@ class BusinessProfile extends Component {
                     <th>Phone Number</th>
                     <th>Email</th>
                     <th>Cheapest Cost</th>
-                    <th>Book</th>
+                    <th>Next Appointment</th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
 
                 </Table>
             )
-        }
+        } 
 
- 
-        
+    }
 
+    closeModal() {
+        this.setState({showModal: false, selectedEmployee: ''})
+    }
+
+    processBooking() {
+
+        this.closeModal();
+    }
+
+    renderModal() {
+        return(
+
+
+            <div>
+            <Modal
+                show={this.state.showModal}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Confirm Booking
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <h4>Are you sure you want to book this appointment?</h4>
+                <p>
+                  By clicking Make Booking, a booking will be reserved.
+                </p>
+              </Modal.Body>
+              <Modal.Footer>
+              
+                    <Button onClick={() => this.closeModal()}>
+                        Cancel
+                    </Button>
+
+                    <Button onClick={() => this.processBooking()}>
+                        Make Booking
+                    </Button>
+              </Modal.Footer>
+            </Modal>
+            </div>
+
+
+
+        )
     }
 
 
@@ -141,7 +193,10 @@ class BusinessProfile extends Component {
 
             { /* List of Employees */ }
             {this.renderEmployees()}
-        
+            
+            
+            { /* Modal */ }
+            {this.renderModal()}
         
         </div>
         )
