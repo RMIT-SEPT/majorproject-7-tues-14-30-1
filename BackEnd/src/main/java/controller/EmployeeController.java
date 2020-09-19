@@ -204,7 +204,7 @@ public class EmployeeController {
             return;
         }
         Employee emp = EmployeeDAO.checkLogin(email, password);
-        if (emp.getType()>0){
+        if (emp!=null){
             ctx.json(new Status(emp));
             return;
         }
