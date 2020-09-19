@@ -127,9 +127,9 @@ public class Employee {
             if (hour==0) {
                 day = (day + 1) % 7;
             }
-            if (this.session.getWorking()[day][hour]){
-                output[0] = hour;
-                output[1] = day;
+            if (this.getSession().getWorking()[day][hour]){
+                output[1] = hour;
+                output[0] = day;
                 return output;
             }
         }

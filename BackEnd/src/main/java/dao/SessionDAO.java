@@ -23,14 +23,14 @@ public class SessionDAO {
             Connection connection = DatabaseUtils.connectToDatabase();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
-            if (result.next()) {
-                session.setEmployee_ID(result.getInt("employee_ID"));
                 session.setCreated(true);
                 // If you have multiple results, you do a while
                 while (result.next()) {
+                    session.setEmployee_ID(result.getInt("employee_ID"));
                     session.setWorking(result.getInt("day"), result.getInt("hour"), result.getInt("working")==1);
                 }
-            }
+
+
             // Close it
             DatabaseUtils.closeConnection(connection);
         }
