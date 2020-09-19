@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "./Login.css";
+import "./EmployeeLogin.css";
 import axios from 'axios';
 
 const emailRegex = RegExp(
@@ -24,7 +24,7 @@ const formValid = ({ formErrors, ...rest }) => {
 
 
 
-class Login extends Component {
+class EmployeeLogin extends Component {
 
   constructor(props) {
     super(props);
@@ -35,56 +35,53 @@ class Login extends Component {
         email: "",
         password: ""
       }
-    };
+    };  
   }
   
   handleSubmit = e => {
     e.preventDefault();
-    let formErrors = { ...this.state.formErrors }
+
+
     if (formValid(this.state)) {
 
       const formData = new FormData()
       const {email, password} = this.state;
       formData.append("password", password)
       formData.append("email", email)
+      let formErrors = { ...this.state.formErrors }
     
       axios
         .post(
-          "http://localhost:7000/api/customer/login",
+          "http://localhost:7000/api/employee/login",
           formData
         )
         .then((res) =>{
-          console.log(res.data);
+          console.log(res.data.payload);
           if ((res.data.status) === "success") {
-              let account = res.data.payload
-              console.log(account);
-              account.type=1 //Remove this line when back-end pre-asign a type for customer
-              localStorage.setItem("account", JSON.stringify(account))
+              localStorage.setItem("account", JSON.stringify(res.data.payload))
               window.location = "/dashboard";
           }
           else{
+            
             formErrors.password = "Wrong email or password";
             console.log("Wrong email or password")
             this.setState({formErrors});
           }
-        })
-        .catch((error) => {          
-            formErrors.password = "Networking issues(is the server on)";
-            console.log("Networking issues(is the server on)")
-            this.setState({formErrors});
-        });
-        
+
+        }).catch((error) => {          
+          formErrors.password = "Networking issues(is the server on)";
+          console.log("Networking issues(is the server on)")
+          this.setState({formErrors});
+      });
+
       console.log(`
         --SUBMITTING--
         Email: ${email}
         Password: ${password}
       `);
     } else {
-      formErrors.password = "Form invalid";
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
     }
-    console.log("here");
-    this.setState({formErrors});
   };
 
   handleChange = e => {
@@ -115,7 +112,7 @@ class Login extends Component {
     return (
       <div className="wrapper">
         <div className="form-wrapper">
-          <h1>Login</h1>
+          <h1>Employee Login</h1>
           <form onSubmit={this.handleSubmit} noValidate>
             <div className="email">
               <label htmlFor="email">Email</label>
@@ -155,4 +152,4 @@ class Login extends Component {
     );
   }
   
-} export default Login
+} export default EmployeeLogin

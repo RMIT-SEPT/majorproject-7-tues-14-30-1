@@ -68,10 +68,10 @@ public class CustomerDAO {
         return cust;
     }
 
-    public static boolean checkLogin(String email, String password) {
+    public static Customer checkLogin(String email, String password) {
         try {
             // Here you prepare your sql statement
-            String sql = "SELECT `email`, `password` FROM agme.customer WHERE `email` = '" + email + "';";
+            String sql = "SELECT `customer_id`, `email`, `password` FROM agme.customer WHERE `email` = '" + email + "';";
 
             // Execute the query
             Connection connection = DatabaseUtils.connectToDatabase();
@@ -82,7 +82,7 @@ public class CustomerDAO {
             if(result.next()) {
                 // 2) Check if the password matches
                 if (Utils.passwordIsValid(password, result.getString("password"))){
-                    return true;
+                    return getCustomerByCustomer_ID(result.getInt("customer_id"));
                 }
             }
 
@@ -92,7 +92,7 @@ public class CustomerDAO {
         catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public static int[] checkLogin(Context ctx) {
@@ -105,7 +105,7 @@ public class CustomerDAO {
         if (password==null){
             return new int[]{0,0};
         }
-        if (!checkLogin(email, password)){
+        if (checkLogin(email, password)==null){
             return new int[]{0,0};
         }
         return new int[]{1,getCustomer_idByEmail(email)};

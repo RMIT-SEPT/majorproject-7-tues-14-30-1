@@ -31,8 +31,9 @@ public class EmployeeDAO {
             // If you have multiple results, you do a while
             if(result.next()) {
                 // 2) Add it to the list we have prepared
-                employee.add(new Employee (result.getInt("employee_id"), result.getInt("business_id"),
-                        result.getInt("first_name"), result.getString("first_name"),
+                employee.add(new Employee(result.getInt("employee_id"), result.getInt("business_id"),
+                        result.getInt("type"),result.getString("first_name"),
+
                         result.getString("last_name"), result.getString("email"),
                         result.getString("phone"), result.getString("password")));
             }
@@ -49,11 +50,11 @@ public class EmployeeDAO {
         return null;
     }
 
-    public static int checkLogin(String email, String password) {
+    public static Employee checkLogin(String email, String password) {
         //Returns 2 if employee, 3 if admin, 0 if none (in future 1 will be customer)
         try {
             // Here you prepare your sql statement
-            String sql = "SELECT `email`, `password`, `type` FROM agme.employee WHERE `email` = '" + email + "';";
+            String sql = "SELECT  `email`, `password` FROM agme.employee WHERE `email` = '" + email + "';";
 
             // Execute the query
             Connection connection = DatabaseUtils.connectToDatabase();
@@ -64,7 +65,7 @@ public class EmployeeDAO {
             if(result.next()) {
                 // 2) Check if the password matches
                 if (Utils.passwordIsValid(password, result.getString("password"))){
-                    return result.getInt("type");
+                    return getEmployeeByEmail(result.getString("email"));
                 }
             }
 
@@ -74,7 +75,7 @@ public class EmployeeDAO {
         catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return null;
     }
 
     public static Employee checkLogin(Context ctx) {
@@ -87,11 +88,11 @@ public class EmployeeDAO {
         if (password==null){
             return null;
         }
-        int type = checkLogin(email, password);
-        if (type==0){
+        Employee emp = checkLogin(email, password);
+        if (emp.getType()==0){
             return null;
         }
-        return getEmployeeByEmail(email);
+        return emp;
     }
 
     public static Employee getEmployeeByEmail(String email){

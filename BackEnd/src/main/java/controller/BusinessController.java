@@ -27,6 +27,7 @@ public class BusinessController {
     };
 
     public static Handler updateBusiness = ctx -> {
+        System.out.println(ctx);
         //First get the id of the business that needs to change
         String str_id = ctx.formParam("id");
         if (str_id == null) {

@@ -29,7 +29,7 @@ public class BookingDAO {
             if(result.next()) {
                 // 2) Add it to the list we have prepared
                 bookings.add(new Booking (result.getInt("booking_id"), result.getInt("customer_id"),
-                        result.getInt("employee_id"), result.getInt("business_id"), result.getDate("datetime")));
+                        result.getInt("employee_id"), result.getInt("business_id"), result.getTimestamp("datetime")));
             }
 
             // Close it
@@ -74,7 +74,7 @@ public class BookingDAO {
             ResultSet result = statement.executeQuery(bookings);
             while(result.next()) {
                 bookingsList.add(new Booking (result.getInt("booking_id"), result.getInt("customer_id"),
-                        result.getInt("employee_id"), result.getInt("business_id"), result.getDate("datetime")));
+                        result.getInt("employee_id"), result.getInt("business_id"), result.getTimestamp("datetime")));
             }
             // Close it
             DatabaseUtils.closeConnection(connection);
@@ -98,7 +98,7 @@ public class BookingDAO {
             ResultSet result = statement.executeQuery(bookings);
             while(result.next()) {
                 bookingsList.add(new Booking (result.getInt("booking_id"), result.getInt("customer_id"),
-                        result.getInt("employee_id"), result.getInt("business_id"), result.getDate("datetime")));
+                        result.getInt("employee_id"), result.getInt("business_id"), result.getTimestamp("datetime")));
             }
             // Close it
             DatabaseUtils.closeConnection(connection);
