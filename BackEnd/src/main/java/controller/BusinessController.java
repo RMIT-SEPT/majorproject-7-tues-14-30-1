@@ -125,7 +125,8 @@ public class BusinessController {
             return;
         }
         int id = Integer.parseInt(business_id);
-        ArrayList<Employee> employees = BusinessDAO.getEmployees(id);
+        String email = ctx.queryParam("email");
+        ArrayList<Employee> employees = BusinessDAO.getEmployees(id, email);
         ctx.json(new Status(employees));
     };
 
