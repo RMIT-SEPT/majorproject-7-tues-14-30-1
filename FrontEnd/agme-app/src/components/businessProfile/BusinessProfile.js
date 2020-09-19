@@ -3,20 +3,22 @@ import axios from 'axios';
 
 class BusinessProfile extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 		this.state = {
-            business_id: 1,
+            business_id: this.props.match.params.id,
             name: '',
             phone_number: '',
             email: '',
             cheapestCost: ''
         };
+
+        console.log(this.state)
     }
 
     componentDidMount() {
         
-        const request = `http://localhost:7000/api/business?id=1`;
+        const request = `http://localhost:7000/api/business?id=${this.state.business_id}`;
         
 
         axios.get(request)
@@ -31,7 +33,14 @@ class BusinessProfile extends Component {
                 email: business.email,
                 cheapestCost: business.cheapestCost
             })
-        })
+        }).catch((error) => {
+                this.setState({
+                    name: 'ERROR: Business does not exist :(',
+                    phone_number: '',
+                    email: '',
+                    cheapestCost: ''
+            })
+        });
     }
 
 
