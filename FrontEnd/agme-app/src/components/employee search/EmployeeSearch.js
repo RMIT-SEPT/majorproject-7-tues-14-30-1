@@ -126,12 +126,11 @@ class EmployeeSearch extends Component {
             
             const rows = results.map(row => 
                 <tr>
-                    <td>{row.name}</td>
-                    <td>{row.phone_number}</td>
+                    <td>{row.employee_id}</td>
+                    <td>{row.first_name}</td>
+                    <td>{row.last_name}</td>
+                    <td>{row.phone}</td>
                     <td>{row.email}</td>
-                    <td>{row.business_id}</td>
-                    <td>{row.cheapest_cost}</td>
-                    
                 </tr>)
 
             return (
@@ -139,11 +138,11 @@ class EmployeeSearch extends Component {
             <Table striped bordered hover>
                 <thead>
                     <tr>
+                    <th>ID</th>
                     <th>Name</th>
+                    <th>Last Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
-                    <th>ID</th>
-                    <th>Cheapest Cost</th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
