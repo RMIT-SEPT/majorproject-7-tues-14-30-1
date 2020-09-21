@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Header.css';
-
-
+import HeaderButton from './HeaderButton';
 
 class Header extends Component {
 
@@ -36,68 +35,44 @@ class Header extends Component {
         return (
             
             <Navbar bg="dark" variant="dark">
-
             <Nav>
-            <div className="box">
-                <Button href="/dashboard" variant="info">Dashboard</Button>
-            </div>
-            
-            <div className="box">
-                <Button href="/search" variant="info">Search</Button>
-            </div>
 
-            <div className="box">
-            <Button href="/customerProfile" variant="info">Profile</Button>
-            </div>
-            
+                <HeaderButton href="/dashboard" label={"Home"}></HeaderButton>
+                <HeaderButton href="/search" label={"Search"}></HeaderButton>
+                <HeaderButton href="/customerProfile" label={"Profile"}></HeaderButton>            
 
                 {localStorage.getItem("account") == null ?
-                <div style = {{display:"inherit"}}>    
-                <div className="box">
-                        <Button href="/register" variant="info">Register</Button>
-                    </div>
-            
-                    <div className="box">
-                        <Button href="/login" variant="info">Log In</Button>
+                
+                    <div style = {{display:"inherit"}}>    
+                    
+                        <HeaderButton href="/register" label={"Register"}></HeaderButton>
+                        <HeaderButton href="/login" label={"Log In"}></HeaderButton>
+                        <HeaderButton href="/employeeLogin" label={"Employee Log In"}></HeaderButton>
+
                     </div>
 
-                    <div className="box">
-                        <Button href="/employeeLogin" variant="info">Employee Log In</Button>
-                    </div>
-
-                </div>
                     :
+
                     <div style = {{display:"inherit"}}>
-                        <div className="box">
-                            <Button href="/logout" variant="info">Log Out</Button>
-                        </div> 
-                        {this.state.type != "customer" && this.state.type!=null &&
+                        
+                        <HeaderButton href="/logout" label={"Log Out"}></HeaderButton>
+                        
+                        {this.state.type !== "customer" && this.state.type!==null &&
                             <div style = {{display:"inherit"}}>
-                                {this.state.type=="Admin"&&
-                                    <div className="box">
-                                        <Button href="/employeeSearch" variant="info">Employee Search</Button>
-                                    </div>
+                                
+                                {this.state.type==="Admin"&&
+                                    <HeaderButton href="/employeeSearch" label={"Employee Search"}></HeaderButton>
                                 }
-                              <div className="box">
-                                  <Button variant="info">{this.state.type}</Button>
-                              </div>
+
+                                <HeaderButton label={this.state.type}></HeaderButton>
+                              
                             </div>
                         }
                     </div>
                 }
-            
-            
-
-
-            <div className="box">
-                <Button href="/queryTester" variant="info">Query Tester</Button>
-            </div>
-
-            
+                        
             </Nav>
-            
             </Navbar>
-            
         )
     }
 }
