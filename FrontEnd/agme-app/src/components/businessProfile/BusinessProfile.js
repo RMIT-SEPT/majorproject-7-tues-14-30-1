@@ -278,6 +278,23 @@ class BusinessProfile extends Component {
         )
     }
 
+    numberToDOTW(day){
+        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saterday"]
+        return days[day];
+    }
+
+    timeConverter(time){
+        let pmam = "";
+        if (time>12){
+            pmam="PM"
+            time-=12;
+        }
+        else{
+            pmam="AM"
+        }
+        return time + ":00 " + pmam
+    }
+
     renderBookingModal() {
 
         const noBookingsAvailable = this.state.selectedEmployee.nextFreeDay === -1
@@ -291,7 +308,7 @@ class BusinessProfile extends Component {
                 message = "Sorry, this employee does not have any booking slots available."
             } else {
                 message = `By clicking Make Booking, a booking will be reserved with ${this.state.selectedEmployee.name}
-                            for ${this.state.selectedEmployee.nextFreeDay} at ${this.state.selectedEmployee.nextFreeHour}.`
+                            for ${this.numberToDOTW(this.state.selectedEmployee.nextFreeDay)} at ${this.timeConverter(this.state.selectedEmployee.nextFreeHour)}.`
             }
         }
 
