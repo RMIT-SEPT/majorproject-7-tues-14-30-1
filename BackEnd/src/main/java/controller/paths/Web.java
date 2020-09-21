@@ -24,6 +24,7 @@ public class Web {
     //employee related
     public static final String getEmployee = "/api/employee/get";
     public static final String employeeNextFreeSession = "/api/employee/nextFreeSession";
+    public static final String makeNextbooking = "/api/employee/makeNextBooking";
     public static final String employeeLogin = "/api/employee/login";
 
 }

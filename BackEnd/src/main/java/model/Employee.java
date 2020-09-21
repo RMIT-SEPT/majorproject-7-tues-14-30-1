@@ -12,6 +12,7 @@ public class Employee {
     private int employee_ID, business_ID, type;
     private String first_name, last_name, email, phone_number, password;
     private Session session;
+    private ArrayList<Booking> bookings = new ArrayList<Booking>();
 
     public Employee(int employee_ID, int business_ID, int type, String first_name, String last_name,
                     String email, String phone_number, String password) {
@@ -37,6 +38,10 @@ public class Employee {
         this.password = password;
     }
 
+    public Employee() {
+
+    }
+
     public int getEmployee_ID() {
         return employee_ID;
     }
@@ -56,7 +61,10 @@ public class Employee {
     public String getEmail() {
         return email;
     }
-
+    public void addBooking(Booking booking){
+        bookings.add(booking);
+        BookingDAO.createBooking(booking);
+    }
     public String getPhone_number() {
         return phone_number;
     }
@@ -113,10 +121,13 @@ public class Employee {
 
     public Session getSession(){
         if (this.session==null) {
-            System.out.println("Session was null once");
             this.findSessions();
         }
         return this.session;
+    }
+
+    public void setSession(Session sess){
+        this.session = sess;
     }
 
     public int[] getNextSession(int day,int hour){
@@ -128,9 +139,9 @@ public class Employee {
             if (hour==0) {
                 day = (day + 1) % 7;
             }
-            if (this.session.getWorking()[day][hour]){
-                output[0] = hour;
-                output[1] = day;
+            if (this.getSession().getWorking()[day][hour]){
+                output[1] = hour;
+                output[0] = day;
                 return output;
             }
         }
@@ -156,6 +167,49 @@ public class Employee {
             }
         }
         return true;
+    }
+    public boolean isFree(int hour, int day) {
+        Calendar shift = translateHourDay(hour,day);
+        if (!getSession().getWorking()[day][hour]) {
+            return false;
+        }
+        //Then we check if the employee has an existing booking
+        ArrayList<Booking> bookings = BookingDAO.getBookingsByEmployee_id(employee_ID);
+        for (int i=0; i<bookings.size();i++){
+            if (bookings.get(i).getDateTime().equals(new Timestamp(shift.getTimeInMillis()))){
+                return false;
+            }
+        }
+        return true;
+    }
+    private Calendar translateHourDay(int hour, int day){
+        day++; //Need to turn day up because calander starts days at 1
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.MILLISECOND,0);
+        if (hour>Calendar.HOUR_OF_DAY && day>=Calendar.DAY_OF_WEEK){
+            cal.set(Calendar.HOUR_OF_DAY, hour);
+            cal.set(Calendar.DAY_OF_WEEK, day);
+        }
+        else if ((hour<=Calendar.HOUR_OF_DAY && day==Calendar.DAY_OF_WEEK) || day<Calendar.DAY_OF_WEEK){
+            cal.set(Calendar.HOUR_OF_DAY, hour);
+            cal.set(Calendar.DAY_OF_WEEK, day);
+            cal.add(Calendar.WEEK_OF_YEAR, 1);
+        }
+        day--;
+        return cal;
+    }
+    public boolean makeNextBooking(int cust_id, int hour, int day){
+        if (isFree(hour, day)){
+            Timestamp ts = new Timestamp(translateHourDay(hour,day).getTimeInMillis());
+            Booking newbooking = new Booking(cust_id, this.employee_ID, this.business_ID, ts);
+            BookingDAO.createBooking(newbooking);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
 

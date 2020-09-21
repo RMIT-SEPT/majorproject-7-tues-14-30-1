@@ -95,20 +95,17 @@ public class CustomerDAO {
         return null;
     }
 
-    public static int[] checkLogin(Context ctx) {
+    public static Customer checkLogin(Context ctx) {
         String email, password;
         email = ctx.formParam("email");
         password = ctx.formParam("password");
         if (email==null){
-            return new int[]{0,0};
+            return null;
         }
         if (password==null){
-            return new int[]{0,0};
+            return null;
         }
-        if (checkLogin(email, password)==null){
-            return new int[]{0,0};
-        }
-        return new int[]{1,getCustomer_idByEmail(email)};
+        return checkLogin(email, password);
     }
 
     public static int getCustomer_idByEmail(String email){
