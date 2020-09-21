@@ -58,6 +58,7 @@ class Login extends Component {
           if ((res.data.status) === "success") {
               let account = res.data.payload
               console.log(account);
+              account.password=password
               account.type=1 //Remove this line when back-end pre-asign a type for customer
               localStorage.setItem("account", JSON.stringify(account))
               window.location = "/dashboard";

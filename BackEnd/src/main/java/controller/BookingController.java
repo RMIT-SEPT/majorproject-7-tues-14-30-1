@@ -2,17 +2,13 @@ package controller;
 
 import controller.util.Status;
 import dao.BookingDAO;
-import dao.BusinessDAO;
 import dao.CustomerDAO;
 import dao.EmployeeDAO;
 import io.javalin.http.Handler;
 import model.Booking;
-import model.Business;
 import model.Customer;
 import model.Employee;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -104,7 +100,7 @@ public class BookingController {
 
     public static Handler getBookingsByCustomer_id = ctx -> {
         Customer cus = CustomerDAO.checkLogin(ctx);
-        if (cus!=null) {
+        if (cus==null) {
             ctx.json(new Status("Please provide an accurate `email` and `password`"));
             return;
         }

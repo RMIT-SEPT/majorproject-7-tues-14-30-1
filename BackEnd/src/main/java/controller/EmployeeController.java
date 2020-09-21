@@ -15,7 +15,6 @@ import java.util.TimeZone;
 
 public class EmployeeController {
     public static Handler getEmployee = ctx -> {
-        System.out.println("Getting employee");
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
             ctx.json(new Status("No ID provided"));
@@ -204,7 +203,7 @@ public class EmployeeController {
             return;
         }
         Employee emp = EmployeeDAO.checkLogin(email, password);
-        if (emp==null){
+        if (emp!=null){
             ctx.json(new Status(emp));
             return;
         }
