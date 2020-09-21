@@ -2,6 +2,8 @@ package model;
 
 import dao.SessionDAO;
 
+import java.util.Arrays;
+
 public class Session {
     private int employee_ID;
     private boolean timeOfDay[][];
@@ -35,5 +37,8 @@ public class Session {
     }
     public boolean getCreated(){
         return created;
+    }
+    public String toString(){
+        return Arrays.deepToString(timeOfDay);
     }
 }
