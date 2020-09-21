@@ -203,7 +203,7 @@ public class EmployeeController {
             return;
         }
         Employee emp = EmployeeDAO.checkLogin(email, password);
-        if (emp==null){
+        if (emp!=null){
             ctx.json(new Status(emp));
             return;
         }

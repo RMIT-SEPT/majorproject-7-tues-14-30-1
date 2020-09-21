@@ -65,7 +65,7 @@ public class BookingDAO {
         String bookings;
         ArrayList<Booking> bookingsList;
         bookingsList = new ArrayList<>();
-        bookings = "SELECT * FROM `agme` . `booking` WHERE `customer_id` = '" + customer_id + "';";
+        bookings = "select booking.*, CONCAT(employee.first_name,\" \",employee.last_name) as employee_name, business.name as business_name from booking join employee on booking.employee_id = employee.employee_id join business on business.business_id = booking.business_id WHERE `customer_id` = '" + customer_id + "';";
 
         try {
             // Execute the query
@@ -73,7 +73,7 @@ public class BookingDAO {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(bookings);
             while(result.next()) {
-                bookingsList.add(new Booking (result.getInt("booking_id"), result.getInt("customer_id"),
+                bookingsList.add(new Booking (result.getString("business_name"), result.getString("employee_name"), result.getInt("booking_id"), result.getInt("customer_id"),
                         result.getInt("employee_id"), result.getInt("business_id"), result.getTimestamp("datetime")));
             }
             // Close it

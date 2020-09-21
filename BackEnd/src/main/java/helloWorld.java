@@ -35,8 +35,8 @@ public class helloWorld {
             app.post(Web.getEmployees, BusinessController.getEmployees);
             app.get(Web.employeeNextFreeSession, EmployeeController.nextFreeSession);
             app.post(Web.makeNextbooking, EmployeeController.makeNextBooking);
-            app.get(Web.getBookingByCustomer, BookingController.getBookingsByCustomer_id);
-            app.get(Web.getBookingByEmployee, BookingController.getBookingsByEmployee_id);
+            app.post(Web.getBookingByCustomer, BookingController.getBookingsByCustomer_id);
+            app.post(Web.getBookingByEmployee, BookingController.getBookingsByEmployee_id);
         });
     }
     public static int getHerokuAssignedPort() {

@@ -100,7 +100,7 @@ public class BookingController {
 
     public static Handler getBookingsByCustomer_id = ctx -> {
         Customer cus = CustomerDAO.checkLogin(ctx);
-        if (cus!=null) {
+        if (cus==null) {
             ctx.json(new Status("Please provide an accurate `email` and `password`"));
             return;
         }
