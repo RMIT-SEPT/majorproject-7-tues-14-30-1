@@ -5,7 +5,6 @@ import controller.util.Status;
 import dao.CustomerDAO;
 import io.javalin.http.Handler;
 import model.Customer;
-import org.mindrot.jbcrypt.BCrypt;
 
 public class CustomerController {
     public static Handler getCustomer = ctx ->{
@@ -15,9 +14,9 @@ public class CustomerController {
             return;
         }
         int id = Integer.parseInt(str_id);
-        Customer bus = CustomerDAO.getCustomerByCustomer_ID(id);
-        if (bus != null) {
-            ctx.json(bus);
+        Customer cus = CustomerDAO.getCustomerByCustomer_ID(id);
+        if (cus != null) {
+            ctx.json(new Status(cus));
         }
         else{
             ctx.json(new Status("Customer does not exist"));

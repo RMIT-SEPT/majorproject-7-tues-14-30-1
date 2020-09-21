@@ -23,6 +23,10 @@ public class Customer {
         this.password = password;
     }
 
+    public Customer() {
+
+    }
+
     public int getCustomer_ID() {
         return customer_ID;
     }

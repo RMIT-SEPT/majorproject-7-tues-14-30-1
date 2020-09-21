@@ -133,12 +133,17 @@ public class BusinessDAO {
         return arrayList;
     }
 
-    public static ArrayList<Employee> getEmployees(int business_id) {
+    public static ArrayList<Employee> getEmployees(int business_id, String email) {
         String employees;
         ArrayList<Employee> employeeList;
         employeeList = new ArrayList<Employee>();
-        employees = "SELECT * FROM `agme` . `employee` WHERE `business_id` = '" + business_id + "';";
 
+        if (email != null) {
+            employees = "SELECT * FROM `agme` . `employee` WHERE `business_id` = '" + business_id + "' AND `email` LIKE '%" + email + "%';";
+        } else {
+            employees = "SELECT * FROM `agme` . `employee` WHERE `business_id` = '" + business_id + "';";
+        }
+        System.out.println(employees);
         try {
             // Execute the query
             Connection connection = DatabaseUtils.connectToDatabase();

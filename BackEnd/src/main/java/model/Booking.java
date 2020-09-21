@@ -31,6 +31,10 @@ public class Booking {
         this.dateTime = dateTime;
     }
 
+    public Booking() {
+
+    }
+
     public int getBooking_id(){
         return this.booking_id;
     }
