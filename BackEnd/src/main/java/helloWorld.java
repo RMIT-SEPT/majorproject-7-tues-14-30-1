@@ -22,7 +22,8 @@ public class helloWorld {
             app.post(Web.employee, EmployeeController.updateEmployee);
             app.delete(Web.business, BusinessController.removeBusiness);
             app.put(Web.business, BusinessController.createBusiness);
-            app.post(Web.getBooking, BookingController.getBooking)                    ;
+            app.post(Web.getBooking, BookingController.getBooking);
+            app.post(Web.cancelBooking, BookingController.cancelBooking);
             app.put(Web.booking, BookingController.createBooking);
             app.get(Web.customer, CustomerController.getCustomer);
             app.put(Web.customer, CustomerController.createCustomer);

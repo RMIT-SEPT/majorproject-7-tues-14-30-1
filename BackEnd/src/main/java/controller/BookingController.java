@@ -11,6 +11,7 @@ import model.Employee;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class BookingController {
     public static Handler getBooking = ctx ->{
@@ -96,6 +97,43 @@ public class BookingController {
         }
         BookingDAO.createBooking(new Booking(cus.getCustomer_ID(), employee_id, business_id, dateTime));
         ctx.json(new Status());
+    };
+
+    public static Handler cancelBooking = ctx -> {
+        System.out.println(ctx.formParamMap());
+        Customer cus = CustomerDAO.checkLogin(ctx);
+        if (cus==null) {
+            ctx.json(new Status("Please provide an accurate `email` and `password`"));
+            return;
+        }
+        String booking_id_str = ctx.formParam("booking_id");
+        if (booking_id_str==null || booking_id_str.equals("")){
+            ctx.json(new Status("Please provide `booking_id`"));
+            return;
+        }
+        int booking_id = Integer.parseInt(booking_id_str);
+        Booking booking = BookingDAO.getBookingByBooking_id(booking_id);
+        if (booking==null){
+            ctx.json(new Status("that booking does not exist"));
+            return;
+        }
+        if (booking.getCustomer_id() != cus.getCustomer_ID()){
+            ctx.json(new Status("You to not have permission to remove this booking"));
+            return;
+        }
+        if (booking.getDateTime().before(new Date())){
+            ctx.json(new Status("Booking has allready happened"));
+            return;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 2); //Add two days to the time so we can compare with booking
+        if (booking.getDateTime().before(cal.getTime())){
+            ctx.json(new Status("Booking is too close to be canceled (<48 hours)"));
+            return;
+        }
+        BookingDAO.cancelBooking(booking_id);
+        ctx.json(new Status());
+        return;
     };
 
     public static Handler getBookingsByCustomer_id = ctx -> {

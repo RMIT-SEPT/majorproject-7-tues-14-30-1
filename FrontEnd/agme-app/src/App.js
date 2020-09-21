@@ -13,7 +13,6 @@ import Dashboard from './components/Dashboard';
 import CustomerProfile from './components/customerProfile/CustomerProfile';
 import QueryTester from './components/backend-integration/QueryTester';
 
-
 function App() {
   return (
 

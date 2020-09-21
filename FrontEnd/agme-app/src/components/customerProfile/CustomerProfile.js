@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap'
 import axios from 'axios';
-
-
+import Popup from 'react-popup';
 
 class CustomerProfile extends Component {
 
@@ -25,7 +24,6 @@ class CustomerProfile extends Component {
     fetchCustomerHistory = (query ) => {
 
         const searchUrl = `http://localhost:7000/api/booking/getByCustomer`;
-        console.log("HERE");
         if (this.cancel) {
             // Cancel the previous request before making a new request
             this.cancel.cancel();
@@ -42,11 +40,9 @@ class CustomerProfile extends Component {
     
             .then((res) => {
 
-                console.log(res.data);
                 let bookings=res.data.payload;
                 let oldBookings=[]
                 let newBookings=[]
-                console.log(bookings.length)
                 for (var i=0; i<bookings.length;i++){
                     if (this.isOld(bookings[i])){
                         oldBookings.push(bookings[i]);
@@ -55,21 +51,17 @@ class CustomerProfile extends Component {
                         newBookings.push(bookings[i]);
                     }
                 }
-                console.log("Hello")
-                console.log(newBookings)
-                console.log(oldBookings)
                 this.setState({
                     bookings: {oldBookings: oldBookings, newBookings: newBookings},
                     loading: false,
                 })
-                console.log(this.state);
 
             })
             .catch((error) => {
                 if (axios.isCancel(error) || error) {
                     this.setState({
                         loading: false,
-                        message: 'Failed to fetch results. Please check network',
+                        message: 'Failed to fetch bookings. Please check network',
                     });
                 }
             });
@@ -78,7 +70,6 @@ class CustomerProfile extends Component {
     render() {
 
         return(
-    
         <div className="container">
             
             { /* Heading */ }
@@ -100,9 +91,7 @@ class CustomerProfile extends Component {
 
     renderOldBookings(){
         if (this.state.bookings){
-            console.log(this.state)
             let {bookings} = this.state;
-            console.log(bookings)
             let oldRows = bookings.oldBookings.map(row => 
                 <tr>
                     <td>{row.booking_id}</td>
@@ -136,9 +125,45 @@ class CustomerProfile extends Component {
         }
         
     }
+    handleCancelButton = (e) =>{
+        let booking_id = e.target.id
+        {this.cancelBooking(booking_id)}
+    };
+
+    cancelBooking(booking_id){
+        let {account} = this.state;
+        console.log(account)
+        let {email, password} = account
+        const formData = new FormData()
+        formData.append("email",email);
+        formData.append("password",password);
+        formData.append("booking_id",booking_id)
+        const cancelURL = "http://localhost:7000/api/booking/cancel"
+        axios
+            .post(cancelURL, formData)
+    
+            .then((res) => {
+                if (res.data.status==="success"){
+                    this.fetchCustomerHistory();
+                }
+                else{
+                    Popup.alert(res.data.message)
+                }
+                console.log(res.data)
+                
+            })
+            .catch((error) => {
+                if (axios.isCancel(error) || error) {
+                    this.setState({
+                        loading: false,
+                        message: 'Failed to fetch bookings. Please check network',
+                    });
+                }
+            });
+    }
+
     renderNewBookings(){
         if (this.state.bookings){
-            console.log(this.state)
             let {bookings} = this.state;
             let newRows = bookings.newBookings.map(row => 
                 <tr>
@@ -146,7 +171,7 @@ class CustomerProfile extends Component {
                     <td>{row.employee_name}</td>
                     <td>{row.business_name}</td>
                     <td>{new Date(row.dateTime).toString()}</td>
-                    <td><Button variant="danger">Cancel</Button></td>            
+                    <td><Button variant="danger" onClick={this.handleCancelButton} id={row.booking_id}>Cancel</Button></td>            
                 </tr>)
             return (
                 <Table striped bordered hover>
