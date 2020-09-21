@@ -133,6 +133,24 @@ class BusinessProfile extends Component {
 
     processBooking() {
 
+        // http://localhost:7000/api/employee/nextFreeSession?id=2
+        const freeSessionQuery = `http://localhost:7000/api/business/searchBusiness?q=${this.state.selectedEmployee}`;
+
+        axios
+            .get(freeSessionQuery, {
+                
+            })
+    
+            .then((res) => {
+
+                console.log('next session data:');
+                console.log(res.data);
+
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+
         this.closeModal();
     }
 
