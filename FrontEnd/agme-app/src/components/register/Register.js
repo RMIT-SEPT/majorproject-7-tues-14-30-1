@@ -150,7 +150,7 @@ class Register extends Component {
                 type="text"
                 name="firstName"
                 noValidate
-                onChange={this.handleChange}
+                onChange={event => {this.handleChange(event);}}
               />
               {formErrors.firstName.length > 0 && (
                 <span className="errorMessage">{formErrors.firstName}</span>
@@ -164,7 +164,7 @@ class Register extends Component {
                 type="text"
                 name="lastName"
                 noValidate
-                onChange={this.handleChange}
+                onChange={event => {this.handleChange(event);}}
               />
               {formErrors.lastName.length > 0 && (
                 <span className="errorMessage">{formErrors.lastName}</span>
@@ -178,7 +178,7 @@ class Register extends Component {
                 type="text"
                 name="phoneNumber"
                 noValidate
-                onChange={this.handleChange}
+                onChange={event => {this.handleChange(event);}}
               />
               {formErrors.phoneNumber.length > 0 && (
                 <span className="errorMessage">{formErrors.phoneNumber}</span>
@@ -192,7 +192,7 @@ class Register extends Component {
                 type="email"
                 name="email"
                 noValidate
-                onChange={this.handleChange}
+                onChange={event => {this.handleChange(event);}}
               />
               {formErrors.email.length > 0 && (
                 <span className="errorMessage">{formErrors.email}</span>
@@ -206,7 +206,7 @@ class Register extends Component {
                 type="password"
                 name="password"
                 noValidate
-                onChange={this.handleChange}
+                onChange={event => {this.handleChange(event);}}
               />
               {formErrors.password.length > 0 && (
                 <span className="errorMessage">{formErrors.password}</span>
@@ -220,7 +220,7 @@ class Register extends Component {
                 type="password"
                 name="password_confirmation"
                 noValidate
-                onChange={this.handleChange}
+                onChange={event => {this.handleChange(event);}}
               />
               {formErrors.password_confirmation.length > 0 && (
                 <span className="errorMessage">{formErrors.password_confirmation}</span>
