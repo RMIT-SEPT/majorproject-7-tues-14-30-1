@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Button, Table } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal'
+import NotificationModal from './NotificationModal'
 
 class BusinessProfile extends Component {
 
@@ -14,7 +15,10 @@ class BusinessProfile extends Component {
             email: '',
             cheapestCost: '',
             employees: {},
-            showModal: false,
+
+            showBookingModal: false,
+            showErrorModal: false,
+            showBookingConfirmation: false,
             
             selectedEmployee: {
                 id: '',
@@ -30,12 +34,12 @@ class BusinessProfile extends Component {
 
     }
     
-
     componentDidMount() {
         this.fetchBusinessData();
         this.fetchEmployeeData();
     }
 
+    // helper method for correctly capitalising business names
     toTitleCase = (phrase) => {
         return phrase
           .toLowerCase()
@@ -44,6 +48,7 @@ class BusinessProfile extends Component {
           .join(' ');
       };
 
+    // updates state with business information based on URL of current page
     fetchBusinessData = () => {
 
         const businessRequest = `http://localhost:7000/api/business?id=${this.state.business_id}`;
@@ -72,6 +77,7 @@ class BusinessProfile extends Component {
 
     }
 
+    // uses current business ID to fetch a list of employees and load them into the state.
     fetchEmployeeData = () => {
         
         const employeeRequest = `http://localhost:7000/api/business/getEmployees?business_id=${this.state.business_id}`
@@ -86,13 +92,15 @@ class BusinessProfile extends Component {
     
     }
 
+    // renders a table of employees
     renderEmployees = () => {
         
         const results = this.state.employees.payload;
+        console.log(results)
                  
-
         if (results) {
 
+            // map each employee to a table row
             const rows = results.map(row => 
                 <tr>
                     <td>{row.first_name} {row.last_name}</td>
@@ -100,25 +108,24 @@ class BusinessProfile extends Component {
                     <td>{row.email}</td>
                     <td>{row.cheapest_cost}</td>
                     <td><Button onClick={ () => 
-                        this.displayModal(row.employee_ID, row.first_name)
+                        this.displayBookingModal(row.employee_ID, row.first_name)
                     }>Book</Button></td>
                 </tr>)
 
             return(
 
-                
-                
                 <Table striped bordered hover>
-                <thead>
-                    <tr>
-                    <th>Employee</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                    <th>Cheapest Cost</th>
-                    <th>Next Appointment</th>
-                    </tr>
-                </thead>
-                <tbody>{rows}</tbody>
+                    <thead>
+                        <tr>
+                        <th>Employee</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Cheapest Cost</th>
+                        <th>Next Appointment</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>{rows}</tbody>
 
                 </Table>
             )
@@ -126,8 +133,10 @@ class BusinessProfile extends Component {
 
     }
 
+    // updates state when book button is clicked, so we can retrieve the appropriate next booking
     updateSelectedEmployee(employee_ID, employee_name) {
 
+        // store employee information, so we can update the state with it later
         var emp = {...this.state.selectedEmployee}
         emp.id = employee_ID;
         emp.name = employee_name;
@@ -138,6 +147,7 @@ class BusinessProfile extends Component {
             .get(freeSessionQuery)
             .then((res) => {
 
+                // store details of next available booking, or set to -1 if no bookings are available
                 if ((res.data.status) === "success") {
                     emp.nextFreeDay = res.data.payload[0];
                     emp.nextFreeHour = res.data.payload[1];
@@ -146,6 +156,7 @@ class BusinessProfile extends Component {
                     emp.nextFreeHour = -1;
                 }
                 
+                // update state with new employee information
                 this.setState({ selectedEmployee: emp })
                 emp.loading = false;
 
@@ -160,21 +171,33 @@ class BusinessProfile extends Component {
             
     }
 
-    displayModal(employee_ID, employee_name) {
+    displayBookingModal(employee_ID, employee_name) {
 
-        var emp = {...this.state.selectedEmployee}
-        emp.loading = true;
-        this.setState({ selectedEmployee: emp })
+        let account = JSON.parse(localStorage.getItem("account"))
 
-        this.updateSelectedEmployee(employee_ID, employee_name)
+        if (!account) {
+            
+            // if user is not logged in, show error message
+            this.setState({ showErrorModal: true })
+            
+        } else {
 
-        if (!this.state.selectedEmployee.loading) {
-            this.setState({ showModal: true })
+            // make sure modal does not display until employee has been loaded
+            var emp = {...this.state.selectedEmployee}
+            emp.loading = true;
+            this.setState({ selectedEmployee: emp })
+    
+            this.updateSelectedEmployee(employee_ID, employee_name)
+    
+            if (!this.state.selectedEmployee.loading) {
+                this.setState({ showBookingModal: true })
+            }
         }
+
 
     }
 
-    closeModal() {
+    closeBookingModal() {
         
         // reset selected employee data
         var emp = this.state.selectedEmployee;
@@ -183,7 +206,8 @@ class BusinessProfile extends Component {
         emp.nextFreeDay = '';
         emp.nextFreeHour = '';
         
-        this.setState({showModal: false, selectedEmployee: emp})
+        // update state reset employee data and stop displaying modal
+        this.setState({showBookingModal: false, selectedEmployee: emp})
         
         console.log('state on exit of closeModal()')
         console.log(this.state)
@@ -194,11 +218,8 @@ class BusinessProfile extends Component {
         const bookingRequest = `http://localhost:7000/api/employee/makeNextBooking`
 
         let account = JSON.parse(localStorage.getItem("account"))
-        if (!account) {
-            this.closeModal();
-            return
-        }
 
+        // create form using currently logged in user, and selected employee
         const formData = new FormData();
 
         formData.append("email", account.email);
@@ -225,10 +246,39 @@ class BusinessProfile extends Component {
               });
             ;
 
-        this.closeModal();
+        this.closeBookingModal();
     }
 
-    renderModal() {
+    renderError() {
+
+        const title = `Error`
+        const message = `Sorry, you need to be logged in to make a booking.`
+
+        return(
+            <NotificationModal 
+                show={this.state.showErrorModal} 
+                onClose={() => this.setState({showErrorModal: false})}
+                title={title}
+                message={message}>
+            </NotificationModal>
+        )
+    }
+
+    renderBookingConfirmation() {
+        const title = `Success`
+        const message = `Your booking has been processed successfully.`
+
+        return(
+            <NotificationModal 
+                show={this.state.showBookingConfirmation} 
+                onClose={() => this.setState({showBookingConfirmation: false})}
+                title={title}
+                message={message}>
+            </NotificationModal>
+        )
+    }
+
+    renderBookingModal() {
 
         const noBookingsAvailable = this.state.selectedEmployee.nextFreeDay === -1
         var message = ""
@@ -251,7 +301,7 @@ class BusinessProfile extends Component {
 
             <div>
             <Modal
-                show={this.state.showModal}
+                show={this.state.showBookingModal}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
@@ -269,7 +319,7 @@ class BusinessProfile extends Component {
               </Modal.Body>
               <Modal.Footer>
               
-                    <Button onClick={() => this.closeModal()}>
+                    <Button onClick={() => this.closeBookingModal()}>
                         Cancel
                     </Button>
                     {!noBookingsAvailable && !this.state.selectedEmployee.loading &&
@@ -297,15 +347,15 @@ class BusinessProfile extends Component {
             { /* Heading: Business Name */ }
             <h1>{this.toTitleCase(this.state.name)}</h1>
                         
-            
             <h4 className="heading">Employees</h4>
 
             { /* List of Employees */ }
             {this.renderEmployees()}
             
-            
-            { /* Modal */ }
-            {this.renderModal()}
+            { /* Modals */ }
+            {this.renderBookingModal()}
+            {this.renderError()}
+            {this.renderBookingConfirmation()}
         
         </div>
         )
