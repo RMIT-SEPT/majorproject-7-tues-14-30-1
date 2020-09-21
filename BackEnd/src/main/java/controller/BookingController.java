@@ -6,6 +6,7 @@ import dao.CustomerDAO;
 import dao.EmployeeDAO;
 import io.javalin.http.Handler;
 import model.Booking;
+import model.Customer;
 import model.Employee;
 
 import java.util.ArrayList;

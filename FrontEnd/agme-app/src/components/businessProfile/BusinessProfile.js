@@ -15,16 +15,23 @@ class BusinessProfile extends Component {
             cheapestCost: '',
             employees: {},
             showModal: false,
-            selectedEmployee: ''
+            
+            selectedEmployee: {
+                id: '',
+                name: '',
+                nextFreeDay: '',
+                nextFreeHour: '',
+                loading: false
+            } 
+        
         };
 
         this.cancel = '';
-        console.log(this.state)
+
     }
     
 
     componentDidMount() {
-        
         this.fetchBusinessData();
         this.fetchEmployeeData();
     }
@@ -43,12 +50,9 @@ class BusinessProfile extends Component {
 
         axios.get(businessRequest)
         .then((response) => {
-            console.log('response.data:')
-            console.log(response.data)
+            
             const business = response.data.payload;            
-            console.log('business:')
-            console.log(business)
-
+            
             this.setState({
                 name: business.name,
                 phone_number: business.phone_number,
@@ -74,11 +78,9 @@ class BusinessProfile extends Component {
 
         axios.post(employeeRequest)
         .then((response) => {
-            console.log('response.data:')
-            console.log(response.data)
             this.setState({employees: response.data})
         }).catch((error) => {
-            console.log('error:')
+            console.log('error fetching employee data:')
             console.log(error)
         });
     
@@ -87,12 +89,9 @@ class BusinessProfile extends Component {
     renderEmployees = () => {
         
         const results = this.state.employees.payload;
-        console.log('results:');       
-        console.log(results);           
+                 
 
         if (results) {
-            console.log('results query test'); 
-            console.log(results[0]); 
 
             const rows = results.map(row => 
                 <tr>
@@ -101,7 +100,7 @@ class BusinessProfile extends Component {
                     <td>{row.email}</td>
                     <td>{row.cheapest_cost}</td>
                     <td><Button onClick={ () => 
-                        this.setState({showModal: true, selectedEmployee: row.employee_ID})
+                        this.displayModal(row.employee_ID, row.first_name)
                     }>Book</Button></td>
                 </tr>)
 
@@ -127,14 +126,13 @@ class BusinessProfile extends Component {
 
     }
 
-    closeModal() {
-        this.setState({showModal: false, selectedEmployee: ''})
-    }
+    updateSelectedEmployee(employee_ID, employee_name) {
 
-    processBooking() {
+        var emp = {...this.state.selectedEmployee}
+        emp.id = employee_ID;
+        emp.name = employee_name;
 
-        // http://localhost:7000/api/employee/nextFreeSession?id=2
-        const freeSessionQuery = `http://localhost:7000/api/business/searchBusiness?q=${this.state.selectedEmployee}`;
+        const freeSessionQuery = `http://localhost:7000/api/employee/nextFreeSession?id=${employee_ID}`;
 
         axios
             .get(freeSessionQuery, {
@@ -143,13 +141,80 @@ class BusinessProfile extends Component {
     
             .then((res) => {
 
-                console.log('next session data:');
-                console.log(res.data);
+                emp.nextFreeDay = res.data.payload[0];
+                emp.nextFreeHour = res.data.payload[1];
+                emp.loading = false;
 
+                this.setState({ selectedEmployee: emp })
+                console.log('state after recieving next free session data')
+                console.log(this.state)
+                
             })
             .catch((error) => {
                 console.log(error)
             });
+            
+            
+    }
+
+    displayModal(employee_ID, employee_name) {
+
+        var emp = {...this.state.selectedEmployee}
+        emp.loading = true;
+        this.setState({ selectedEmployee: emp })
+
+        this.updateSelectedEmployee(employee_ID, employee_name)
+
+        if (!this.state.selectedEmployee.loading) {
+            this.setState({ showModal: true })
+        }
+
+    }
+
+    closeModal() {
+        
+        // reset selected employee data
+        var emp = this.state.selectedEmployee;
+        emp.id = '';
+        emp.name = '';
+        emp.nextFreeDay = '';
+        emp.nextFreeHour = '';
+        
+        this.setState({showModal: false, selectedEmployee: emp})
+        
+        console.log('state on exit of closeModal()')
+        console.log(this.state)
+    }
+
+    processBooking() {
+
+        const bookingRequest = `http://localhost:7000/api/employee/makeNextBooking`
+
+        const formData = new FormData();
+
+        formData.append("email", "logan.2@gmail.com");
+        formData.append("password", "abc123");
+        formData.append("employee_id", this.state.selectedEmployee.id);
+        formData.append("day", this.state.selectedEmployee.nextFreeDay);
+        formData.append("hour", this.state.selectedEmployee.nextFreeHour);
+
+        axios
+            .post(bookingRequest, {
+            formData
+            })
+            .then((res) =>{
+                console.log(res.data);
+                if ((res.data.status) === "success") {
+                    
+                }
+                else {
+                  
+                }
+              })
+              .catch((error) => {          
+                  
+              });
+            ;
 
         this.closeModal();
     }
@@ -173,7 +238,7 @@ class BusinessProfile extends Component {
               <Modal.Body>
                 <h4>Are you sure you want to book this appointment?</h4>
                 <p>
-                  By clicking Make Booking, a booking will be reserved.
+                By clicking Make Booking, a booking will be reserved with {this.state.selectedEmployee.name} for {this.state.selectedEmployee.nextFreeDay} at {this.state.selectedEmployee.nextFreeHour}.
                 </p>
               </Modal.Body>
               <Modal.Footer>
@@ -203,9 +268,7 @@ class BusinessProfile extends Component {
             
             { /* Heading: Business Name */ }
             <h1>{this.toTitleCase(this.state.name)}</h1>
-            {console.log("this.state.name")}
-            {console.log(this.state.name)}
-            
+                        
             
             <h4 className="heading">Employees</h4>
 
