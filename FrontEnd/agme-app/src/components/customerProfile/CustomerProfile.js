@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 import axios from 'axios';
 
 
 
 class CustomerProfile extends Component {
 
+    componentDidMount(){
+        this.fetchCustomerHistory();
+    }
+
     constructor( props ) {
         super( props );
         let customer = JSON.parse(localStorage.getItem("account"));
-        this.state={}
 		this.state = {
             "email": customer.email,
             "password": customer.password,
+            "account": customer,
             "bookings":null
         };
         
-        this.cancel = '';
-        this.fetchCustomerHistory();
     }
 
     fetchCustomerHistory = (query ) => {
 
         const searchUrl = `http://localhost:7000/api/booking/getByCustomer`;
-        
+        console.log("HERE");
         if (this.cancel) {
             // Cancel the previous request before making a new request
             this.cancel.cancel();
@@ -41,16 +43,26 @@ class CustomerProfile extends Component {
             .then((res) => {
 
                 console.log(res.data);
-
-                const resultNotFoundMsg = !res.data.payload.length 
-                    ? 'No results found. Please try a different query.'
-                    : ''
-
+                let bookings=res.data.payload;
+                let oldBookings=[]
+                let newBookings=[]
+                console.log(bookings.length)
+                for (var i=0; i<bookings.length;i++){
+                    if (this.isOld(bookings[i])){
+                        oldBookings.push(bookings[i]);
+                    }
+                    else{
+                        newBookings.push(bookings[i]);
+                    }
+                }
+                console.log("Hello")
+                console.log(newBookings)
+                console.log(oldBookings)
                 this.setState({
-                    bookings: res.data.payload,
+                    bookings: {oldBookings: oldBookings, newBookings: newBookings},
                     loading: false,
-                    message: resultNotFoundMsg,
                 })
+                console.log(this.state);
 
             })
             .catch((error) => {
@@ -70,85 +82,107 @@ class CustomerProfile extends Component {
         <div className="container">
             
             { /* Heading */ }
-            <h1>Hannah's Profile:</h1>
+            <h1>{this.state.account.fName}'s Profile:</h1>
             
             <h4 className="heading">Upcoming Appointments</h4>
 
-            {this.renderBookings()}
-        
+            {this.renderNewBookings()}
 
             <h4 className="heading">Past Appointments</h4>
-
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Location</th>
-                    <th>Employee</th>
-                    <th>Time</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>Best Haircuts Studio</td>
-                    <td>Greg</td>
-                    <td>3:00pm, Tuesday</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Curl Up & Dye</td>
-                    <td>Samantha</td>
-                    <td>9:00am, Wednesday</td>
-                    </tr>
-                    <tr>
-                    <td>3</td>
-                    <td>Shaving The Day</td>
-                    <td>Boris</td>
-                    <td>9:00am Monday</td>
-                    </tr>
-                </tbody>
-            </Table>
+            
+            {this.renderOldBookings()}
+            
         
         </div>
         )
     
     }
 
-    renderBookings(){
-        let {bookings} = this.state;
-        let rows = bookings.map(row => 
-            <tr>
-                <td>{row.booking_id}</td>
-                <td>{row.employee_name}</td>
-                <td>{row.business_name}</td>
-                <td>{row.dateTime}</td>                
-            </tr>)
+    renderOldBookings(){
+        if (this.state.bookings){
+            console.log(this.state)
+            let {bookings} = this.state;
+            console.log(bookings)
+            let oldRows = bookings.oldBookings.map(row => 
+                <tr>
+                    <td>{row.booking_id}</td>
+                    <td>{row.employee_name}</td>
+                    <td>{row.business_name}</td>
+                    <td>{new Date(row.dateTime).toString()}</td>                
+                </tr>)
+            return (
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Employee
+                            </th>
+                            <th>
+                                Location
+                            </th>
+                            <th>
+                                Time
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {oldRows}
+                    </tbody>
+                </Table>
+            )
+        }
+        
+    }
+    renderNewBookings(){
+        if (this.state.bookings){
+            console.log(this.state)
+            let {bookings} = this.state;
+            let newRows = bookings.newBookings.map(row => 
+                <tr>
+                    <td>{row.booking_id}</td>
+                    <td>{row.employee_name}</td>
+                    <td>{row.business_name}</td>
+                    <td>{new Date(row.dateTime).toString()}</td>
+                    <td><Button variant="danger">Cancel</Button></td>            
+                </tr>)
+            return (
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Employee
+                            </th>
+                            <th>
+                                Location
+                            </th>
+                            <th>
+                                Time
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {newRows}
+                    </tbody>
+                </Table>
+            )
+        }
+        
+    }
 
-        return (
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>
-                            #
-                        </th>
-                        <th>
-                            Employee
-                        </th>
-                        <th>
-                            Location
-                        </th>
-                        <th>
-                            Time
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
-            </Table>
-        )
+    isOld(booking){
+        if (booking.dateTime<new Date()){
+            return true; 
+        }
+        else{
+            return false;
+        }
     }
 
 } export default CustomerProfile;

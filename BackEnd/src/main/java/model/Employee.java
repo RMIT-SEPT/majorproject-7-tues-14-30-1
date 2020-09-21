@@ -139,7 +139,7 @@ public class Employee {
             if (hour==0) {
                 day = (day + 1) % 7;
             }
-            if (this.getSession().getWorking()[day][hour]){
+            if (this.isFree(hour,day)){
                 output[1] = hour;
                 output[0] = day;
                 return output;
