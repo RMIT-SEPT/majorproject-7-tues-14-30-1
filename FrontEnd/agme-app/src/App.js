@@ -13,7 +13,6 @@ import Dashboard from './components/Dashboard';
 import CustomerProfile from './components/customerProfile/CustomerProfile';
 import BusinessProfile from './components/businessProfile/BusinessProfile';
 
-
 function App() {
   
   return (

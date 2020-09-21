@@ -16,6 +16,7 @@ public class Web {
 
     //Booking related
     public static final String getBooking = "/api/booking/get";
+    public static final String cancelBooking = "/api/booking/cancel";
     public static final String getBookingByCustomer = "/api/booking/getByCustomer";
     public static final String getBookingByEmployee = "/api/booking/getByEmployee";
     
