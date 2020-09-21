@@ -126,10 +126,10 @@ class EmployeeSearch extends Component {
             
             const rows = results.map(row => 
                 <tr>
-                    <td>{row.employee_id}</td>
+                    <td>{row.employee_ID}</td>
                     <td>{row.first_name}</td>
                     <td>{row.last_name}</td>
-                    <td>{row.phone}</td>
+                    <td>{row.phone_number}</td>
                     <td>{row.email}</td>
                 </tr>)
 
