@@ -145,6 +145,7 @@ class EmployeeLogin extends Component {
             <div className="login">
               <button type="submit">Login</button>
               <small>Sign Up?</small>
+              <a href="/login">Click here to login</a>
             </div>
           </form>
         </div>

@@ -182,7 +182,7 @@ public class EmployeeController {
         int[] nextFree = new int[2];
         nextFree=emp.getNextSession(day,hour);
         if (nextFree[0]!=25){
-            ctx.json("{'day':'" + nextFree[0] + "', 'hour':'" + nextFree[1] + "'}");
+            ctx.json(new Status(nextFree));
             return;
         }
         ctx.json(new Status("Worker has no free shifts"));
@@ -209,6 +209,41 @@ public class EmployeeController {
         }
         else{
             ctx.json(new Status("Incorrect username or password"));
+            return;
+        }
+    };
+
+    public static Handler makeNextBooking = ctx ->{
+        Customer cus = CustomerDAO.checkLogin(ctx);
+        if (cus==null){
+            ctx.json(new Status("Incorrect username or password"));
+            return;
+        }
+        String emp_id_str = ctx.formParam("employee_id");
+        if (emp_id_str==null || emp_id_str.equals("")){
+            ctx.json(new Status("Please provide `employee_id`"));
+            return;
+        }
+        int emp_id = Integer.parseInt(emp_id_str);
+        String hour_str = ctx.formParam("hour");
+        if (hour_str==null || hour_str.equals("")){
+            ctx.json(new Status("Please provide `hour`"));
+            return;
+        }
+        int hour = Integer.parseInt(hour_str);
+        String day_str = ctx.formParam("day");
+        if (day_str==null || day_str.equals("")){
+            ctx.json(new Status("Please provide `day`"));
+            return;
+        }
+        int day = Integer.parseInt(day_str);
+        Employee emp = EmployeeDAO.getEmployeeByEmployee_ID(emp_id);
+        if (emp.makeNextBooking(cus.getCustomer_ID(),hour,day)){
+            ctx.json(new Status());
+            return;
+        }
+        else{
+            ctx.json(new Status("Employee is not availible during that time."));
             return;
         }
     };
