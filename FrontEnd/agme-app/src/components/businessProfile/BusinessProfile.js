@@ -135,17 +135,20 @@ class BusinessProfile extends Component {
         const freeSessionQuery = `http://localhost:7000/api/employee/nextFreeSession?id=${employee_ID}`;
 
         axios
-            .get(freeSessionQuery, {
-                
-            })
-    
+            .get(freeSessionQuery)
             .then((res) => {
 
-                emp.nextFreeDay = res.data.payload[0];
-                emp.nextFreeHour = res.data.payload[1];
+                if ((res.data.status) === "success") {
+                    emp.nextFreeDay = res.data.payload[0];
+                    emp.nextFreeHour = res.data.payload[1];
+                } else {
+                    emp.nextFreeDay = -1;
+                    emp.nextFreeHour = -1;
+                }
+                
+                this.setState({ selectedEmployee: emp })
                 emp.loading = false;
 
-                this.setState({ selectedEmployee: emp })
                 console.log('state after recieving next free session data')
                 console.log(this.state)
                 
@@ -190,25 +193,31 @@ class BusinessProfile extends Component {
 
         const bookingRequest = `http://localhost:7000/api/employee/makeNextBooking`
 
+        let account = JSON.parse(localStorage.getItem("account"))
+        if (!account) {
+            this.closeModal();
+            return
+        }
+
         const formData = new FormData();
 
-        formData.append("email", "logan.2@gmail.com");
-        formData.append("password", "abc123");
+        formData.append("email", account.email);
+        formData.append("password", account.password);
         formData.append("employee_id", this.state.selectedEmployee.id);
         formData.append("day", this.state.selectedEmployee.nextFreeDay);
         formData.append("hour", this.state.selectedEmployee.nextFreeHour);
 
         axios
-            .post(bookingRequest, {
+            .post(bookingRequest,
             formData
-            })
+            )
             .then((res) =>{
                 console.log(res.data);
                 if ((res.data.status) === "success") {
-                    
+                    console.log("booking was successful")
                 }
                 else {
-                  
+                    console.log("booking failed")
                 }
               })
               .catch((error) => {          
@@ -220,6 +229,23 @@ class BusinessProfile extends Component {
     }
 
     renderModal() {
+
+        const noBookingsAvailable = this.state.selectedEmployee.nextFreeDay === -1
+        var message = ""
+
+        if (this.state.selectedEmployee.loading) {
+            message = "Loading data."
+        } else {
+
+            if (noBookingsAvailable) {
+                message = "Sorry, this employee does not have any booking slots available."
+            } else {
+                message = `By clicking Make Booking, a booking will be reserved with ${this.state.selectedEmployee.name}
+                            for ${this.state.selectedEmployee.nextFreeDay} at ${this.state.selectedEmployee.nextFreeHour}.`
+            }
+        }
+
+
         return(
 
 
@@ -236,9 +262,9 @@ class BusinessProfile extends Component {
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <h4>Are you sure you want to book this appointment?</h4>
+                <h4>Review your appointment details</h4>
                 <p>
-                By clicking Make Booking, a booking will be reserved with {this.state.selectedEmployee.name} for {this.state.selectedEmployee.nextFreeDay} at {this.state.selectedEmployee.nextFreeHour}.
+                {message}
                 </p>
               </Modal.Body>
               <Modal.Footer>
@@ -246,14 +272,16 @@ class BusinessProfile extends Component {
                     <Button onClick={() => this.closeModal()}>
                         Cancel
                     </Button>
-
+                    {!noBookingsAvailable && !this.state.selectedEmployee.loading &&
                     <Button onClick={() => this.processBooking()}>
                         Make Booking
                     </Button>
+                    }
+                   
               </Modal.Footer>
             </Modal>
+            
             </div>
-
 
 
         )

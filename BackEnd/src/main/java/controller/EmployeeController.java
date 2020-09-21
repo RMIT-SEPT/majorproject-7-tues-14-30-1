@@ -215,6 +215,10 @@ public class EmployeeController {
 
     public static Handler makeNextBooking = ctx ->{
         Customer cus = CustomerDAO.checkLogin(ctx);
+
+        System.out.println(ctx.formParamMap());
+
+
         if (cus==null){
             ctx.json(new Status("Incorrect username or password"));
             return;
