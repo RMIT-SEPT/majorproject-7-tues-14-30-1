@@ -285,12 +285,15 @@ class BusinessProfile extends Component {
 
     timeConverter(time){
         let pmam = "";
-        if (time>12){
+        if (time==12){
             pmam="PM"
-            time-=12;
+        }
+        else if (time<12){
+            pmam="AM"
         }
         else{
-            pmam="AM"
+            pmam="PM"
+            time-=12;
         }
         return time + ":00 " + pmam
     }
