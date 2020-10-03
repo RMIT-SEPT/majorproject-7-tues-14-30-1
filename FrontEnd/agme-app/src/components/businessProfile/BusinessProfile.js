@@ -222,8 +222,8 @@ class BusinessProfile extends Component {
         // create form using currently logged in user, and selected employee
         const formData = new FormData();
 
-        formData.append("email", account.email);
-        formData.append("password", account.password);
+        formData.append("loginemail", account.email);
+        formData.append("loginpassword", account.password);
         formData.append("employee_id", this.state.selectedEmployee.id);
         formData.append("day", this.state.selectedEmployee.nextFreeDay);
         formData.append("hour", this.state.selectedEmployee.nextFreeHour);
@@ -239,6 +239,7 @@ class BusinessProfile extends Component {
                 }
                 else {
                     console.log("booking failed")
+                    console.log()
                 }
               })
               .catch((error) => {          

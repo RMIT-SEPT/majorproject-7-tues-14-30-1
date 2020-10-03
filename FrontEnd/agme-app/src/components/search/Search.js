@@ -129,7 +129,7 @@ class Search extends Component {
 
             
             const rows = results.map(row => 
-                <tr onClick = {()=>this.test(row.business_id)}>
+                <tr style = {{cursor: "pointer"}} onClick = {()=>this.test(row.business_id)}>
                     
                     <td>{row.name}</td>
                     <td>{row.phone_number}</td>
