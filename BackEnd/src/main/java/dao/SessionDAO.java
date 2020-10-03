@@ -1,5 +1,6 @@
 package dao;
 
+import controller.util.Utils;
 import dao.util.DatabaseUtils;
 import model.Session;
 
@@ -55,6 +56,37 @@ public class SessionDAO {
             }
             sql = sql.replaceAll(",$", "");
             sql+=";";
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return session;
+    }
+
+    public static Session updateSession(int employee_id, ArrayList<int[]> arrList){
+        Session session = new Session();
+        session.setEmployee_ID(employee_id);
+        session.setCreated(true);
+        try {
+            // Here you prepare your sql statement
+            String sql;
+            sql = "UPDATE session SET working = (case";
+
+            for( int[] array : arrList) {
+                sql += " when employee_id = " + array[0] + " day= " + array[1] + " hour= " + array[2] + " then " + array[3];
+            }
+            sql += " else working end) where employee_id>0;";
+
+            //Testing
+            System.out.println(sql);
+
             // Execute the query
             Connection connection = DatabaseUtils.connectToDatabase();
             Statement statement = connection.createStatement();

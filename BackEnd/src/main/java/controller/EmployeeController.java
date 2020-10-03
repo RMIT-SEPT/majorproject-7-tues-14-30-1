@@ -5,11 +5,13 @@ import controller.util.Status;
 import dao.BusinessDAO;
 import dao.CustomerDAO;
 import dao.EmployeeDAO;
+import dao.SessionDAO;
 import io.javalin.http.Handler;
 import model.Business;
 import model.Customer;
 import model.Employee;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -250,6 +252,55 @@ public class EmployeeController {
             ctx.json(new Status("Employee is not availible during that time."));
             return;
         }
+    };
+
+    public static Handler updateSession = ctx -> {
+
+
+        String employee_idAsString = ctx.formParam("employee_id");
+        if (employee_idAsString == null) {
+            ctx.json(new Status("No employee id provided"));
+            return;
+        }
+        int employee_id = Integer.parseInt(employee_idAsString);
+
+        String session_data = ctx.formParam("session_data");
+        if (session_data == null) {
+            ctx.json(new Status("No session data provided"));
+            return;
+        }
+
+        ArrayList<int[]> session_arrList;
+        session_arrList = new ArrayList<>();
+
+        String[] session_first_split = session_data.split(",");
+
+        for (String str : session_first_split) {
+            String[] session_second_split = str.split(".");
+
+            int[] session_array = new int[]{Integer.parseInt(session_second_split[0]), Integer.parseInt(session_second_split[1]),
+                    Integer.parseInt(session_second_split[2]), Integer.parseInt(session_second_split[3])};
+
+            session_arrList.add(session_array) ;
+        }
+
+        //Validating that the user requesting the update has permission to actually update the employee
+        Employee emp = EmployeeDAO.checkLogin(ctx);
+        if (emp==null){
+            ctx.json(new Status("No account with those details"));
+            return;
+        }
+
+//        Need to validate correct business and admin!
+
+//        if (emp.getType()<3 || emp.getBusiness_ID() != business_id){ //3 is the admin level
+//            ctx.json(new Status("Account does not have permission to update this employee information"));
+//            return;
+//        }
+
+        SessionDAO.updateSession(employee_id, session_arrList);
+
+        ctx.json(new Status());
     };
 
 
