@@ -4,6 +4,7 @@ import controller.util.Utils;
 import dao.util.DatabaseUtils;
 import io.javalin.http.Context;
 import model.Customer;
+import model.Person;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,6 +33,7 @@ public class CustomerDAO {
             if(result.next()) {
                 // 2) Add it to the list we have prepared
                 customer.add(new Customer (result.getInt("customer_id"), result.getString("first_name"),
+                        result.getInt("type"),
                         result.getString("last_name"), result.getString("phone"),
                         result.getString("email"), result.getString("password")));
             }
@@ -156,5 +158,39 @@ public class CustomerDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static Person getCustomerByEmail(String email) {
+        List<Customer> customer = new ArrayList<>();
+
+        try {
+            // Here you prepare your sql statement
+            String sql = "SELECT * FROM agme.person WHERE email = " + email + ";";
+
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            // If you have multiple results, you do a while
+            if(result.next()) {
+                // 2) Add it to the list we have prepared
+                customer.add(new Customer (result.getInt("customer_id"), result.getString("first_name"),
+                        result.getInt("type"),
+                        result.getString("last_name"), result.getString("phone"),
+                        result.getString("email"), result.getString("password")));
+            }
+
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(!customer.isEmpty()) {
+            return customer.get(0);
+        }
+        // If we are here, something bad happened
+        return null;
     }
 }
