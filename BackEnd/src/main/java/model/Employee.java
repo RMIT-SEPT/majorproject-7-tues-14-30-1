@@ -119,11 +119,15 @@ public class Employee {
         }
     }
 
-    public Session getSession(){
+    private Session getSession(){
         if (this.session==null) {
             this.findSessions();
         }
         return this.session;
+    }
+
+    public int[][] getWorking(){
+        return this.getSession().getFree(this);
     }
 
     public void setSession(Session sess){
