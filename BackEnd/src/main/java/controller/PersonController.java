@@ -8,13 +8,13 @@ import model.Person;
 public class PersonController {
     public static Handler checkLogin = ctx -> {
         String errormsg = "You are missing: ";
-        String password = ctx.formParam("password");
+        String password = ctx.formParam("loginpassword");
         if (password == null){
-            errormsg+="password ";
+            errormsg+="`loginpassword` ";
         }
-        String email = ctx.formParam("email");
+        String email = ctx.formParam("loginemail");
         if (email==null){
-            errormsg+="email ";
+            errormsg+="`loginemail` ";
         }
         if (errormsg!= "You are missing: "){
             ctx.json(new Status(errormsg));

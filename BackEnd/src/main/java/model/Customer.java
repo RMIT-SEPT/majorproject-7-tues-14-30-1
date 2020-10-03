@@ -11,7 +11,7 @@ public class Customer extends Person{
         this.password = password;
     }
 
-    public Customer(int customer_ID, String fName,int typo, String lName, String phone_number,
+    public Customer(int customer_ID, String fName,int type, String lName, String phone_number,
                     String email, String password) {
         this.ID = customer_ID;
         this.first_name = fName;
