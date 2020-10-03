@@ -41,4 +41,21 @@ public class Session {
     public String toString(){
         return Arrays.deepToString(timeOfDay);
     }
+    public int[][] getFree(Employee emp){
+        int[][] isFree = new int[7][24];
+        for (int day=0; day<7; day++){
+            for (int hour=0; hour<24; hour++){
+               if(!timeOfDay[day][hour]){
+                   isFree[day][hour]=0; //They are neve availible at this time
+               }
+               else if (emp.isFree(hour,day)){
+                   isFree[day][hour]=2;
+               }
+               else{
+                   isFree[day][hour]=1;
+               }
+            }
+        }
+        return isFree;
+    }
 }
