@@ -164,7 +164,7 @@ public class EmployeeController {
 
         errormsg = "";
         //TODO add validation for password length, email @ existince and phone length, email existance
-        Employee employee = EmployeeDAO.createEmployee(business_id, type, first_name, last_name, email, phone, password);
+        Person employee = PersonDAO.createPerson(business_id, type, first_name, last_name, email, phone, password);
         ctx.json(new Status());
     };
 

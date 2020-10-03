@@ -15,6 +15,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDAO {
+    public static Person createPerson(int business_id, int type, String first_name,
+                                          String last_name, String email, String phone, String password) {
+        Person person;
+        if (type==1){
+            person = new Customer(first_name, type, last_name, phone, email, password);
+        }
+        else{
+            person = new Employee(business_id, type, first_name, last_name, email, phone, password);
+        }
+        String update_sql;
+        update_sql = "INSERT INTO `agme`.`person` ( `first_name`,`last_name`, `business_id`, `email`,`phone`, `type`, `password`) " +
+                "VALUES('" + first_name + "' ,'" + last_name + "' ,'" + business_id + "','" +
+                email + "','" + phone + "', '" + type + "', '" + Utils.generateHashPassword(password) + "');";
+
+        try {
+            // Execute the query
+            Connection connection = DatabaseUtils.connectToDatabase();
+            Statement statement = connection.createStatement();
+            statement.execute(update_sql);
+            // Close it
+            DatabaseUtils.closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return person;
+    }
+
+    public static Person createPerson(String first_name,
+                                       String last_name, String email, String phone, String password){
+        return createPerson(0, 1, first_name, last_name, email, phone, password);
+    }
+
 
     public static Person checkLogin(String email, String password) {
         //Returns 2 if employee, 3 if admin, 0 if none (in future 1 will be customer)
@@ -169,13 +201,13 @@ public class PersonDAO {
             if(result.next()) {
                 // 2) Add it to the list we have prepared
                 if (result.getInt("type")==1){ //means that the person is a customer
-                    person.add(new Customer (result.getInt("customer_id"), result.getString("first_name"),
+                    person.add(new Customer (result.getInt("person_id"), result.getString("first_name"),
                             result.getInt("type"),
                             result.getString("last_name"), result.getString("phone"),
                             result.getString("email"), result.getString("password")));
                 }
                 else{
-                    person.add(new Employee (result.getInt("employee_id"), result.getInt("business_id"), result.getInt("type"),
+                    person.add(new Employee (result.getInt("person_id"), result.getInt("business_id"), result.getInt("type"),
                             result.getString("first_name"), result.getString("last_name"),
                             result.getString("email"), result.getString("phone"),
                             result.getString("password")));

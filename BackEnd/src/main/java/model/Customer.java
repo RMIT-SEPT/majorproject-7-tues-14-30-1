@@ -2,8 +2,9 @@ package model;
 
 public class Customer extends Person{
 
-    public Customer(String fName, String lName, String phone_number,
+    public Customer(String fName, int type, String lName, String phone_number,
                     String email, String password) {
+        this.type=type;
         this.first_name = fName;
         this.last_name = lName;
         this.phone_number = phone_number;
@@ -25,8 +26,4 @@ public class Customer extends Person{
     public Customer() {
 
     }
-
-    public static boolean removeBooking(int booking_id){
-        return false;
-    }
-    }
+}

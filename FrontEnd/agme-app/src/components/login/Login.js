@@ -45,12 +45,12 @@ class Login extends Component {
 
       const formData = new FormData()
       const {email, password} = this.state;
-      formData.append("password", password)
-      formData.append("email", email)
+      formData.append("loginpassword", password)
+      formData.append("loginemail", email)
     
       axios
         .post(
-          "http://localhost:7000/api/customer/login",
+          "http://localhost:7000/api/checkLogin",
           formData
         )
         .then((res) =>{
@@ -59,7 +59,6 @@ class Login extends Component {
               let account = res.data.payload
               console.log(account);
               account.password=password
-              account.type=1 //Remove this line when back-end pre-asign a type for customer
               localStorage.setItem("account", JSON.stringify(account))
               window.location = "/dashboard";
           }

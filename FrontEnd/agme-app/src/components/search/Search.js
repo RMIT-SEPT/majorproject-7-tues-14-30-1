@@ -115,6 +115,10 @@ class Search extends Component {
         }
     };
 
+    test(e){
+        window.location = ("/business/" + e)
+    }
+
     renderSearchResults = () => {
         
         const {results} = this.state;
@@ -125,9 +129,9 @@ class Search extends Component {
 
             
             const rows = results.map(row => 
-                <tr>
+                <tr onClick = {()=>this.test(row.business_id)}>
                     
-                    <td><Link to={'business/' + row.business_id}>{row.name}</Link></td>
+                    <td>{row.name}</td>
                     <td>{row.phone_number}</td>
                     <td>{row.email}</td>
                     <td>{row.business_id}</td>

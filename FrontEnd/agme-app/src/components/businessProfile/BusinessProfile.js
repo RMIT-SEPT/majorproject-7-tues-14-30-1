@@ -108,7 +108,7 @@ class BusinessProfile extends Component {
                     <td>{row.email}</td>
                     <td>{row.cheapest_cost}</td>
                     <td><Button onClick={ () => 
-                        this.displayBookingModal(row.employee_ID, row.first_name)
+                        this.displayBookingModal(row.id, row.first_name)
                     }>Book</Button></td>
                 </tr>)
 

@@ -57,7 +57,7 @@ public class CustomerController {
             return;
         }
         //TODO add validation for password length, email @ existince and phone length
-        Customer cust = CustomerDAO.createCustomer(first_name, last_name, phone, email, password);
+        Person cust = PersonDAO.createPerson(first_name, last_name, phone, email, password);
         ctx.json(new Status());
     };
 

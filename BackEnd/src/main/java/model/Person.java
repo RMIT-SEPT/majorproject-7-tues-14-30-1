@@ -15,7 +15,7 @@ public class Person {
         this.ID = ID;
     }
 
-    public String getfName() {
+    public String getfirst_name() {
         return first_name;
     }
 
@@ -23,7 +23,7 @@ public class Person {
         this.first_name = fName;
     }
 
-    public String getlName() {
+    public String getlast_name() {
         return last_name;
     }
 

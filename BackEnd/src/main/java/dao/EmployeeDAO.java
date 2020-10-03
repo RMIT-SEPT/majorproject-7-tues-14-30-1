@@ -15,26 +15,7 @@ import java.util.List;
 public class EmployeeDAO {
     public static final String SALT = "$2a$10$h.dl5J86rGH7I8bD9bZeZe";
 
-    public static Employee createEmployee(int business_id, int type, String first_name,
-                                          String last_name, String email, String phone, String password) {
-        Employee employee = new Employee(business_id, type, first_name, last_name, email, phone, password);
-        String update_sql;
-        update_sql = "INSERT INTO `agme`.`employee` ( `first_name`,`last_name`, `business_id`, `email`,`phone`, `type`, `password`) " +
-                "VALUES('" + first_name + "' ,'" + last_name + "' ,'" + business_id + "','" +
-                 email + "','" + phone + "', '" + type + "', '" + Utils.generateHashPassword(password) + "');";
 
-        try {
-            // Execute the query
-            Connection connection = DatabaseUtils.connectToDatabase();
-            Statement statement = connection.createStatement();
-            statement.execute(update_sql);
-            // Close it
-            DatabaseUtils.closeConnection(connection);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return employee;
-    }
 
     public static Employee updateEmployee(int employee_id, int business_id, int type, String first_name,
                                           String last_name, String email, String phone, String password) {
