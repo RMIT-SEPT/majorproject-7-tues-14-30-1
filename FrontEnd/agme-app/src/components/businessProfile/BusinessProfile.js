@@ -279,7 +279,7 @@ class BusinessProfile extends Component {
     }
 
     numberToDOTW(day){
-        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saterday"]
+        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
         return days[day];
     }
 

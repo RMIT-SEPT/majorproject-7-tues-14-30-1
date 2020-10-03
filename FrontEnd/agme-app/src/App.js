@@ -12,6 +12,7 @@ import './App.css';
 import Dashboard from './components/Dashboard';
 import CustomerProfile from './components/customerProfile/CustomerProfile';
 import BusinessProfile from './components/businessProfile/BusinessProfile';
+import AppointmentTable from './components/bookingInterface/AppointmentTable'
 
 function App() {
   
@@ -34,6 +35,7 @@ function App() {
         <Route exact path="/logout" component={Logout} />
         <Route exact path="/employeeLogin" component={EmployeeLogin} />
         <Route exact path="/employeeSearch" component={EmployeeSearch} />
+        <Route exact path="/bookAppointment" component={AppointmentTable} />
         
         <Route 
           exact path="/business/:id" 
