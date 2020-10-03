@@ -1,7 +1,4 @@
-import controller.BookingController;
-import controller.BusinessController;
-import controller.CustomerController;
-import controller.EmployeeController;
+import controller.*;
 import controller.paths.Web;
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
@@ -30,8 +27,7 @@ public class helloWorld {
             app.put(Web.employee, EmployeeController.createEmployee);
             app.post(Web.getEmployee, EmployeeController.getEmployee);
             //Specific functions
-            app.post(Web.customerLogin, CustomerController.checkLogin);
-            app.post(Web.employeeLogin, EmployeeController.checkLogin);
+            app.post(Web.checkLogin, PersonController.checkLogin);
             app.get(Web.searchBusiness, BusinessController.searchBusiness);
             app.post(Web.getEmployees, BusinessController.getEmployees);
             app.get(Web.employeeNextFreeSession, EmployeeController.nextFreeSession);

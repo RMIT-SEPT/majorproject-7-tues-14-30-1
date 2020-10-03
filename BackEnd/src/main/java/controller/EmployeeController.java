@@ -5,10 +5,12 @@ import controller.util.Status;
 import dao.BusinessDAO;
 import dao.CustomerDAO;
 import dao.EmployeeDAO;
+import dao.PersonDAO;
 import io.javalin.http.Handler;
 import model.Business;
 import model.Customer;
 import model.Employee;
+import model.Person;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -21,9 +23,9 @@ public class EmployeeController {
             return;
         }
         int id = Integer.parseInt(str_id);
-        Employee bus = EmployeeDAO.getEmployeeByEmployee_ID(id);
-        if (bus != null) {
-            ctx.json(new Status(bus));
+        Person emp = PersonDAO.getPersonByPerson_ID(id);
+        if (emp != null) {
+            ctx.json(new Status(emp));
         } else {
             ctx.json(new Status("Employee does not exist"));
         }
@@ -80,7 +82,7 @@ public class EmployeeController {
         int type = Integer.parseInt(typeAsString);
 
         //Validating that the user requesting the update has permission to actually update the employee
-        Employee emp = EmployeeDAO.checkLogin(ctx);
+        Employee emp = (Employee) PersonDAO.checkLogin(ctx);
         if (emp==null){
             ctx.json(new Status("No account with those details"));
             return;
@@ -144,7 +146,7 @@ public class EmployeeController {
         int type = Integer.parseInt(typeAsString);
 
         //Validating that the user requesting the update has permission to actually update the employee
-        Employee emp = EmployeeDAO.checkLogin(ctx);
+        Employee emp = (Employee) PersonDAO.checkLogin(ctx);
         if (emp==null){
             ctx.json(new Status("No account with those details"));
             return;
@@ -175,7 +177,7 @@ public class EmployeeController {
         }
         int id = Integer.parseInt(str_id);
 
-        Employee emp = EmployeeDAO.getEmployeeByEmployee_ID(id);
+        Employee emp = (Employee) PersonDAO.getPersonByPerson_ID(id);
         Calendar calendar = Calendar.getInstance();
         int day= calendar.get(Calendar.DAY_OF_WEEK)-1;
         int hour=calendar.get(Calendar.HOUR_OF_DAY)+1;
@@ -188,33 +190,8 @@ public class EmployeeController {
         ctx.json(new Status("Worker has no free shifts"));
     };
 
-    public static Handler checkLogin = ctx ->{
-        String errormsg = "You are missing: ";
-        String password = ctx.formParam("password");
-        if (password == null){
-            errormsg+="password ";
-        }
-        String email = ctx.formParam("email");
-        if (email==null){
-            errormsg+="email ";
-        }
-        if (errormsg!= "You are missing: "){
-            ctx.json(new Status(errormsg));
-            return;
-        }
-        Employee emp = EmployeeDAO.checkLogin(email, password);
-        if (emp!=null){
-            ctx.json(new Status(emp));
-            return;
-        }
-        else{
-            ctx.json(new Status("Incorrect username or password"));
-            return;
-        }
-    };
-
     public static Handler makeNextBooking = ctx ->{
-        Customer cus = CustomerDAO.checkLogin(ctx);
+        Person cus = PersonDAO.checkLogin(ctx);
 
         System.out.println(ctx.formParamMap());
 
@@ -241,8 +218,8 @@ public class EmployeeController {
             return;
         }
         int day = Integer.parseInt(day_str);
-        Employee emp = EmployeeDAO.getEmployeeByEmployee_ID(emp_id);
-        if (emp.makeNextBooking(cus.getCustomer_ID(),hour,day)){
+        Employee emp = (Employee) PersonDAO.getPersonByPerson_ID(emp_id);
+        if (emp.makeNextBooking(cus.getID(),hour,day)){
             ctx.json(new Status());
             return;
         }

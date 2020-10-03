@@ -3,8 +3,10 @@ package controller;
 
 import controller.util.Status;
 import dao.CustomerDAO;
+import dao.PersonDAO;
 import io.javalin.http.Handler;
 import model.Customer;
+import model.Person;
 
 public class CustomerController {
     public static Handler getCustomer = ctx ->{
@@ -14,7 +16,7 @@ public class CustomerController {
             return;
         }
         int id = Integer.parseInt(str_id);
-        Customer cus = CustomerDAO.getCustomerByCustomer_ID(id);
+        Person cus = PersonDAO.getPersonByPerson_ID(id);
         if (cus != null) {
             ctx.json(new Status(cus));
         }
@@ -50,7 +52,7 @@ public class CustomerController {
             return;
         }
         errormsg = "";
-        if (CustomerDAO.emailInUse(email)){
+        if (PersonDAO.emailInUse(email)){
             ctx.json(new Status("That email is allready in use"));
             return;
         }
@@ -59,27 +61,5 @@ public class CustomerController {
         ctx.json(new Status());
     };
 
-    public static Handler checkLogin = ctx -> {
-        String errormsg = "You are missing: ";
-        String password = ctx.formParam("password");
-        if (password == null){
-            errormsg+="password ";
-        }
-        String email = ctx.formParam("email");
-        if (email==null){
-            errormsg+="email ";
-        }
-        if (errormsg!= "You are missing: "){
-            ctx.json(new Status(errormsg));
-            return;
-        }
-        Customer cus = CustomerDAO.checkLogin(email, password);
-        if (cus!=null){
-            ctx.json(new Status(cus));
-        }
-        else{
-            ctx.json(new Status("Incorrect username or password"));
-        }
-        return;
-    };
+
 }
