@@ -87,7 +87,7 @@ class BusinessProfile extends Component {
         const emp = this.state.employee;
         const availabilities = emp.working;
         const status = availabilities[day][time];
-        
+
         console.log("status:");
         console.log(availabilities[day][time]);
 
@@ -102,14 +102,14 @@ class BusinessProfile extends Component {
 
         if (status === 2) {
 
-            availability = 'Availabile';
+            availability = 'Available';
 
         } else if (status === 1) {
 
             availability = 'Booked';
 
         } else if (status === 0) {
-            availability = 'Not Availabile';
+            availability = 'Not Available';
         } else {
             availability = 'Error'
         }
@@ -136,29 +136,70 @@ class BusinessProfile extends Component {
                         <b>{this.timeConverter(time)}</b>
                     </td>
 
-                    <td>
-                        Available
-                    </td>
-
-                    <td>
-                        Not Available
-                    </td>
-                    <td>
-                        Booked
-                    </td>
-                    <td>
-                        Available
-                    </td>
-                    <td>
-                        Booked
-                    </td>
-                    <td>
-                        Not Available
-                    </td>
-                    <td>
-                        Not Available
-                    </td>
-                    
+                        {this.state.employee_fetched ? 
+                            <td>
+                                {this.checkAvailability(0, time)}
+                            </td>
+                        :
+                            <td>
+                                Loading Data
+                            </td>
+                        }
+                        {this.state.employee_fetched ? 
+                            <td>
+                                {this.checkAvailability(1, time)}
+                            </td>
+                        :
+                            <td>
+                                Loading Data
+                            </td>
+                        }
+                        {this.state.employee_fetched ? 
+                            <td>
+                                {this.checkAvailability(2, time)}
+                            </td>
+                        :
+                            <td>
+                                Loading Data
+                            </td>
+                        }
+                        {this.state.employee_fetched ? 
+                            <td>
+                                {this.checkAvailability(3, time)}
+                            </td>
+                        :
+                            <td>
+                                Loading Data
+                            </td>
+                        }
+                        {this.state.employee_fetched ? 
+                            <td>
+                                {this.checkAvailability(4, time)}
+                            </td>
+                        :
+                            <td>
+                                Loading Data
+                            </td>
+                        }
+                        {this.state.employee_fetched ? 
+                            <td>
+                                {this.checkAvailability(5, time)}
+                            </td>
+                        :
+                            <td>
+                                Loading Data
+                            </td>
+                        }
+                        {this.state.employee_fetched ? 
+                            <td>
+                                {this.checkAvailability(6, time)}
+                            </td>
+                        :
+                            <td>
+                                Loading Data
+                            </td>
+                        }
+                                            
                 </tr>
             )
                  
