@@ -36,7 +36,8 @@ class BusinessProfile extends Component {
 
     fetchEmployeeData() {
 
-        const employeeRequest = `http://localhost:7000/api/employee/get?id=${this.state.employee_ID}`
+        // const employeeRequest = `http://localhost:7000/api/employee/get?id=${this.state.employee_ID}`
+        const employeeRequest = `http://localhost:7000/api/employee/get?id=1`
 
         axios.get(employeeRequest)
         .then((response) => {
