@@ -39,7 +39,7 @@ class BusinessProfile extends Component {
         // const employeeRequest = `http://localhost:7000/api/employee/get?id=${this.state.employee_ID}`
         const employeeRequest = `http://localhost:7000/api/employee/get?id=1`
 
-        axios.get(employeeRequest)
+        axios.post(employeeRequest)
         .then((response) => {
             
             const emp = response.data.payload;
@@ -48,6 +48,8 @@ class BusinessProfile extends Component {
                 employee: emp,
                 employee_fetched: true
             })
+
+            this.checkAvailability(0, 0);
 
         }).catch((error) => {
             
@@ -66,7 +68,7 @@ class BusinessProfile extends Component {
 
     }
 
-    timeConverter(time){
+    timeConverter(time) {
         let pmam = "";
         if (time>12){
             pmam="PM"
@@ -76,6 +78,44 @@ class BusinessProfile extends Component {
             pmam="AM"
         }
         return time + ":00 " + pmam
+    }
+
+    checkAvailability(day, time) {
+
+        var availability = '';
+
+        const emp = this.state.employee;
+        const availabilities = emp.working;
+        const status = availabilities[day][time];
+        
+        console.log("status:");
+        console.log(availabilities[day][time]);
+
+        // var arr = []
+        // for (var key in availabilities) {
+        //     arr.push(key)
+        // }
+
+        // console.log("converted");
+        // console.log(arr);
+
+
+        if (status === 2) {
+
+            availability = 'Availabile';
+
+        } else if (status === 1) {
+
+            availability = 'Booked';
+
+        } else if (status === 0) {
+            availability = 'Not Availabile';
+        } else {
+            availability = 'Error'
+        }
+
+        return availability
+
     }
 
     renderTable = () => {
@@ -89,6 +129,8 @@ class BusinessProfile extends Component {
 
         let times = [...Array(24).keys()];
         const rows = times.map(time => 
+
+            
                 <tr>
                     <td>
                         <b>{this.timeConverter(time)}</b>
@@ -97,6 +139,7 @@ class BusinessProfile extends Component {
                     <td>
                         Available
                     </td>
+
                     <td>
                         Not Available
                     </td>
