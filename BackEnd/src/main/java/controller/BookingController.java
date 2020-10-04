@@ -4,10 +4,12 @@ import controller.util.Status;
 import dao.BookingDAO;
 import dao.CustomerDAO;
 import dao.EmployeeDAO;
+import dao.PersonDAO;
 import io.javalin.http.Handler;
 import model.Booking;
 import model.Customer;
 import model.Employee;
+import model.Person;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,21 +24,21 @@ public class BookingController {
         }
         int id = Integer.parseInt(str_id);
         Booking booking = BookingDAO.getBookingByBooking_id(id);
-        Customer cus = CustomerDAO.checkLogin(ctx);
+        Person cus = PersonDAO.checkLogin(ctx);
         if (cus==null){
-            Employee emp = EmployeeDAO.checkLogin(ctx);
+            Employee emp = (Employee) PersonDAO.checkLogin(ctx);
             if (emp==null){
                 System.out.println("Emp null & user nulll");
                 ctx.json(new Status("Incorrect `email` or `password`"));
                 return;
             }
-            if (emp.getEmployee_ID()!=id && !(booking.getBusiness_id()==emp.getBusiness_ID() && emp.getType()==3)){ //3 is the admin level
+            if (emp.getID()!=id && !(booking.getBusiness_id()==emp.getBusiness_ID() && emp.getType()==3)){ //3 is the admin level
                 System.out.println("user null and not employee or admin");
                 ctx.json(new Status("Account does not have permission to view this booking"));
                 return;
             }
         }
-        else if (booking.getCustomer_id() != cus.getCustomer_ID()){
+        else if (booking.getCustomer_id() != cus.getID()){
             System.out.println("customer incorrect");
             ctx.json(new Status("You do not have permission to view this booking"));
             return;
@@ -57,7 +59,7 @@ public class BookingController {
             return;
         }
         int customer_id = Integer.parseInt(customer_idAsString);*/
-        Customer cus = CustomerDAO.checkLogin(ctx);
+        Person cus = PersonDAO.checkLogin(ctx);
         if (cus==null){
             ctx.json(new Status("Incorrect `email` or `password`"));
             return;
@@ -75,7 +77,7 @@ public class BookingController {
             return;
         }
         int employee_id = Integer.parseInt(employee_idAsString);
-        Employee emp = EmployeeDAO.getEmployeeByEmployee_ID(employee_id);
+        Employee emp = (Employee) PersonDAO.getPersonByPerson_ID(employee_id);
 
         String dateTimeAsString = ctx.formParam("dateTime");
         if (dateTimeAsString == null) {
@@ -95,13 +97,13 @@ public class BookingController {
             ctx.json(new Status("Employee is not available"));
             return;
         }
-        BookingDAO.createBooking(new Booking(cus.getCustomer_ID(), employee_id, business_id, dateTime));
+        BookingDAO.createBooking(new Booking(cus.getID(), employee_id, business_id, dateTime));
         ctx.json(new Status());
     };
 
     public static Handler cancelBooking = ctx -> {
         System.out.println(ctx.formParamMap());
-        Customer cus = CustomerDAO.checkLogin(ctx);
+        Person cus = PersonDAO.checkLogin(ctx);
         if (cus==null) {
             ctx.json(new Status("Please provide an accurate `email` and `password`"));
             return;
@@ -117,7 +119,7 @@ public class BookingController {
             ctx.json(new Status("that booking does not exist"));
             return;
         }
-        if (booking.getCustomer_id() != cus.getCustomer_ID()){
+        if (booking.getCustomer_id() != cus.getID()){
             ctx.json(new Status("You to not have permission to remove this booking"));
             return;
         }
@@ -137,12 +139,12 @@ public class BookingController {
     };
 
     public static Handler getBookingsByCustomer_id = ctx -> {
-        Customer cus = CustomerDAO.checkLogin(ctx);
+        Person cus = PersonDAO.checkLogin(ctx);
         if (cus==null) {
             ctx.json(new Status("Please provide an accurate `email` and `password`"));
             return;
         }
-        ArrayList<Booking> bookings = BookingDAO.getBookingsByCustomer_id(cus.getCustomer_ID());
+        ArrayList<Booking> bookings = BookingDAO.getBookingsByCustomer_id(cus.getID());
         ctx.json(new Status(bookings));
     };
 

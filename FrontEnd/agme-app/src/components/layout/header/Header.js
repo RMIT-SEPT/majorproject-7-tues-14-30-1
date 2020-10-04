@@ -48,7 +48,6 @@ class Header extends Component {
                     
                         <HeaderButton href="/register" label={"Register"}></HeaderButton>
                         <HeaderButton href="/login" label={"Log In"}></HeaderButton>
-                        <HeaderButton href="/employeeLogin" label={"Employee Log In"}></HeaderButton>
 
                     </div>
 

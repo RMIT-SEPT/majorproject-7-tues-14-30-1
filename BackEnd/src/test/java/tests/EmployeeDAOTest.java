@@ -1,6 +1,7 @@
 package tests;
 
 import dao.EmployeeDAO;
+import dao.PersonDAO;
 import io.javalin.http.Context;
 import org.junit.jupiter.api.Test;
 
@@ -15,24 +16,24 @@ class EmployeeDAOTest {
 
     @Test
     void checkLogin_check_invalid_string() {
-        assertNull(EmployeeDAO.checkLogin("someone@haircuts.com","wrongPassword"));
+        assertNull(PersonDAO.checkLogin("someone@haircuts.com","wrongPassword"));
     }
     @Test
     void checkLogin_check_invalid_ctx() {
         Context ctx = mock(Context.class);
         when(ctx.formParam("loginemail")).thenReturn("someone@haircuts.com");
         when(ctx.formParam("loginpassword")).thenReturn("incorrectPassword");
-        assertNull(EmployeeDAO.checkLogin(ctx));
+        assertNull(PersonDAO.checkLogin(ctx));
     }
     @Test
     void checkLogin_check_valid_string() {
-        assertNotNull(EmployeeDAO.checkLogin("someone@haircuts.com","test"));
+        assertNotNull(PersonDAO.checkLogin("someone@haircuts.com","test"));
     }
     @Test
     void checkLogin_check_valid_ctx() {
         Context ctx = mock(Context.class);
         when(ctx.formParam("loginemail")).thenReturn("someone@haircuts.com");
         when(ctx.formParam("loginpassword")).thenReturn("test");
-        assertNotNull(EmployeeDAO.checkLogin(ctx));
+        assertNotNull(PersonDAO.checkLogin(ctx));
     }
 }
