@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Table } from 'react-bootstrap';
-import './AppointmentTable.css'
+import './AppointmentTable.css';
+import axios from 'axios';
 
 class BusinessProfile extends Component {
 
@@ -9,6 +10,9 @@ class BusinessProfile extends Component {
 
         this.state = {
             employee_ID: '1',
+            employee_fetched: false,
+            employee: {},
+            
             availabilities: {
 
                 sun: [],
@@ -24,7 +28,36 @@ class BusinessProfile extends Component {
         }
     }
 
-    getAvailabilities() {
+    componentDidMount() {
+        if (!this.state.employee_fetched) {
+            this.fetchEmployeeData();
+        }
+    }
+
+    fetchEmployeeData() {
+
+        const employeeRequest = `http://localhost:7000/api/employee/get?id=${this.state.employee_ID}`
+
+        axios.get(employeeRequest)
+        .then((response) => {
+            
+            const emp = response.data.payload;
+            console.log(emp);
+            this.setState({
+                employee: emp,
+                employee_fetched: true
+            })
+
+        }).catch((error) => {
+            
+            console.log('error:');
+            console.log(error);
+
+            this.setState({
+                employee_fetched: false
+            })
+
+        });
 
         // send request to API
         // check that data was successfully returned
