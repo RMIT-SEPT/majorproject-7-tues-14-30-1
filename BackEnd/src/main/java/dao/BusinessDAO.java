@@ -139,9 +139,9 @@ public class BusinessDAO {
         employeeList = new ArrayList<Employee>();
 
         if (email != null) {
-            employees = "SELECT * FROM `agme` . `employee` WHERE `business_id` = '" + business_id + "' AND `email` LIKE '%" + email + "%';";
+            employees = "SELECT * FROM `agme` . `person` WHERE `business_id` = '" + business_id + "' AND `email` LIKE '%" + email + "%';";
         } else {
-            employees = "SELECT * FROM `agme` . `employee` WHERE `business_id` = '" + business_id + "';";
+            employees = "SELECT * FROM `agme` . `person` WHERE `business_id` = '" + business_id + "';";
         }
         System.out.println(employees);
         try {
@@ -150,7 +150,7 @@ public class BusinessDAO {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(employees);
             while(result.next()) {
-                employeeList.add(new Employee (result.getInt("employee_id"), result.getInt("business_id"),
+                employeeList.add(new Employee (result.getInt("person_id"), result.getInt("business_id"),
                         result.getInt("type"), result.getString("first_name"),
                         result.getString("last_name"), result.getString("email"),
                         result.getString("phone"), result.getString("password")));
