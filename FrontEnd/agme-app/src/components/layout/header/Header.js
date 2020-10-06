@@ -40,6 +40,7 @@ class Header extends Component {
                 <HeaderButton href="/dashboard" label={"Home"}></HeaderButton>
                 <HeaderButton href="/search" label={"Search"}></HeaderButton>
                 <HeaderButton href="/customerProfile" label={"Profile"}></HeaderButton>            
+                <HeaderButton href="/bookAppointment" label={"Book Appointment"}></HeaderButton>            
 
                 {localStorage.getItem("account") == null ?
                 
