@@ -82,7 +82,7 @@ public class SessionDAO {
             for( int[] array : arrList) {
                 sql += " when employee_id = " + array[0] + " day= " + array[1] + " hour= " + array[2] + " then " + array[3];
             }
-            sql += " else working end) where employee_id>0;";
+            sql += " else working end) WHERE employee_id>0;";
 
             //Testing
             System.out.println(sql);

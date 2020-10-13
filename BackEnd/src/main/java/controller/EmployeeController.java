@@ -249,7 +249,7 @@ public class EmployeeController {
             return;
         }
         else{
-            ctx.json(new Status("Employee is not availible during that time."));
+            ctx.json(new Status("Employee is not available during that time."));
             return;
         }
     };
@@ -290,13 +290,6 @@ public class EmployeeController {
             ctx.json(new Status("No account with those details"));
             return;
         }
-
-//        Need to validate correct business and admin!
-
-//        if (emp.getType()<3 || emp.getBusiness_ID() != business_id){ //3 is the admin level
-//            ctx.json(new Status("Account does not have permission to update this employee information"));
-//            return;
-//        }
 
         SessionDAO.updateSession(employee_id, session_arrList);
 
