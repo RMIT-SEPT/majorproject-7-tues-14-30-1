@@ -38,8 +38,6 @@ class EmployeeManager extends Component {
       phoneNumber: null,
       email: null,
       password: null,
-      loginemail: null,
-      loginpassword: null,
       account: account,
       formErrors: {
         business_id: "",
@@ -50,8 +48,6 @@ class EmployeeManager extends Component {
         phoneNumber: "",
         email: "",
         password: "",
-        loginemail: "",
-        loginpassword: "",
       }
     };
   }
@@ -60,7 +56,7 @@ class EmployeeManager extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const {business_id, employee_id, type, firstName, lastName, phoneNumber, email, password, loginemail, loginpassword} = this.state;
+    const {business_id, employee_id, type, firstName, lastName, phoneNumber, email, password} = this.state;
 
     
     if (formValid(this.state)) {
@@ -107,8 +103,6 @@ class EmployeeManager extends Component {
         Phone number: ${this.state.phoneNumber}
         Email: ${this.state.email}
         Password: ${this.state.password}
-        loginemail: ${this.state.loginemail}
-        loginpassword: ${this.state.loginpassword}
       `);
     } else {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
@@ -152,15 +146,6 @@ class EmployeeManager extends Component {
         break;
       case "password":
         formErrors.password =
-          value.length < 6 ? "Minimum 6 characaters required" : "";
-        break;
-      case "loginemail":
-        formErrors.loginemail = emailRegex.test(value)
-          ? ""
-          : "Invalid email address";
-        break;
-      case "loginpassword":
-        formErrors.loginpassword =
           value.length < 6 ? "Minimum 6 characaters required" : "";
         break;
       default:
