@@ -12,6 +12,7 @@ import Dashboard from './components/Dashboard';
 import CustomerProfile from './components/customerProfile/CustomerProfile';
 import BusinessProfile from './components/businessProfile/BusinessProfile';
 import AppointmentTable from './components/bookingInterface/AppointmentTable'
+import EmployeeManager from './components/employeeManager/EmployeeManager';
 
 function App() {
   
@@ -34,7 +35,8 @@ function App() {
         <Route exact path="/logout" component={Logout} />
         <Route exact path="/employeeSearch" component={EmployeeSearch} />
         <Route exact path="/bookAppointment" component={AppointmentTable} />
-        
+        <Route exact path="/employeeManager" component={EmployeeManager} />
+
         <Route 
           exact path="/business/:id" 
           component={BusinessProfile}

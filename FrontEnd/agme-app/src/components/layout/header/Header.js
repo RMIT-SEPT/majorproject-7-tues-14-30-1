@@ -40,7 +40,7 @@ class Header extends Component {
                 <HeaderButton href="/dashboard" label={"Home"}></HeaderButton>
                 <HeaderButton href="/search" label={"Search"}></HeaderButton>
                 <HeaderButton href="/customerProfile" label={"Profile"}></HeaderButton>            
-                <HeaderButton href="/bookAppointment" label={"Book Appointment"}></HeaderButton>            
+                <HeaderButton href="/bookAppointment" label={"Book Appointment"}></HeaderButton>           
 
                 {localStorage.getItem("account") == null ?
                 
@@ -61,7 +61,10 @@ class Header extends Component {
                             <div style = {{display:"inherit"}}>
                                 
                                 {this.state.type==="Admin"&&
-                                    <HeaderButton href="/employeeSearch" label={"Employee Search"}></HeaderButton>
+                                    <div style = {{display:"inherit"}}>    
+                                        <HeaderButton href="/employeeSearch" label={"Employee Search"}></HeaderButton>
+                                        <HeaderButton href="/employeeManager" label={"Employee Manager"}></HeaderButton>
+                                    </div>
                                 }
 
                                 <HeaderButton label={this.state.type}></HeaderButton>
