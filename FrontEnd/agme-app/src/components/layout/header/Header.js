@@ -61,7 +61,10 @@ class Header extends Component {
                             <div style = {{display:"inherit"}}>
                                 
                                 {this.state.type==="Admin"&&
-                                    <HeaderButton href="/employeeSearch" label={"Employee Search"}></HeaderButton>
+                                    <div style = {{display:"inherit"}}>    
+                                        <HeaderButton href="/employeeSearch" label={"Employee Search"}></HeaderButton>
+                                        <HeaderButton href="/employeeManager" label={"Employee Manager"}></HeaderButton>
+                                    </div>
                                 }
 
                                 <HeaderButton label={this.state.type}></HeaderButton>
