@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import './AppointmentTable.css';
 import axios from 'axios';
 
@@ -9,7 +9,7 @@ class BusinessProfile extends Component {
         super(props);
 
         this.state = {
-            employee_ID: '1',
+            employee_ID: this.props.match.params.id,
             employee_fetched: false,
             employee: {},
             
@@ -36,8 +36,8 @@ class BusinessProfile extends Component {
 
     fetchEmployeeData() {
 
-        // const employeeRequest = `http://localhost:7000/api/employee/get?id=${this.state.employee_ID}`
-        const employeeRequest = `http://localhost:7000/api/employee/get?id=1`
+        const employeeRequest = `http://localhost:7000/api/employee/get?id=${this.state.employee_ID}`
+        // const employeeRequest = `http://localhost:7000/api/employee/get?id=1`
 
         axios.post(employeeRequest)
         .then((response) => {
@@ -61,10 +61,6 @@ class BusinessProfile extends Component {
             })
 
         });
-
-        // send request to API
-        // check that data was successfully returned
-        // parse boolean array into state arrays
 
     }
 

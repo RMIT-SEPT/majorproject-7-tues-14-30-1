@@ -33,7 +33,11 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/logout" component={Logout} />
         <Route exact path="/employeeSearch" component={EmployeeSearch} />
-        <Route exact path="/bookAppointment" component={AppointmentTable} />
+        
+        <Route 
+          exact path="/availabilities/:id" 
+          component={AppointmentTable}
+        />
         
         <Route 
           exact path="/business/:id" 

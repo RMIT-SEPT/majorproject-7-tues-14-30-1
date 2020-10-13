@@ -39,9 +39,8 @@ class Header extends Component {
 
                 <HeaderButton href="/dashboard" label={"Home"}></HeaderButton>
                 <HeaderButton href="/search" label={"Search"}></HeaderButton>
-                <HeaderButton href="/customerProfile" label={"Profile"}></HeaderButton>            
-                <HeaderButton href="/bookAppointment" label={"Book Appointment"}></HeaderButton>            
-
+                            
+                
                 {localStorage.getItem("account") == null ?
                 
                     <div style = {{display:"inherit"}}>    
@@ -55,6 +54,7 @@ class Header extends Component {
 
                     <div style = {{display:"inherit"}}>
                         
+                        <HeaderButton href="/customerProfile" label={"Profile"}></HeaderButton>
                         <HeaderButton href="/logout" label={"Log Out"}></HeaderButton>
                         
                         {this.state.type !== "customer" && this.state.type!==null &&

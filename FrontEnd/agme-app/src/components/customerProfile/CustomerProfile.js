@@ -127,7 +127,7 @@ class CustomerProfile extends Component {
     }
     handleCancelButton = (e) =>{
         let booking_id = e.target.id
-        {this.cancelBooking(booking_id)}
+        this.cancelBooking(booking_id)
     };
 
     cancelBooking(booking_id){
