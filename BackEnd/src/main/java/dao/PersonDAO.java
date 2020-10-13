@@ -53,6 +53,7 @@ public class PersonDAO {
         try {
             // Here you prepare your sql statement
             String sql = "SELECT  `email`, `password`, `type` FROM agme.person WHERE `email` = '" + email + "';";
+            System.out.println(sql);
             // Execute the query
             Connection connection = DatabaseUtils.connectToDatabase();
             Statement statement = connection.createStatement();
@@ -64,6 +65,12 @@ public class PersonDAO {
                 if (Utils.passwordIsValid(password, result.getString("password"))){
                     return getPersonByEmail(result.getString("email"));
                 }
+                else{
+                    System.out.println("Wrong password");
+                }
+            }
+            else{
+                System.out.println("no result");
             }
 
             // Close it
@@ -96,6 +103,7 @@ public class PersonDAO {
         try {
             // Here you prepare your sql statement
             String sql = "SELECT `email` FROM agme.person WHERE `email` = '" + email + "';";
+            System.out.println(sql);
 
             // Execute the query
             Connection connection = DatabaseUtils.connectToDatabase();
@@ -123,6 +131,7 @@ public class PersonDAO {
         try {
             // Here you prepare your sql statement
             String sql = "SELECT * FROM agme.person WHERE email = '" + email + "';";
+            System.out.println(sql);
             // Execute the query
             Connection connection = DatabaseUtils.connectToDatabase();
             Statement statement = connection.createStatement();
