@@ -6,6 +6,7 @@ import HeaderButton from './HeaderButton';
 
 class Header extends Component {
 
+
     constructor(props) {
         super(props);
         this.state = {type:null};
@@ -29,12 +30,15 @@ class Header extends Component {
             }
       }
       this.state.type=type;
+
+      
     }
 
     render() {
         return (
             
             <Navbar bg="dark" variant="dark">
+            
             <Nav>
 
                 <HeaderButton href="/dashboard" label={"Home"}></HeaderButton>
@@ -44,11 +48,9 @@ class Header extends Component {
 
                 {localStorage.getItem("account") == null ?
                 
-                    <div style = {{display:"inherit"}}>    
-                    
+                    <div style = {{display:"inherit"}}>
                         <HeaderButton href="/register" label={"Register"}></HeaderButton>
                         <HeaderButton href="/login" label={"Log In"}></HeaderButton>
-
                     </div>
 
                     :
@@ -73,9 +75,11 @@ class Header extends Component {
                         }
                     </div>
                 }
-                        
+                    
             </Nav>
+            
             </Navbar>
+            
         )
     }
 }
