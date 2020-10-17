@@ -5,6 +5,7 @@ import dao.PersonDAO;
 import io.javalin.http.Handler;
 import model.Person;
 
+//Checks data passed to validate
 public class PersonController {
     public static Handler checkLogin = ctx -> {
         String errormsg = "You are missing: ";

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingDAO {
+
+//    Returns a booking from inputted booking ID
     public static Booking getBookingByBooking_id(int booking_id) {
         // Fish out the results
         List<Booking> bookings = new ArrayList<>();
@@ -45,6 +47,7 @@ public class BookingDAO {
         return null;
     }
 
+//    Create a new booking
     public static void createBooking(Booking booking){
         String update_sql;
         update_sql = "INSERT INTO `agme`.`booking` (`customer_id`,`business_id`,`employee_id`,`datetime`) VALUES" +
@@ -61,6 +64,8 @@ public class BookingDAO {
             e.printStackTrace();
         }
     }
+
+//    Returns all bookings tied to a specific customer
     public static ArrayList<Booking> getBookingsByCustomer_id(int customer_id) {
         String bookings;
         ArrayList<Booking> bookingsList;
@@ -85,6 +90,7 @@ public class BookingDAO {
         return bookingsList;
     }
 
+//    Returns all booking tied to a specific employee
     public static ArrayList<Booking> getBookingsByEmployee_id(int employee_id) {
         String bookings;
         ArrayList<Booking> bookingsList;
@@ -109,6 +115,7 @@ public class BookingDAO {
         return bookingsList;
     }
 
+//    Cancel a booking based in inputted booking ID
     public static void cancelBooking(int booking_id) {
         System.out.println("trying to remove " + booking_id);
         String delete_sql;

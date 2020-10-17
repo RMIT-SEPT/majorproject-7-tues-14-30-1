@@ -4,6 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class Utils {
 
+//    Used to secure the passwords stored in the DB
     public static String generateHashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }

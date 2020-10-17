@@ -14,6 +14,7 @@ import java.util.List;
 public class BusinessDAO {
     public static final String SALT = "$2a$10$h.dl5J86rGH7I8bD9bZeZe";
 
+//    Return a business based on the inputted business ID
     public static Business getBusinessByBusiness_id(int business_id) {
         // Fish out the results
         List<Business> business = new ArrayList<>();
@@ -47,6 +48,7 @@ public class BusinessDAO {
         return null;
     }
 
+//    Update business information, such as name, phone, email
     public static void updateBusiness(Business business) {
         int business_id;
         business_id = business.getBusiness_id();
@@ -66,6 +68,7 @@ public class BusinessDAO {
         }
     }
 
+//    Delete a business
     public static void removeBusiness(int id){
         String update_sql;
         update_sql= "DELETE FROM `agme`.`business` WHERE `business_id` = '" + id + "';";
@@ -82,6 +85,8 @@ public class BusinessDAO {
             e.printStackTrace();
         }
     }
+
+//    Create a new business
     public static void createBusiness(Business business){
         String update_sql;
         update_sql = "INSERT INTO `agme`.`business` (`name`,`phone_number`,`email`) VALUES('" + business.getName() + "' ,'" + business.getPhone_number() + "','" + business.getEmail() + "');";
@@ -98,6 +103,7 @@ public class BusinessDAO {
         }
     }
 
+//    Search for a business, enter search term, DESC or ASC, and what to sort by, you can also just search without worrying about the order
     public static ArrayList<Business> searchBusiness(String searchTerm, String sort, String order) {
         String select_business;
         ArrayList<Business> arrayList;
@@ -133,6 +139,7 @@ public class BusinessDAO {
         return arrayList;
     }
 
+//    Search employees by business and, if chosen, email as well
     public static ArrayList<Employee> getEmployees(int business_id, String email) {
         String employees;
         ArrayList<Employee> employeeList;

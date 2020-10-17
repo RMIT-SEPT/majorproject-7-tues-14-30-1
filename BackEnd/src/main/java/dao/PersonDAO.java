@@ -14,10 +14,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+//Person is the superclass for employees and customers
 public class PersonDAO {
     public static Person createPerson(int business_id, int type, String first_name,
                                           String last_name, String email, String phone, String password) {
         Person person;
+
+//        Type 1 refers to customers, type 2 is employee and type 3 is admin
         if (type==1){
             person = new Customer(first_name, type, last_name, phone, email, password);
         }
@@ -42,12 +45,14 @@ public class PersonDAO {
         return person;
     }
 
+//    Create a new person
     public static Person createPerson(String first_name,
                                        String last_name, String email, String phone, String password){
         return createPerson(0, 1, first_name, last_name, email, phone, password);
     }
 
 
+//    Checks the type of person
     public static Person checkLogin(String email, String password) {
         //Returns 2 if employee, 3 if admin, 0 if none (in future 1 will be customer)
         try {
@@ -99,6 +104,7 @@ public class PersonDAO {
         return person;
     }
 
+//    Checks if the email selected is already in use
     public static boolean emailInUse(String email) {
         try {
             // Here you prepare your sql statement
@@ -125,6 +131,7 @@ public class PersonDAO {
         return false;
     }
 
+//    Return a person based on entered email address
     public static Person getPersonByEmail(String email) {
         List<Person> person = new ArrayList<>();
 
@@ -168,6 +175,7 @@ public class PersonDAO {
         return null;
     }
 
+//    Returns a persons ID by email
     public static int getIdByEmail(String email){
         try {
             // Here you prepare your sql statement
@@ -193,6 +201,7 @@ public class PersonDAO {
         return 0;
     }
 
+//    Return person based on entered ID
     public static Person getPersonByPerson_ID(int person_ID) {
         // Fish out the results
         List<Person> person = new ArrayList<>();

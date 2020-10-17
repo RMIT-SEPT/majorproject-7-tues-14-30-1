@@ -8,6 +8,7 @@ import io.javalin.http.Handler;
 import model.Customer;
 import model.Person;
 
+//Checks the inputs in getCustomer
 public class CustomerController {
     public static Handler getCustomer = ctx ->{
         String str_id = ctx.queryParam("id");
@@ -25,6 +26,7 @@ public class CustomerController {
         }
     };
 
+//    checks all fields for create customer as well as that email is not in use
     public static Handler createCustomer = ctx ->{
         String errormsg = "You are missing: ";
         String password = ctx.formParam("password");
