@@ -106,9 +106,13 @@ class BusinessProfile extends Component {
                     <td>{row.first_name} {row.last_name}</td>
                     <td>{row.phone_number}</td>
                     <td>{row.email}</td>
-                    <td>{row.cheapest_cost}</td>
+                    <td>{
+                        <Button onClick={ () => 
+                            window.location = ("/availabilities/" + row.id)
+                        }>View</Button>
+                    }</td>
                     <td><Button onClick={ () => 
-                        this.displayBookingModal(row.employee_ID, row.first_name)
+                        this.displayBookingModal(row.id, row.first_name)
                     }>Book</Button></td>
                 </tr>)
 
@@ -120,7 +124,7 @@ class BusinessProfile extends Component {
                         <th>Employee</th>
                         <th>Phone Number</th>
                         <th>Email</th>
-                        <th>Cheapest Cost</th>
+                        <th>View Availabilites</th>
                         <th>Next Appointment</th>
                         </tr>
                     </thead>
@@ -222,8 +226,8 @@ class BusinessProfile extends Component {
         // create form using currently logged in user, and selected employee
         const formData = new FormData();
 
-        formData.append("email", account.email);
-        formData.append("password", account.password);
+        formData.append("loginemail", account.email);
+        formData.append("loginpassword", account.password);
         formData.append("employee_id", this.state.selectedEmployee.id);
         formData.append("day", this.state.selectedEmployee.nextFreeDay);
         formData.append("hour", this.state.selectedEmployee.nextFreeHour);
@@ -239,6 +243,7 @@ class BusinessProfile extends Component {
                 }
                 else {
                     console.log("booking failed")
+                    console.log()
                 }
               })
               .catch((error) => {          
@@ -279,18 +284,21 @@ class BusinessProfile extends Component {
     }
 
     numberToDOTW(day){
-        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saterday"]
+        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
         return days[day];
     }
 
     timeConverter(time){
         let pmam = "";
-        if (time>12){
+        if (time === 12){
             pmam="PM"
-            time-=12;
+        }
+        else if (time < 12){
+            pmam="AM"
         }
         else{
-            pmam="AM"
+            pmam="PM"
+            time -= 12;
         }
         return time + ":00 " + pmam
     }

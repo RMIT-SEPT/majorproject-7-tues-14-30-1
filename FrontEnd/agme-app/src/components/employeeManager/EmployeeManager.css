@@ -71,27 +71,81 @@ light green: #A3C4BC
     font-size: 0.75em;
     display: relative;
   }
+  
+  .firstName {
+    margin-right: 1%;
+  }
+  
+  .lastName {
+    margin-left: 1%;
+  }
+  
+  .firstName,
+  .lastName {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+ 
+  .firstName,
+  .lastName {
+    width: 49%;
+  }
 
-  .email,
-  .password{
+
+  .business_id {
+    margin-right: 1%;
+  }
+  
+  .employee_id {
+    margin-left: 1%;
+  }
+
+  .type {
+    margin-left: 1%;
+  }
+
+  .business_id,
+  .employee_id,
+  .type {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
   }
 
+  .business_id,
+  .employee_id,
+  .type {
+    width: 30%;
+  }
+  
+  .phoneNumber,
   .email,
-  .password {
+  .password,
+  .loginemail,
+  .loginpassword {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+
+  .phoneNumber,
+  .email,
+  .password,
+  .loginemail,
+  .loginpassword {
     width: 100%;
   }
   
-  .login {
+  .addEmployee {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   
-  .login button {
+  .addEmployee button {
     background-color: #519e8a;
     color: #fff;
     border: 2px solid #fff;
@@ -104,13 +158,13 @@ light green: #A3C4BC
     margin-bottom: 0.25em;
   }
   
-  .login button:hover {
+  .addEmployee button:hover {
     color: #519e8a;
     background-color: #fff;
     border: 2px solid #519e8a;
   }
   
-  .login small {
+  .addEmployee small {
     color: #999;
     font-weight: lighter;
   }

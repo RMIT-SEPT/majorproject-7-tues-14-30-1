@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Loader from './loader.gif'
-import './Search.css'
-import { Table } from 'react-bootstrap'
-import { Link } from 'react-router-dom';
+import Loader from './loader.gif';
+import './Search.css';
+import { Table } from 'react-bootstrap';
 
 
 
@@ -21,6 +20,15 @@ class Search extends Component {
         this.cancel = '';
 
     }
+
+    // helper method for correctly capitalising business names
+    toTitleCase = (phrase) => {
+        return phrase
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+        };
 
     // Fetch the search results and update the state with the result.
     fetchSearchResults = (query ) => {
@@ -115,6 +123,10 @@ class Search extends Component {
         }
     };
 
+    test(e){
+        window.location = ("/business/" + e)
+    }
+
     renderSearchResults = () => {
         
         const {results} = this.state;
@@ -125,13 +137,15 @@ class Search extends Component {
 
             
             const rows = results.map(row => 
-                <tr>
+                <tr style = {{cursor: "pointer"}} onClick = {()=>this.test(row.business_id)}>
                     
-                    <td><Link to={'business/' + row.business_id}>{row.name}</Link></td>
+                    <td>{this.toTitleCase(row.name)}</td>
                     <td>{row.phone_number}</td>
                     <td>{row.email}</td>
                     <td>{row.business_id}</td>
-                    <td>{row.cheapest_cost}</td>
+                    <td>{
+                        row.cheapest_cost ? row.cheapest_cost : '-'
+                    }</td>
                 </tr>)
 
             return (

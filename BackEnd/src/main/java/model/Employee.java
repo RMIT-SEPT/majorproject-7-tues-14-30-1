@@ -8,15 +8,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Employee {
-    private int employee_ID, business_ID, type;
-    private String first_name, last_name, email, phone_number, password;
+public class Employee extends Person{
+    private int business_ID;
     private Session session;
     private ArrayList<Booking> bookings = new ArrayList<Booking>();
 
     public Employee(int employee_ID, int business_ID, int type, String first_name, String last_name,
                     String email, String phone_number, String password) {
-        this.employee_ID = employee_ID;
+        this.ID = employee_ID;
         this.business_ID = business_ID;
         this.type = type;
         this.first_name = first_name;
@@ -42,64 +41,19 @@ public class Employee {
 
     }
 
-    public int getEmployee_ID() {
-        return employee_ID;
-    }
 
     public int getBusiness_ID() {
         return business_ID;
     }
 
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
     public void addBooking(Booking booking){
         bookings.add(booking);
         BookingDAO.createBooking(booking);
-    }
-    public String getPhone_number() {
-        return phone_number;
-    }
-
-    public int getType(){return type;}
-
-    public void setEmployee_ID(int employee_ID) {
-        this.employee_ID = employee_ID;
     }
 
     public void setBusiness_ID(int business_ID) {
         this.business_ID = business_ID;
     }
-
-    public void setFirst_name(String fName) {
-        this.first_name = first_name;
-    }
-
-    public void setLast_name(String lName) {
-        this.last_name = last_name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
 
     public void setCost(double v) {
     }
@@ -108,22 +62,26 @@ public class Employee {
     }
 
     public void initialiseSession(){
-        this.session = SessionDAO.initialise(this.employee_ID);
+        this.session = SessionDAO.initialise(this.ID);
     }
 
     public void findSessions(){
-        this.session = SessionDAO.getSessionByEmployee_ID(this.employee_ID);
+        this.session = SessionDAO.getSessionByEmployee_ID(this.ID);
         if (!this.session.getCreated()){
             System.out.println("Session was found to be uncreated");
             this.initialiseSession();
         }
     }
 
-    public Session getSession(){
+    private Session getSession(){
         if (this.session==null) {
             this.findSessions();
         }
         return this.session;
+    }
+
+    public int[][] getWorking(){
+        return this.getSession().getFree(this);
     }
 
     public void setSession(Session sess){
@@ -160,7 +118,7 @@ public class Employee {
             return false;
         }
         //Then we check if the employee has an existing booking
-        ArrayList<Booking> bookings = BookingDAO.getBookingsByEmployee_id(employee_ID);
+        ArrayList<Booking> bookings = BookingDAO.getBookingsByEmployee_id(ID);
         for (int i=0; i<bookings.size();i++){
             if (bookings.get(i).getDateTime().equals(dateTime)){
                 return false;
@@ -174,7 +132,7 @@ public class Employee {
             return false;
         }
         //Then we check if the employee has an existing booking
-        ArrayList<Booking> bookings = BookingDAO.getBookingsByEmployee_id(employee_ID);
+        ArrayList<Booking> bookings = BookingDAO.getBookingsByEmployee_id(ID);
         for (int i=0; i<bookings.size();i++){
             if (bookings.get(i).getDateTime().equals(new Timestamp(shift.getTimeInMillis()))){
                 return false;
@@ -203,7 +161,7 @@ public class Employee {
     public boolean makeNextBooking(int cust_id, int hour, int day){
         if (isFree(hour, day)){
             Timestamp ts = new Timestamp(translateHourDay(hour,day).getTimeInMillis());
-            Booking newbooking = new Booking(cust_id, this.employee_ID, this.business_ID, ts);
+            Booking newbooking = new Booking(cust_id, this.ID, this.business_ID, ts);
             BookingDAO.createBooking(newbooking);
             return true;
         }

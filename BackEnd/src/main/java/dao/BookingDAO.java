@@ -65,7 +65,7 @@ public class BookingDAO {
         String bookings;
         ArrayList<Booking> bookingsList;
         bookingsList = new ArrayList<>();
-        bookings = "select booking.*, CONCAT(employee.first_name,\" \",employee.last_name) as employee_name, business.name as business_name from booking join employee on booking.employee_id = employee.employee_id join business on business.business_id = booking.business_id WHERE `customer_id` = '" + customer_id + "';";
+        bookings = "select booking.*, CONCAT(person.first_name,\" \",person.last_name) as employee_name, business.name as business_name from booking join person on booking.employee_id = person.person_id join business on business.business_id = booking.business_id WHERE `customer_id` = '" + customer_id + "';";
 
         try {
             // Execute the query

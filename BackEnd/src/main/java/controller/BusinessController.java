@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.util.Status;
 import dao.BusinessDAO;
 import dao.EmployeeDAO;
+import dao.PersonDAO;
 import io.javalin.http.Handler;
 import model.Business;
 import model.Employee;
+import model.Person;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,7 @@ public class BusinessController {
         }
         int id = Integer.parseInt(str_id);
         //Validating that the user requesting the update has permission to actually update the business
-        Employee emp = EmployeeDAO.checkLogin(ctx);
+        Employee emp = (Employee) PersonDAO.checkLogin(ctx);
         if (emp==null){
             ctx.json(new Status("No account with those details"));
             return;
@@ -72,7 +74,7 @@ public class BusinessController {
         }
         int id = Integer.parseInt(str_id);
         //Validating that the user requesting the update has permission to actually update the business
-        Employee emp = EmployeeDAO.checkLogin(ctx);
+        Employee emp = (Employee) PersonDAO.checkLogin(ctx);
         if (emp==null){
             ctx.json(new Status("No account with those details"));
             return;

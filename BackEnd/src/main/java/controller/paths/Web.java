@@ -6,13 +6,14 @@ public class Web {
     public static final String customer = "/api/customer";
     public static final String employee = "/api/employee";
     public static final String booking = "/api/booking";
+    public static final String checkLogin = "/api/checkLogin";
 
     //Business related
     public static final String searchBusiness = "/api/business/searchBusiness";
     public static final String getEmployees = "/api/business/getEmployees";
 
     //Customer related
-    public static final String customerLogin = "/api/customer/login";
+
 
     //Booking related
     public static final String getBooking = "/api/booking/get";
@@ -26,6 +27,5 @@ public class Web {
     public static final String getEmployee = "/api/employee/get";
     public static final String employeeNextFreeSession = "/api/employee/nextFreeSession";
     public static final String makeNextbooking = "/api/employee/makeNextBooking";
-    public static final String employeeLogin = "/api/employee/login";
 
 }
