@@ -106,7 +106,11 @@ class BusinessProfile extends Component {
                     <td>{row.first_name} {row.last_name}</td>
                     <td>{row.phone_number}</td>
                     <td>{row.email}</td>
-                    <td>{row.cheapest_cost}</td>
+                    <td>{
+                        <Button onClick={ () => 
+                            window.location = ("/availabilities/" + row.id)
+                        }>View</Button>
+                    }</td>
                     <td><Button onClick={ () => 
                         this.displayBookingModal(row.id, row.first_name)
                     }>Book</Button></td>
@@ -120,7 +124,7 @@ class BusinessProfile extends Component {
                         <th>Employee</th>
                         <th>Phone Number</th>
                         <th>Email</th>
-                        <th>Cheapest Cost</th>
+                        <th>View Availabilites</th>
                         <th>Next Appointment</th>
                         </tr>
                     </thead>
@@ -286,15 +290,15 @@ class BusinessProfile extends Component {
 
     timeConverter(time){
         let pmam = "";
-        if (time==12){
+        if (time === 12){
             pmam="PM"
         }
-        else if (time<12){
+        else if (time < 12){
             pmam="AM"
         }
         else{
             pmam="PM"
-            time-=12;
+            time -= 12;
         }
         return time + ":00 " + pmam
     }

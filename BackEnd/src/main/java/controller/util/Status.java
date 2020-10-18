@@ -1,5 +1,6 @@
 package controller.util;
 
+//Used to generate status messages for functions
 public class Status {
     public String status;
     public String message;

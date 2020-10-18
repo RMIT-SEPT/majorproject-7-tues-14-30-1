@@ -16,6 +16,8 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class EmployeeController {
+
+//    Checks that all fields are not null and that the employee exists
     public static Handler getEmployee = ctx -> {
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
@@ -31,6 +33,7 @@ public class EmployeeController {
         }
     };
 
+    //    Checks that all the needed fields are not null and that the person updating is admin, and works for correct business
     public static Handler updateEmployee = ctx -> {
 
         String errormsg = "You are missing: ";
@@ -104,6 +107,7 @@ public class EmployeeController {
         ctx.json(new Status());
     };
 
+//    Checks that all the needed fields are not null and that the person creating is admin, and works for correct business
     public static Handler createEmployee = ctx ->{
         String errormsg = "You are missing: ";
         String password = ctx.formParam("password");
@@ -168,7 +172,7 @@ public class EmployeeController {
         ctx.json(new Status());
     };
 
-
+//  Finds the next free session
     public static Handler nextFreeSession = ctx -> {
         String str_id = ctx.queryParam("id");
         if (str_id == null) {

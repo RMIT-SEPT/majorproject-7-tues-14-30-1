@@ -16,8 +16,10 @@ class CustomerProfile extends Component {
             "email": customer.email,
             "password": customer.password,
             "account": customer,
-            "bookings":null
+            "bookings": null
         };
+
+        console.log(this.state);
         
     }
 
@@ -33,16 +35,21 @@ class CustomerProfile extends Component {
         this.cancel = axios.CancelToken.source();
         const formData = new FormData()
         const {email, password} = this.state;
-        formData.append("password", password)
-        formData.append("email", email)
+        formData.append("loginpassword", password)
+        formData.append("loginemail", email)
         axios
             .post(searchUrl, formData)
     
             .then((res) => {
 
+                
                 let bookings=res.data.payload;
+
+                console.log(bookings)
+
                 let oldBookings=[]
                 let newBookings=[]
+                
                 for (var i=0; i<bookings.length;i++){
                     if (this.isOld(bookings[i])){
                         oldBookings.push(bookings[i]);
@@ -73,7 +80,7 @@ class CustomerProfile extends Component {
         <div className="container">
             
             { /* Heading */ }
-            <h1>{this.state.account.fName}'s Profile:</h1>
+            <h1>{this.state.account.first_name}'s Profile:</h1>
             
             <h4 className="heading">Upcoming Appointments</h4>
 
@@ -127,7 +134,7 @@ class CustomerProfile extends Component {
     }
     handleCancelButton = (e) =>{
         let booking_id = e.target.id
-        {this.cancelBooking(booking_id)}
+        this.cancelBooking(booking_id)
     };
 
     cancelBooking(booking_id){
@@ -189,7 +196,7 @@ class CustomerProfile extends Component {
                             <th>
                                 Time
                             </th>
-                            <th></th>
+                            <th>Cancel</th>
                         </tr>
                     </thead>
                     <tbody>

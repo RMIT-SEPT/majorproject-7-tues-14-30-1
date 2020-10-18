@@ -12,6 +12,7 @@ import java.util.List;
 public class SessionDAO {
     public static final String SALT = "$2a$10$h.dl5J86rGH7I8bD9bZeZe";
 
+//    Get all sessions from an employee
     public static Session getSessionByEmployee_ID(int employee_ID) {
         // Fish out the results
         Session session = new Session();
@@ -40,6 +41,7 @@ public class SessionDAO {
         return session;
     }
 
+//    Init a session
     public static Session initialise(int employee_id){
         Session session = new Session();
         session.setEmployee_ID(employee_id);
