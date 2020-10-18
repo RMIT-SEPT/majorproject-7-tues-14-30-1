@@ -51,6 +51,7 @@ public class BookingController {
         }
     };
 
+//    Checks all fields as well as employee availability
     public static Handler createBooking = ctx ->{
 
         /*String customer_idAsString = ctx.formParam("customer_id");
@@ -101,6 +102,7 @@ public class BookingController {
         ctx.json(new Status());
     };
 
+//    Makes sure only the person who made the booking can delete it as well as fields
     public static Handler cancelBooking = ctx -> {
         System.out.println(ctx.formParamMap());
         Person cus = PersonDAO.checkLogin(ctx);
@@ -124,7 +126,7 @@ public class BookingController {
             return;
         }
         if (booking.getDateTime().before(new Date())){
-            ctx.json(new Status("Booking has allready happened"));
+            ctx.json(new Status("Booking has already happened"));
             return;
         }
         Calendar cal = Calendar.getInstance();

@@ -13,6 +13,8 @@ import model.Person;
 import java.util.ArrayList;
 
 public class BusinessController {
+
+//    Checks if the fields are correct and the business exist
     public static Handler getBusiness = ctx -> {
         String str_id = ctx.queryParam("id");
         if (str_id == null) {
@@ -28,6 +30,7 @@ public class BusinessController {
         }
     };
 
+//    Check fields, only admin can update it.
     public static Handler updateBusiness = ctx -> {
         System.out.println(ctx);
         //First get the id of the business that needs to change
@@ -66,6 +69,7 @@ public class BusinessController {
     };
 
 
+//    Make sure only admin can delete businesses
     public static Handler removeBusiness = ctx -> {
         String str_id = ctx.formParam("id");
         if (str_id == null) {
@@ -87,6 +91,7 @@ public class BusinessController {
         ctx.json(new Status());
     };
 
+//    Makes sure all fields are not empty
     public static Handler createBusiness = ctx -> {
         String email = ctx.formParam("email");
         if (email == null) {
@@ -107,6 +112,7 @@ public class BusinessController {
         ctx.json(new Status());
     };
 
+//    Makes sure search string is not empty
     public static Handler searchBusiness = ctx -> {
         String searchString = ctx.queryParam("q");
         String sortString = ctx.queryParam("sort");
