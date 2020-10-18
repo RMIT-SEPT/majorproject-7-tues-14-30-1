@@ -50,7 +50,7 @@ class Login extends Component {
     
       axios
         .post(
-          "http://localhost:7000/api/checkLogin",
+          "http://localhost:7000/api/checkLogin",  //calling API
           formData
         )
         .then((res) =>{
@@ -73,7 +73,8 @@ class Login extends Component {
             console.log("Networking issues(is the server on)")
             this.setState({formErrors});
         });
-        
+      
+      // Error checking in the console.
       console.log(`
         --SUBMITTING--
         Email: ${email}

@@ -38,7 +38,7 @@ class EmployeeManager extends Component {
       phoneNumber: null,
       email: null,
       password: null,
-      account: account,
+      account: account,  //pulling from the account that is logged in, instead of having the user input admin details again.
       formErrors: {
         business_id: "",
         employee_id: "",
@@ -75,7 +75,7 @@ class EmployeeManager extends Component {
       
       axios
         .put(
-          "http://localhost:7000/api/employee/",
+          "http://localhost:7000/api/employee/",   // calling the API
           formData
         )
         .then((res) =>{
@@ -93,8 +93,10 @@ class EmployeeManager extends Component {
           }
 
         });
-      console.log(`
-        --SUBMITTING--
+
+      //for error checking
+      console.log(`     
+        --SUBMITTING--  
         Business_id: ${this.state.business_id}
         Employee_id: ${this.state.employee_id}
         Type: ${this.state.type}
@@ -109,6 +111,7 @@ class EmployeeManager extends Component {
     }
   };
 
+  //handleChange to check for valid data inputs in rego form
   handleChange = e => {
     e.preventDefault();
     const { name, value } = e.target;

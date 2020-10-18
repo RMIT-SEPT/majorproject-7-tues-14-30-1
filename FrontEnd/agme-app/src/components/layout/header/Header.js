@@ -45,7 +45,7 @@ class Header extends Component {
                 <HeaderButton href="/search" label={"Search"}></HeaderButton>
                             
                 
-                {localStorage.getItem("account") == null ?
+                {localStorage.getItem("account") == null ?  //Only displays these buttons if an account is NOT logged in
                 
                     <div style = {{display:"inherit"}}>
                         <HeaderButton href="/register" label={"Register"}></HeaderButton>
@@ -62,7 +62,7 @@ class Header extends Component {
                         {this.state.type !== "customer" && this.state.type!==null &&
                             <div style = {{display:"inherit"}}>
                                 
-                                {this.state.type==="Admin"&&
+                                {this.state.type==="Admin"&&   // these buttons are displayed for the Type 1 (Admin)
                                     <div style = {{display:"inherit"}}>    
                                         <HeaderButton href="/employeeSearch" label={"Employee Search"}></HeaderButton>
                                         <HeaderButton href="/employeeManager" label={"Employee Manager"}></HeaderButton>
